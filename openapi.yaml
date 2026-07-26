@@ -2381,14 +2381,15 @@ components:
         requestId: 00000000-0000-0000-0000-000000000000
     nspd_cadastrRequest:
       type: object
-      description: 'nspd_cadastr — Получение геоданных по кадастровому номеру. Источник: docs/property/04-nspd_cadastr.md.'
+      description: 'nspd_cadastr — Получение геоданных, списка связанных объектов и ЗОУИТ по кадастровому номеру.
+        Источник: docs/property/04-nspd_cadastr.md.'
       properties:
         params:
           type: object
           properties:
             cad_num:
               type: string
-              example: 50:20:0020402:2230
+              example: 77:01:0000000:1000
             method:
               type: string
               enum:
@@ -2414,11 +2415,11 @@ components:
       - params
       additionalProperties: false
       example:
-        requestId: a5962f88-2916-4779-b59d-43c023fa1894
+        requestId: 00000000-0000-4000-8000-000000000001
         taskId: nspd-cadastr-local-test-001
         params:
           method: nspd_cadastr
-          cad_num: 50:20:0020402:2230
+          cad_num: 77:01:0000000:1000
     realty_priceRequest:
       type: object
       description: 'realty_price — Оценка стоимости недвижимости. Источник: docs/property/05-realty_price.md.'

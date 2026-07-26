@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Метод NEWDB nspd_cadastr получает геоданные и сведения об объекте недвижимости по кадастровому номеру: координаты, контур, адрес, площадь и кадастровую стоимость.">
+        <meta name="description" content="Метод NEWDB nspd_cadastr получает геоданные и сведения об объекте недвижимости по кадастровому номеру: координаты, контур, адрес, площадь, кадастровую стоимость и ЗОУИТ, найденные по выбранному объекту на карте.">
       
       
       
@@ -56,7 +56,7 @@
     
     
       
-        <meta  name="keywords"  content="NEWDB API, nspd_cadastr, кадастровый номер, геоданные, недвижимость, координаты, контур, НСПД" >
+        <meta  name="keywords"  content="NEWDB API, nspd_cadastr, кадастровый номер, геоданные, недвижимость, координаты, контур, НСПД, ЗОУИТ" >
       
         <meta  property="og:title"  content="Геоданные по кадастровому номеру — метод nspd_cadastr" >
       
@@ -1444,6 +1444,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Разделы ЗОУИТ
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ai-summary" class="md-nav__link">
     <span class="md-ellipsis">
       AI Summary
@@ -1597,6 +1606,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Разделы ЗОУИТ
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ai-summary" class="md-nav__link">
     <span class="md-ellipsis">
       AI Summary
@@ -1629,6 +1647,7 @@
 <li>геометрию объекта в формате <code>Polygon</code></li>
 <li>адрес, площадь, этажность, год постройки</li>
 <li>назначение, вид права и кадастровую стоимость</li>
+<li>ЗОУИТ и другие выбранные объекты, которые НСПД показывает после клика по найденному объекту на карте</li>
 </ul>
 <p><strong>Раздел:</strong> <a href="../">Имущество</a></p>
 <h2 id="_1">Связанные страницы<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
@@ -1865,8 +1884,73 @@ X-API-KEY: YOUR_TOKEN</p>
 <span class="w">                    </span><span class="p">]</span>
 <span class="w">                  </span><span class="p">}</span>
 <span class="w">                </span><span class="p">}</span>
+<span class="w">              </span><span class="p">},</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;cad_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77:01:0000000:1001&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">              </span><span class="p">},</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;cad_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77:01:0000000:1002&quot;</span>
+<span class="w">                </span><span class="p">}</span>
 <span class="w">              </span><span class="p">}</span>
-<span class="w">            </span><span class="p">]</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;objects_list&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;cad_nums&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="s2">&quot;77:01:0000000:1001&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="s2">&quot;77:01:0000000:1002&quot;</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;cad_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77:01:0000000:1001&quot;</span>
+<span class="w">                  </span><span class="p">}</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;object&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;cad_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77:01:0000000:1002&quot;</span>
+<span class="w">                  </span><span class="p">}</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Список объектов&quot;</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;selected_objects&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;470000000&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЗОУИТ природных территорий&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЗОУИТ природных территорий&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77:01-6.100&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;number_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry_boundary_number&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Реестровый номер границы: 77:01-6.100&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accordion_item&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;is_special_conditions_zone&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;raw_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Реестровый номер границы: 77:01-6.100&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;selected_special_conditions_zones_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;selected_special_conditions_zones&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;470000000&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЗОУИТ природных территорий&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЗОУИТ природных территорий&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77:01-6.100&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;number_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry_boundary_number&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Реестровый номер границы: 77:01-6.100&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accordion_item&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;is_special_conditions_zone&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;has_zouit_by_selected_objects&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;special_conditions_zones_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;special_conditions_zones&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">            </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://nspd.gov.ru/map?thematic=PKK&amp;zoom=20&amp;coordinate_x=4100000&amp;coordinate_y=7500000&amp;baseLayerId=235&amp;theme_id=1&amp;is_copy_url=true&amp;active_layers=37577%2C37579%2C37581%2C37580%2C37578&amp;selectedCard=157240605%2C36368%2C77%3A01%3A0000000%3A1000&quot;</span>
 <span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">]</span>
 <span class="w">      </span><span class="p">}</span>
@@ -1915,8 +1999,75 @@ X-API-KEY: YOUR_TOKEN</p>
 <td><code>results.nspd_cadastr.result.data[].items[].geo.source_geometry</code></td>
 <td>Исходная геометрия объекта в системе координат источника.</td>
 </tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].objects_list</code></td>
+<td>Список объектов, который НСПД показывает в карточке выбранного результата. Обычно содержит связанные кадастровые номера, найденные рядом с выбранным объектом.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].selected_objects</code></td>
+<td>Объекты из вкладки «Выделенные объекты» после клика по найденному объекту на карте. В этот блок попадают ЗОУИТ и другие элементы, которые НСПД показывает в accordion-списке.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].selected_objects.items[].number</code></td>
+<td>Номер выбранного объекта. Для ЗОУИТ обычно это реестровый номер границы, например <code>77:01-6.100</code>.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].selected_objects.items[].number_type</code></td>
+<td>Тип номера. Значение <code>registry_boundary_number</code> означает реестровый номер границы ЗОУИТ; <code>cadastral_number</code> — кадастровый номер.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].selected_objects.items[].category</code></td>
+<td>Раздел НСПД, из которого получен выбранный объект, например <code>ЗОУИТ природных территорий</code>, <code>Иные ЗОУИТ</code>, <code>ЗОУИТ объектов энергетики, связи, транспорта</code>.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].selected_objects.items[].is_special_conditions_zone</code></td>
+<td><code>true</code>, если выбранный объект распознан как ЗОУИТ или зона с особыми условиями использования территории.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].selected_special_conditions_zones</code></td>
+<td>Отфильтрованный список ЗОУИТ из <code>selected_objects.items</code>.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].selected_special_conditions_zones_count</code></td>
+<td>Количество найденных ЗОУИТ в списке выбранных объектов.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].has_zouit_by_selected_objects</code></td>
+<td><code>true</code>, если после клика по объекту НСПД вернул хотя бы одну ЗОУИТ во вкладке «Выделенные объекты».</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].special_conditions_zones</code></td>
+<td>ЗОУИТ, найденные непосредственно среди объектов поисковой выдачи. Может быть пустым, даже если <code>selected_special_conditions_zones</code> содержит зоны после клика по карте.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].url</code></td>
+<td>Ссылка на НСПД с выбранной карточкой, активными слоями ЗОУИТ и координатами объекта.</td>
+</tr>
 </tbody>
 </table>
+<h2 id="_9">Разделы ЗОУИТ<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>При открытии результата на карте метод активирует слои ЗОУИТ и читает вкладку «Выделенные объекты». Если НСПД показывает рядом с объектом зоны с особыми условиями использования территории, они возвращаются в <code>selected_objects</code> и дублируются в <code>selected_special_conditions_zones</code>.</p>
+<p>Поддерживаемые разделы ЗОУИТ:</p>
+<ul>
+<li><code>ЗОУИТ объектов культурного наследия</code></li>
+<li><code>ЗОУИТ объектов энергетики, связи, транспорта</code></li>
+<li><code>ЗОУИТ природных территорий</code></li>
+<li><code>ЗОУИТ охраняемых объектов и безопасности</code></li>
+<li><code>Иные ЗОУИТ</code></li>
+</ul>
+<p>Пример элемента ЗОУИТ:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;470000000&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЗОУИТ природных территорий&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЗОУИТ природных территорий&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77:01-6.100&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;number_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry_boundary_number&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Реестровый номер границы: 77:01-6.100&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;accordion_item&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_special_conditions_zone&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Если <code>has_zouit_by_selected_objects</code> равно <code>true</code>, объект пересекается или связан с одной или несколькими зонами, которые НСПД показал после клика по объекту на карте. Для пользовательского интерфейса обычно достаточно выводить <code>selected_special_conditions_zones_count</code> и список <code>selected_special_conditions_zones</code>.</p>
 <h2 id="ai-summary">AI Summary<a class="headerlink" href="#ai-summary" title="Permanent link">&para;</a></h2>
 <details>
 <summary>Компактные метаданные для AI и агентных систем</summary>
@@ -1927,7 +2078,13 @@ X-API-KEY: YOUR_TOKEN</p>
 <span class="w">  </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST https://api.newdb.net/v2&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;required_headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;X-API-KEY&quot;</span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;required_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;cad_num&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;method&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;returns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;results.nspd_cadastr.result.status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;results.nspd_cadastr.result.data[].items[].geo&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="nt">&quot;returns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;state&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.nspd_cadastr.result.status&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.nspd_cadastr.result.data[].items[].geo&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.nspd_cadastr.result.data[].selected_special_conditions_zones&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.nspd_cadastr.result.data[].has_zouit_by_selected_objects&quot;</span>
+<span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
 

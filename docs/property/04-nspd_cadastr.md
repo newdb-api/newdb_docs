@@ -1,10 +1,10 @@
 ---
 title: "nspd_cadastr — геоданные по кадастровому номеру"
-description: "Метод NEWDB nspd_cadastr получает геоданные и сведения об объекте недвижимости по кадастровому номеру: координаты, контур, адрес, площадь и кадастровую стоимость."
+description: "Метод NEWDB nspd_cadastr получает геоданные и сведения об объекте недвижимости по кадастровому номеру: координаты, контур, адрес, площадь, кадастровую стоимость и ЗОУИТ, найденные по выбранному объекту на карте."
 canonical_url: https://newdb.net/docs/property/04-nspd_cadastr/
 meta:
   - name: keywords
-    content: "NEWDB API, nspd_cadastr, кадастровый номер, геоданные, недвижимость, координаты, контур, НСПД"
+    content: "NEWDB API, nspd_cadastr, кадастровый номер, геоданные, недвижимость, координаты, контур, НСПД, ЗОУИТ"
   - property: og:title
     content: "Геоданные по кадастровому номеру — метод nspd_cadastr"
   - property: og:description
@@ -22,6 +22,7 @@ POST `https://api.newdb.net/v2`
 - геометрию объекта в формате `Polygon`
 - адрес, площадь, этажность, год постройки
 - назначение, вид права и кадастровую стоимость
+- ЗОУИТ и другие выбранные объекты, которые НСПД показывает после клика по найденному объекту на карте
 
 **Раздел:** [Имущество](index.md)
 
@@ -239,8 +240,73 @@ X-API-KEY: YOUR_TOKEN
                     ]
                   }
                 }
+              },
+              {
+                "object": {
+                  "cad_num": "77:01:0000000:1001"
+                }
+              },
+              {
+                "object": {
+                  "cad_num": "77:01:0000000:1002"
+                }
               }
-            ]
+            ],
+            "objects_list": {
+              "count": 2,
+              "cad_nums": [
+                "77:01:0000000:1001",
+                "77:01:0000000:1002"
+              ],
+              "items": [
+                {
+                  "object": {
+                    "cad_num": "77:01:0000000:1001"
+                  }
+                },
+                {
+                  "object": {
+                    "cad_num": "77:01:0000000:1002"
+                  }
+                }
+              ],
+              "raw": {
+                "title": "Список объектов"
+              }
+            },
+            "selected_objects": {
+              "count": 1,
+              "items": [
+                {
+                  "id": "470000000",
+                  "category": "ЗОУИТ природных территорий",
+                  "type": "ЗОУИТ природных территорий",
+                  "number": "77:01-6.100",
+                  "number_type": "registry_boundary_number",
+                  "text": "Реестровый номер границы: 77:01-6.100",
+                  "source": "accordion_item",
+                  "is_special_conditions_zone": true
+                }
+              ],
+              "raw_text": "Реестровый номер границы: 77:01-6.100"
+            },
+            "selected_special_conditions_zones_count": 1,
+            "selected_special_conditions_zones": [
+              {
+                "id": "470000000",
+                "category": "ЗОУИТ природных территорий",
+                "type": "ЗОУИТ природных территорий",
+                "number": "77:01-6.100",
+                "number_type": "registry_boundary_number",
+                "text": "Реестровый номер границы: 77:01-6.100",
+                "source": "accordion_item",
+                "is_special_conditions_zone": true
+              }
+            ],
+            "has_zouit_by_selected_objects": true,
+            "special_conditions_zones_count": 0,
+            "special_conditions_zones": [],
+            "url": "https://nspd.gov.ru/map?thematic=PKK&zoom=20&coordinate_x=4100000&coordinate_y=7500000&baseLayerId=235&theme_id=1&is_copy_url=true&active_layers=37577%2C37579%2C37581%2C37580%2C37578&selectedCard=157240605%2C36368%2C77%3A01%3A0000000%3A1000"
           }
         ]
       }
@@ -261,6 +327,46 @@ X-API-KEY: YOUR_TOKEN
 | `results.nspd_cadastr.result.data[].items[].geo.points` | Точки контура объекта в координатах WGS84. |
 | `results.nspd_cadastr.result.data[].items[].geo.geometry` | Геометрия объекта в формате `Polygon` с координатами WGS84. |
 | `results.nspd_cadastr.result.data[].items[].geo.source_geometry` | Исходная геометрия объекта в системе координат источника. |
+| `results.nspd_cadastr.result.data[].objects_list` | Список объектов, который НСПД показывает в карточке выбранного результата. Обычно содержит связанные кадастровые номера, найденные рядом с выбранным объектом. |
+| `results.nspd_cadastr.result.data[].selected_objects` | Объекты из вкладки «Выделенные объекты» после клика по найденному объекту на карте. В этот блок попадают ЗОУИТ и другие элементы, которые НСПД показывает в accordion-списке. |
+| `results.nspd_cadastr.result.data[].selected_objects.items[].number` | Номер выбранного объекта. Для ЗОУИТ обычно это реестровый номер границы, например `77:01-6.100`. |
+| `results.nspd_cadastr.result.data[].selected_objects.items[].number_type` | Тип номера. Значение `registry_boundary_number` означает реестровый номер границы ЗОУИТ; `cadastral_number` — кадастровый номер. |
+| `results.nspd_cadastr.result.data[].selected_objects.items[].category` | Раздел НСПД, из которого получен выбранный объект, например `ЗОУИТ природных территорий`, `Иные ЗОУИТ`, `ЗОУИТ объектов энергетики, связи, транспорта`. |
+| `results.nspd_cadastr.result.data[].selected_objects.items[].is_special_conditions_zone` | `true`, если выбранный объект распознан как ЗОУИТ или зона с особыми условиями использования территории. |
+| `results.nspd_cadastr.result.data[].selected_special_conditions_zones` | Отфильтрованный список ЗОУИТ из `selected_objects.items`. |
+| `results.nspd_cadastr.result.data[].selected_special_conditions_zones_count` | Количество найденных ЗОУИТ в списке выбранных объектов. |
+| `results.nspd_cadastr.result.data[].has_zouit_by_selected_objects` | `true`, если после клика по объекту НСПД вернул хотя бы одну ЗОУИТ во вкладке «Выделенные объекты». |
+| `results.nspd_cadastr.result.data[].special_conditions_zones` | ЗОУИТ, найденные непосредственно среди объектов поисковой выдачи. Может быть пустым, даже если `selected_special_conditions_zones` содержит зоны после клика по карте. |
+| `results.nspd_cadastr.result.data[].url` | Ссылка на НСПД с выбранной карточкой, активными слоями ЗОУИТ и координатами объекта. |
+
+## Разделы ЗОУИТ
+
+При открытии результата на карте метод активирует слои ЗОУИТ и читает вкладку «Выделенные объекты». Если НСПД показывает рядом с объектом зоны с особыми условиями использования территории, они возвращаются в `selected_objects` и дублируются в `selected_special_conditions_zones`.
+
+Поддерживаемые разделы ЗОУИТ:
+
+- `ЗОУИТ объектов культурного наследия`
+- `ЗОУИТ объектов энергетики, связи, транспорта`
+- `ЗОУИТ природных территорий`
+- `ЗОУИТ охраняемых объектов и безопасности`
+- `Иные ЗОУИТ`
+
+Пример элемента ЗОУИТ:
+
+```json
+{
+  "id": "470000000",
+  "category": "ЗОУИТ природных территорий",
+  "type": "ЗОУИТ природных территорий",
+  "number": "77:01-6.100",
+  "number_type": "registry_boundary_number",
+  "text": "Реестровый номер границы: 77:01-6.100",
+  "source": "accordion_item",
+  "is_special_conditions_zone": true
+}
+```
+
+Если `has_zouit_by_selected_objects` равно `true`, объект пересекается или связан с одной или несколькими зонами, которые НСПД показал после клика по объекту на карте. Для пользовательского интерфейса обычно достаточно выводить `selected_special_conditions_zones_count` и список `selected_special_conditions_zones`.
 
 ## AI Summary
 
@@ -274,9 +380,14 @@ X-API-KEY: YOUR_TOKEN
   "endpoint": "POST https://api.newdb.net/v2",
   "required_headers": ["X-API-KEY"],
   "required_fields": ["cad_num", "method", "country"],
-  "returns": ["state", "results.nspd_cadastr.result.status", "results.nspd_cadastr.result.data[].items[].geo"]
+  "returns": [
+    "state",
+    "results.nspd_cadastr.result.status",
+    "results.nspd_cadastr.result.data[].items[].geo",
+    "results.nspd_cadastr.result.data[].selected_special_conditions_zones",
+    "results.nspd_cadastr.result.data[].has_zouit_by_selected_objects"
+  ]
 }
 ```
 
 </details>
-
