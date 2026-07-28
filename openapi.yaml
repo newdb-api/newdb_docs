@@ -144,7 +144,6 @@ paths:
                 value:
                   params:
                     inn: <inn>
-                    email: <email>
                     country: ru
                     method: nalog_debt
                   requestId: 00000000-0000-0000-0000-000000000000
@@ -1046,9 +1045,6 @@ components:
             inn:
               type: string
               example: <inn>
-            email:
-              type: string
-              example: <email>
             country:
               type: string
               example: ru
@@ -1059,7 +1055,6 @@ components:
               example: nalog_debt
           required:
           - inn
-          - email
           - country
           - method
           additionalProperties: true
@@ -1077,7 +1072,6 @@ components:
       example:
         params:
           inn: <inn>
-          email: <email>
           country: ru
           method: nalog_debt
         requestId: 00000000-0000-0000-0000-000000000000

@@ -49,7 +49,6 @@ X-API-KEY: <your_token>
 {
   "params": {
     "inn": "string (ИНН физического лица)",
-    "email": "string (email для проверки)",
     "country": "ru",
     "method": "nalog_debt"
   },
@@ -61,7 +60,6 @@ X-API-KEY: <your_token>
 ## Параметры
 
 - `inn` — ИНН физического лица.
-- `email` — email, используемый при выполнении проверки.
 - `country` — код страны. Для РФ используйте `ru`.
 - `method` — имя метода, всегда `nalog_debt`.
 
@@ -75,7 +73,6 @@ X-API-KEY: YOUR_TOKEN
 {
   "params": {
     "inn": "270392288605",
-    "email": "pa@mail.ru",
     "country": "ru",
     "method": "nalog_debt"
   },
@@ -88,7 +85,6 @@ X-API-KEY: YOUR_TOKEN
 {
   "params": {
     "inn": "270392288605",
-    "email": "pa@mail.ru",
     "country": "ru",
     "method": "nalog_debt"
   },
@@ -111,7 +107,6 @@ X-API-KEY: YOUR_TOKEN
             },
             "form": {
               "inn": "270392288605",
-              "email": "pa@mail.ru"
             },
             "http": {
               "status": 200
@@ -155,7 +150,7 @@ X-API-KEY: YOUR_TOKEN
   "intent": "Проверка налоговой задолженности физического лица по ИНН",
   "endpoint": "POST https://api.newdb.net/v2",
   "required_headers": ["X-API-KEY"],
-  "required_fields": ["inn", "email", "country", "method", "webhook", "requestId"],
+  "required_fields": ["inn", "country", "method", "webhook", "requestId"],
   "returns": ["state", "results.nalog_debt.result.status", "results.nalog_debt.result.data"]
 }
 ```
