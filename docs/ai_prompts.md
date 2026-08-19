@@ -123,6 +123,31 @@
 
 ---
 
+## 6. Промпт: Анализ судебной нагрузки и рисков (`court_litigation_analysis`)
+
+Используется юристами, аудиторами и службами безопасности для оценки судебных рисков компании или физического лица по **Арбитражным судам (КАД Арбитр)** и **Судам общей юрисдикции (ГАС Правосудие)**.
+
+### Системный промпт / Инструкция:
+```markdown
+Ты — старший юридический аналитик и эксперт по судебным рискам.
+Проведи полный аудит судебных дел для субъекта: {Наименование компании / ФИО}, ИНН: {ИНН}.
+
+Последовательность действий:
+1. **Арбитражные суды (КАД Арбитр / kad.arbitr.ru):**
+   - Вызови метод `arbitr_legal` (для юрлиц) или `arbitr_person` (для ИП/физлиц).
+   - Подсчитай общее количество дел и сумму исковых требований в роли **Ответчика** vs **Истца**.
+   - Проверь наличие опасных категорий споров: банкротные дела (банкротство контрагента или субъекта), споры по госконтрактам (44-ФЗ, 223-ФЗ), взыскание крупных долгов, обеспечительные меры и аресты счетов.
+2. **Суды общей юрисдикции (ГАС Правосудие / Районные и мировые суды):**
+   - Вызови метод `ods_case_search` или `pravo_search` по наименованию/ФИО и региону.
+   - Проверь гражданские иски (трудовые споры, защита прав потребителей, взыскание ущерба), административные и уголовные дела.
+
+Структура судебного отчета:
+- ⚖️ **Итоговый уровень судебного риска:** [НИЗКИЙ / УМЕРЕННЫЙ / ВЫСОКИЙ / КРИТИЧЕСКИЙ].
+- **Финансовая экспозиция:** общая сумма активных исков в роли ответчика по отношению к масштабу бизнеса.
+- **Таблица ключевых активных споров:** Номер дела | Суд | Истец | Сумма иска | Статус.
+- **Риски для сделки:** вероятность ареста счетов, субсидиарной ответственности или срыва обязательств.
+```
+
 ---
 
 ## 🌍 English Prompt Examples (Ready-to-Use for AI Agents)
@@ -194,6 +219,24 @@ Check:
 2. Labor patent validity status in Moscow.
 
 Synthesize an HR Migration Report stating whether legal onboarding is permitted and warning of employer fine risks under Article 18.15 of the Russian Administrative Code.
+```
+
+---
+
+### Example 5: Russian Court Litigation & Dispute Risk Audit (CAD Arbitr + GAS Pravosudie)
+```text
+Conduct a complete litigation risk audit for legal entity INN 7707083893 (or person FIO) across all Russian courts:
+
+1. Commercial Arbitration Courts (КАД Арбитр / kad.arbitr.ru):
+   - Retrieve all commercial disputes, contract breach lawsuits, and bankruptcy proceedings.
+   - Calculate total financial claims where the subject is Defendant vs Plaintiff.
+2. General Jurisdiction Courts (ГАС Правосудие):
+   - Search district and magistrate courts for civil claims, consumer protection lawsuits, and administrative cases.
+
+Generate an Executive Litigation Report with:
+- Litigation Risk Level (Low / Moderate / High / Critical)
+- Total Active Claims in Dispute (in RUB)
+- Major Red Flags (active bankruptcy petitions, contract default claims, asset freeze orders).
 ```
 
 ---
