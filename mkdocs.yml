@@ -19,6 +19,7 @@ theme:
 nav:
   - Главная: index.md
   - Пример вызова API: api-example.md
+  - Официальные SDK: sdk.md
   - Физические лица:
       - Обзор: fiz/index.md
       - Проверка ФЛ (ФССП): fiz/01-fssp_person.md
@@ -51,6 +52,7 @@ nav:
       - Банкротство юрлица (Федресурс): legal/03-bankrot_legal.md
       - ЕГРЮЛ / Прозрачный бизнес: legal/04-egrul.md
       - ФССП по ИНН юрлица: legal/05-fssp_legal.md
+      - Поиск судебных дел: legal/06-ods_case_search.md
   - Имущество:
       - Обзор: property/index.md
       - Росреестр: property/01-rosreestr.md
