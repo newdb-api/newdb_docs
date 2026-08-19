@@ -123,6 +123,81 @@
 
 ---
 
+---
+
+## 🌍 English Prompt Examples (Ready-to-Use for AI Agents)
+
+Below are ready-to-copy prompts in English tailored for ChatGPT, Claude, Cursor, and custom AI agents connected to NewDB.
+
+### Example 1: Russian Company Counterparty Risk & Due Diligence (by INN)
+```text
+Act as a Senior Corporate Risk Analyst. Perform a comprehensive counterparty investigation for Russian company with INN 7707083893 using the NewDB platform.
+
+Please verify:
+1. Legal status in EGRUL (registration date, active vs liquidation, director and authorized capital).
+2. Federal Tax Service (FNS) active bank account suspension decisions (BIKP blocks).
+3. Open bailiff enforcement debts in FSSP registry.
+4. Active bankruptcy cases in Fedresurs (EFRSB).
+5. Commercial litigation history in Russian Arbitration courts (CAD Arbitr) as defendant vs plaintiff.
+
+Output a structured Due Diligence Report with:
+- Reliability Score (0 to 100)
+- Red Flags (shell company traits, mass director/address, tax arrears)
+- Recommended payment terms (e.g., 100% advance payment vs 30-day post-payment).
+```
+
+---
+
+### Example 2: Russian Citizen KYC & Background Check (by Passport & FIO)
+```text
+Conduct a comprehensive KYC background check for a Russian citizen:
+- Full Name: Ivanov Ivan Ivanovich
+- DOB: 1988-04-12
+- Passport: Series 4510 Number 123456
+- INN: 771234567890
+
+Please check:
+1. Ministry of Internal Affairs (MVD) invalid/lost passport database.
+2. Federal Bailiff Service (FSSP) enforcement proceedings across all Russian regions.
+3. Federal Tax Service (FNS) bank account freeze orders.
+4. Fedresurs individual bankruptcy registry.
+
+Provide a Security Clearance Verdict (Low / Medium / High / Critical Risk) with an itemized debt summary and red flags.
+```
+
+---
+
+### Example 3: Vehicle Pre-Purchase Collateral & Pledge Check (by VIN)
+```text
+Perform an automotive encumbrance audit for vehicle VIN: XTA21703080123456.
+
+Query the Federal Notary Chamber (FNP) registry via NewDB to detect whether this vehicle has active bank pledge notifications, leasing liens, or loan collateral. 
+
+Provide a clear advisory:
+- Status: [CLEAN / ACTIVE PLEDGE DETECTED]
+- Pledgee Bank & Registration Date (if pledged)
+- Buyer legal risk assessment (risk of repossession by the creditor).
+```
+
+---
+
+### Example 4: Foreign Worker Migration Compliance Audit
+```text
+Audit migration compliance for an expatriate employee in Russia:
+- Name: John Doe
+- DOB: 1990-05-15
+- Passport Number: AB9876543
+- Labor Patent: 7712345678 (Moscow)
+
+Check:
+1. MVD Controlled Persons Registry (Реестр контролируемых лиц МВД - RKL).
+2. Labor patent validity status in Moscow.
+
+Synthesize an HR Migration Report stating whether legal onboarding is permitted and warning of employer fine risks under Article 18.15 of the Russian Administrative Code.
+```
+
+---
+
 ## 💡 Использование через MCP в Claude Desktop и Cursor
 
 Все эти шаблоны встроены в официальный MCP-сервер NewDB и доступны в AI-ассистентах через меню промптов (`/` или вызов команды):
@@ -131,3 +206,4 @@
 # Запуск через npx
 npx -y @newdb/mcp-server
 ```
+
