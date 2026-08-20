@@ -46,8 +46,11 @@ X-API-KEY: <your_token>
 
 Параметр `regioncode` принимает код региона ФССП. Для кодов с ведущим нулём (`01`, `07`, `09` и т.д.) передавайте значение строкой.
 
+Чтобы выполнить поиск по всем территориальным органам ФССП, передайте `regioncode: 100`. В интерфейсе ФССП это соответствует пункту **«Все регионы»**.
+
 | Код | Регион |
 |-----|--------|
+| 100 | Все регионы |
 | 77 | Москва |
 | 78 | Санкт-Петербург |
 | 50 | Московская область |
@@ -149,7 +152,7 @@ X-API-KEY: YOUR_TOKEN
     "dob": "1987-11-27",
     "country": "ru",
     "method": "fssp_person",
-    "regioncode": 66
+    "regioncode": 100
   },
   "webhook": "https://newer.net/whook",
   "requestId": "19342f89-2916-4779-b59d-43c012f1a781"
@@ -166,7 +169,7 @@ X-API-KEY: YOUR_TOKEN
     "dob": "1987-11-27",
     "country": "ru",
     "method": "fssp_person",
-    "regioncode": 66
+    "regioncode": 100
   },
   "webhook": "https://newer.net/whook",
   "requestId": "3122f8c9-08ff-439a-8550-54ca099e3124",
@@ -228,13 +231,13 @@ X-API-KEY: YOUR_TOKEN
   "tools": [
     {
       "name": "fssp_person",
-      "description": "Проверка физического лица по базе исполнительных производств ФССП России. Возвращает сведения о долгах, судебных приказах и судебных приставах по ФИО, дате рождения и региону.",
+      "description": "Проверка физического лица по базе исполнительных производств ФССП России. Возвращает сведения о долгах, судебных приказах и судебных приставах по ФИО, дате рождения и региону. Для поиска по всем регионам передайте regioncode=100.",
       "input_schema": {
         "firstname": "string",
         "lastname": "string",
         "secondname": "string",
         "dob": "string (YYYY-MM-DD)",
-        "regioncode": "string | number",
+        "regioncode": "string | number (код региона ФССП или 100 для всех регионов)",
         "country": "string (ru)",
         "method": "string (fssp_person)",
         "webhook": "string (URL)",
@@ -272,7 +275,7 @@ X-API-KEY: YOUR_TOKEN
             "lastname": "Иванова",
             "secondname": "Егоровна",
             "dob": "1987-11-27",
-            "regioncode": 66,
+            "regioncode": 100,
             "country": "ru",
             "method": "fssp_person"
           },

@@ -49,13 +49,15 @@ X-API-KEY: <your_token>
     "secondname": "string",
     "dob": "YYYY-MM-DD",
     "country": "ru",
-    "regioncode": "number",
+    "regioncode": "number (код региона ФССП или 100 для всех регионов)",
     "method": "complex_by_passport"
   },
   "webhook": "https://your.host/whook",
   "requestId": "optional-string"
 }
 ```
+
+`regioncode` используется для проверки ФССП внутри комплексной проверки. Передайте `regioncode: 100`, если нужно искать исполнительные производства по всем регионам ФССП.
 
 ---
 
@@ -199,7 +201,7 @@ X-API-KEY: YOUR_TOKEN
         "secondname": "string",
         "dob": "string (YYYY-MM-DD)",
         "country": "string (ru)",
-        "regioncode": "number",
+        "regioncode": "number (код региона ФССП или 100 для всех регионов)",
         "method": "string (complex_by_passport)",
         "webhook": "string (URL)",
         "requestId": "string (optional)"
