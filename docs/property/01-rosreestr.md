@@ -23,6 +23,25 @@ POST `https://api.newdb.net/v2`
 
 ---
 
+**Раздел:** [Имущество](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела имущество](index.md)
+- [pledge_property — Проверка залога и обременений по ID (ФНП + Федресурс)](02-pledge_property.md)
+- [pledge_vin — Проверка залога и обременений по VIN (ФНП + Федресурс)](03-pledge_vin.md)
+- [nspd_cadastr — Получение геоданных по кадастровому номеру](04-nspd_cadastr.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить объект недвижимости, транспорт или сведения о залоге и обременениях.
+
+## Типовые кейсы
+
+- Проверка объекта перед сделкой или выдачей займа
+- Получение сведений о залоге, кадастровых данных или геометрии объекта
+- Обогащение карточки имущества структурированными данными из внешнего реестра
+
 ## Заголовки
 
 Content-Type: application/json
@@ -237,99 +256,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
 
-```json 
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
+```json
 {
-  "tools": [
-    {
-      "name": "rosreestr",
-      "description": "Получение сведений об объекте недвижимости из Росреестра по кадастровому номеру или текстовому адресу. Возвращает параметры объекта, кадастровую стоимость, права и обременения (например, ипотека).",
-      "input_schema": {
-        "address": "string — кадастровый номер (пример: 50:20:0030112:1658) или адрес строкой",
-        "country": "string (ru)",
-        "method": "string (rosreestr)",
-        "webhook": "string (URL для webhook, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "rosreestr": {
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "cadNumber": "string — кадастровый номер",
-                  "cadQuarter": "string — кадастровый квартал",
-                  "objType_text": "string — тип объекта (текст)",
-                  "purpose_text": "string — назначение (текст)",
-                  "area": "string — площадь",
-                  "regDate": "string — дата постановки/регистрации",
-                  "cadCost": "string — кадастровая стоимость",
-                  "cadCostDeterminationDate": "string — дата оценки",
-                  "cadCostRegistrationDate": "string — дата внесения стоимости",
-                  "infoUpdateDate": "string — дата обновления сведений",
-                  "rights": [
-                    {
-                      "rightTypeDesc": "string — тип права (например, Собственность)",
-                      "rightRegDate": "string — дата регистрации права",
-                      "rightNumber": "string — номер регистрации права"
-                    }
-                  ],
-                  "encumbrances": [
-                    {
-                      "typeDesc": "string — тип обременения (например, Ипотека)",
-                      "startDate": "string — дата начала",
-                      "encumbranceNumber": "string — номер записи обременения"
-                    }
-                  ],
-                  "oldNumbers": [
-                    {
-                      "numType": "string — тип номера",
-                      "numValue": "string — значение"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request_by_cad": {
-          "params": {
-            "address": "50:20:0030112:1658",
-            "method": "rosreestr",
-            "country": "ru"
-          },
-          "webhook": "https://webhook_url/",
-          "requestId": "19342f89-2916-4779-b59d-43c001f1a119"
-        },
-        "request_by_address": {
-          "params": {
-            "address": "Одинцово Белорусская д.3 кв. 382",
-            "method": "rosreestr",
-            "country": "ru"
-          },
-          "webhook": "https://webhook_url/",
-          "requestId": "19342f89-2916-4779-b59d-43c001f1a112"
-        },
-        "response_empty": {
-          "state": "complete",
-          "results": {
-            "rosreestr": {
-              "result": {
-                "status": 200,
-                "data": []
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить объект недвижимости по кадастровому номеру или адресу (права, обременения, ипотека, кадастровая стоимость) — вызывай метод rosreestr и верни найденные сведения."
+  "method": "rosreestr",
+  "intent": "Получение сведений об объекте недвижимости из Росреестра",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["address", "method", "country"],
+  "returns": ["state", "results.rosreestr.result.status", "results.rosreestr.result.data[].rights", "results.rosreestr.result.data[].encumbrances"]
 }
 ```
+
+</details>
+
+

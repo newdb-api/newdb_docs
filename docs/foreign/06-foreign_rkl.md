@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет проверку лица по форме сервиса Госуслуг "Реестр контролируемых лиц".
 
+**Раздел:** [Иностранные граждане](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела иностранные граждане](index.md)
+- [foreign_rnr — Разрешение на работу (РНР)](05-foreign_rnr.md)
+- [patent_msk — Патент (Москва)](07-foreign_patent_msk.md)
+- [foreign_rvp_blank — РВП (бланк)](04-foreign_rvp_blank.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить статус документа или разрешительного основания иностранного гражданина.
+
+## Типовые кейсы
+
+- Проверка ВНЖ, патента, РВП или разрешения на работу перед оформлением
+- Контроль миграционных документов в HR или compliance-процессе
+- Подтверждение статуса документа по данным анкеты и реквизитам
+
 ## Заголовки
 
 ```http
@@ -212,3 +231,23 @@ params_raw = json.dumps({
   }
 }
 ```
+
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
+```json
+{
+  "method": "rkl",
+  "intent": "Проверка наличия в реестре контролируемых лиц",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["firstname", "lastname", "dob_info", "issue_date", "id_doc_seria", "id_doc_number", "method", "country"],
+  "returns": ["state", "results.rkl.result.status", "results.rkl.result.data"]
+}
+```
+
+</details>
+
+

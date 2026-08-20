@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет проверку юридического лица на наличие сведений о банкротстве в ЕФРСБ. Поиск осуществляется по ИНН компании.
 
+**Раздел:** [Юридические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела юридические лица](index.md)
+- [fns_block — Проверка блокировок счетов юрлица (ФНС)](02-fns_block.md)
+- [egrul — Сведения ЕГРЮЛ / Прозрачный бизнес](04-egrul.md)
+- [arbitr_legal — Проверка арбитражных дел (юрлица, КАД)](01-arbitr_legal.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно получить сведения о юридическом лице, его рисках, долгах, блокировках или судебной активности.
+
+## Типовые кейсы
+
+- Проверка контрагента перед сделкой или оплатой
+- Автоматическое обогащение карточки компании по ИНН
+- Выявление признаков банкротства, блокировок, исполнительных производств или арбитража
+
 ## Заголовки
 
 ```text
@@ -207,74 +226,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "bankrot_legal",
-      "description": "Проверка сведений о банкротстве юридического лица по ИНН через Федресурс.",
-      "input_schema": {
-        "inn": "string — ИНН юридического лица",
-        "country": "string (ru)",
-        "method": "string (bankrot_legal)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "bankrot_legal": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": [
-                {
-                  "bankruptcy": [
-                    {
-                      "case_number": "string — номер дела",
-                      "case_url": "string — ссылка на дело",
-                      "status": "string — стадия процедуры",
-                      "messages": [
-                        {
-                          "message_info": "string — номер и дата сообщения",
-                          "url": "string — ссылка на публикацию",
-                          "type": "string — тип сообщения"
-                        }
-                      ]
-                    }
-                  ],
-                  "commmon": {
-                    "type": "string — тип субъекта",
-                    "name_or_fio": "string — наименование компании",
-                    "inn": "string — ИНН",
-                    "reg_number_type": "string — тип регистрационного номера",
-                    "reg_number": "string — регистрационный номер",
-                    "activity": "string — основной вид деятельности",
-                    "address": "string — адрес",
-                    "status": "string — текущий статус",
-                    "details_url": "string — ссылка на карточку"
-                  },
-                  "encumbrances": "array — найденные обременения, если есть",
-                  "publications": [
-                    {
-                      "category": "string — категория публикации",
-                      "number_date": "string — номер и дата",
-                      "title": "string — заголовок публикации",
-                      "url": "string — ссылка на публикацию"
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить банкротство юридического лица по ИНН, используй метод bankrot_legal."
+  "method": "bankrot_legal",
+  "intent": "Проверка банкротства юридического лица",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["inn", "method", "country"],
+  "returns": ["state", "results.bankrot_legal.result.status", "results.bankrot_legal.result.data"]
 }
 ```
+
+</details>
+
+

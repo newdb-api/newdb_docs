@@ -1,0 +1,2692 @@
+openapi: 3.1.0
+info:
+  title: NEWDB API
+  version: 1.0.0
+  description: 'OpenAPI-спецификация, собранная по локальной markdown-документации NEWDB и сверенная с public.spiders_yandex
+    для project=allspiders, а также для комплексных методов project=complex.
+
+    Основной интерфейс работает через `POST /v2` с переключением поведения по `params.method`.
+
+    Для части методов детальные схемы ответов не раскрыты полностью, поэтому ответы описаны общими envelope-схемами и примерами.'
+servers:
+- url: https://api.newdb.net
+security:
+- ApiKeyAuth: []
+tags:
+- name: Service
+- name: Physical Persons
+- name: Legal Entities
+- name: Foreign Citizens
+- name: Justice
+- name: Property
+paths:
+  /v2:
+    post:
+      tags:
+      - Service
+      summary: Отправить асинхронный запрос NEWDB
+      description: 'Универсальная точка входа для асинхронных запросов NEWDB.
+
+        Конкретный бизнес-метод выбирается по `params.method`.'
+      operationId: createAsyncRequest
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+              - $ref: '#/components/schemas/fssp_personRequest'
+              - $ref: '#/components/schemas/passport_fnsRequest'
+              - $ref: '#/components/schemas/passport_mvdRequest'
+              - $ref: '#/components/schemas/complex_by_passportRequest'
+              - $ref: '#/components/schemas/complex_by_innRequest'
+              - $ref: '#/components/schemas/complex_by_innfizRequest'
+              - $ref: '#/components/schemas/bankrot_personRequest'
+              - $ref: '#/components/schemas/pledge_personRequest'
+              - $ref: '#/components/schemas/arbitr_personRequest'
+              - $ref: '#/components/schemas/nalog_debtRequest'
+              - $ref: '#/components/schemas/elmk_registryRequest'
+              - $ref: '#/components/schemas/fns_block_personRequest'
+              - $ref: '#/components/schemas/egrul_ipRequest'
+              - $ref: '#/components/schemas/terroristRequest'
+              - $ref: '#/components/schemas/mvd_wantedRequest'
+              - $ref: '#/components/schemas/inoagentRequest'
+              - $ref: '#/components/schemas/foreign_vngRequest'
+              - $ref: '#/components/schemas/foreign_patentRequest'
+              - $ref: '#/components/schemas/foreign_rvp_stampRequest'
+              - $ref: '#/components/schemas/foreign_rvp_blankRequest'
+              - $ref: '#/components/schemas/foreign_rnrRequest'
+              - $ref: '#/components/schemas/rklRequest'
+              - $ref: '#/components/schemas/patent_mskRequest'
+              - $ref: '#/components/schemas/patent_moRequest'
+              - $ref: '#/components/schemas/arbitr_legalRequest'
+              - $ref: '#/components/schemas/arbitr_caseRequest'
+              - $ref: '#/components/schemas/fns_blockRequest'
+              - $ref: '#/components/schemas/bankrot_legalRequest'
+              - $ref: '#/components/schemas/egrulRequest'
+              - $ref: '#/components/schemas/fssp_legalRequest'
+              - $ref: '#/components/schemas/pravo_searchRequest'
+              - $ref: '#/components/schemas/act_text_searchRequest'
+              - $ref: '#/components/schemas/pravo_cases_detailsRequest'
+              - $ref: '#/components/schemas/rosreestrRequest'
+              - $ref: '#/components/schemas/pledge_propertyRequest'
+              - $ref: '#/components/schemas/pledge_legalRequest'
+              - $ref: '#/components/schemas/pledge_vinRequest'
+              - $ref: '#/components/schemas/nspd_cadastrRequest'
+              - $ref: '#/components/schemas/realty_priceRequest'
+            examples:
+              fssp_person:
+                summary: fssp_person — Проверка ФЛ по базе ФССП
+                value:
+                  params:
+                    firstname: ДМИТРИЙ
+                    lastname: КОНЕВ
+                    secondname: СЕРГЕЕВИЧ
+                    dob: '1986-10-10'
+                    country: ru
+                    method: fssp_person
+                    regioncode: 77
+                  webhook: https://newer.net/whook
+                  requestId: 3122f8c9-08ff-429a-8550-54ca099e3111
+              passport_fns:
+                summary: passport_fns — Проверка  паспорта/ИНН через ФНС
+                value:
+                  params:
+                    method: passport_fns
+                    country: ru
+                    lastname: Пыж
+                    firstname: Максим
+                    secondname: Николаевич
+                    dob: '1987-01-08'
+                    seria: 0806
+                    number: '649286'
+                    seriapass: 0806
+                    numberpass: '649286'
+                  requestId: ade58bc1-2830-59ec-9933-15e0b2ad6947
+              passport_mvd:
+                summary: passport_mvd — Проверка паспорта РФ на действительность
+                value:
+                  params:
+                    seria: '4115'
+                    number: '350298'
+                    method: passport_mvd
+                    firstname: Александр
+                    lastname: Сидоров
+                    country: ru
+                  requestId: b4c61a6b-34cc-430e-bbeb-a6518014bca4
+              bankrot_person:
+                summary: bankrot_person — Проверка на банкротство физлица (Федресурс)
+                value:
+                  params:
+                    innfiz: '270392288605'
+                    country: ru
+                    method: bankrot_person
+                  requestId: a5962f88-2916-4779-b59d-43c123faa812
+              pledge_person:
+                summary: pledge_person — Проверка залогов и обременений (ФНП + Федресурс)
+                value:
+                  params:
+                    firstname: <firstname>
+                    lastname: <lastname>
+                    method: pledge_person
+                    country: ru
+                  requestId: 00000000-0000-0000-0000-000000000000
+              arbitr_person:
+                summary: arbitr_person — Проверка арбитражных дел (физлица, КАД)
+                value:
+                  params:
+                    innfiz: '780248016408'
+                    country: ru
+                    method: arbitr_person
+                  requestId: a5962f88-2916-4179-b59d-43c123faa911
+              nalog_debt:
+                summary: nalog_debt — Проверка налоговой задолженности по ИНН
+                value:
+                  params:
+                    inn: <inn>
+                    country: ru
+                    method: nalog_debt
+                  requestId: 00000000-0000-0000-0000-000000000000
+              elmk_registry:
+                summary: elmk_registry — Проверка статуса электронной медицинской книжки
+                value:
+                  params:
+                    elmk_number: 24-01-007868-25
+                    snils: 062-558-733 77
+                    country: ru
+                    method: elmk_registry
+                  webhook: https://newdb.net/for_example_webhook
+                  requestId: 81862f88-2316-4779-b89d-45c012faa898
+              fns_block_person:
+                summary: fns_block_person — Проверка блокировок счетов физлица (ФНС)
+                value:
+                  params:
+                    innfiz: <innfiz>
+                    method: fns_block_person
+                    country: ru
+                  requestId: 00000000-0000-0000-0000-000000000000
+              egrul_ip:
+                summary: egrul_ip — Проверка статуса ИП / сведений ЕГРИП
+                value:
+                  params:
+                    innfiz: '270392288605'
+                    country: ru
+                    method: egrul_ip
+                  webhook: https://newer.net/whook
+                  requestId: 81862f88-2316-4779-b89d-45c011faa898
+              terrorist:
+                summary: terrorist — Проверка на причастность к терроризму и распространению ОМУ
+                value:
+                  params:
+                    firstname: <firstname>
+                    lastname: <lastname>
+                    secondname: <secondname>
+                    dob: <dob>
+                    method: terrorist
+                    country: ru
+                  requestId: 00000000-0000-0000-0000-000000000000
+              mvd_wanted:
+                summary: mvd_wanted — Проверка физлица в розыске МВД
+                value:
+                  params:
+                    method: mvd_wanted
+                    lastname: Иванов
+                    firstname: Иван
+                    secondname: Иванович
+                    dob: '1990-01-01'
+                    email: client@example.com
+                  requestId: 00000000-0000-4000-8000-000000000101
+              inoagent:
+                summary: inoagent — Проверка физлица в реестре иностранных агентов
+                value:
+                  params:
+                    method: inoagent
+                    lastname: Иванов
+                    firstname: Иван
+                    secondname: Иванович
+                  requestId: 00000000-0000-4000-8000-000000000201
+              foreign_vng:
+                summary: foreign_vng — Вид на жительство (ВНЖ)
+                value:
+                  params:
+                    method: foreign_vng
+                    doctype: vng
+                    firstname: Хаджиакбар
+                    lastname: Юлдошев
+                    doc_seria: '82'
+                    doc_number: '2205693712'
+                    id_doc_seria: FA
+                    id_doc_number: '4678821'
+                    blank_seria: РР
+                    blank_number: '8118448'
+                    dob: '1985-12-01'
+                    country: ru
+                  requestId: b4c63a7b-45cc-031e-bbeb-a6518014bca4
+              foreign_patent:
+                summary: foreign_patent — Патент
+                value:
+                  params:
+                    method: foreign_patent
+                    doctype: patent
+                    firstname: Хаджиакбар
+                    lastname: Юлдошев
+                    secondname: Джумабой Угли
+                    doc_seria: '82'
+                    doc_number: '2205693712'
+                    id_doc_seria: FA
+                    id_doc_number: '4678821'
+                    blank_seria: РР
+                    blank_number: '8118448'
+                    dob: '1985-12-01'
+                    country: ru
+                  requestId: b4c61a6b-34cc-440e-bbeb-a6528024bca4
+              foreign_rvp_stamp:
+                summary: foreign_rvp_stamp — РВП (штамп в паспорте)
+                value:
+                  params:
+                    method: foreign_rvp_stamp
+                    doctype: rvp_stamp
+                    firstname: Хаджиакбар
+                    lastname: Юлдошев
+                    issue_date: '2025-01-01'
+                    id_doc_seria: FA
+                    id_doc_number: '4678821'
+                    country: ru
+                  requestId: b4c61a6b-39cc-432e-bbeb-a6518014bca4
+              foreign_rvp_blank:
+                summary: foreign_rvp_blank — РВП (бланк)
+                value:
+                  params:
+                    method: foreign_rvp_blank
+                    doctype: rvp_blank
+                    firstname: Хаджиакбар
+                    lastname: Юлдошев
+                    secondname: Джумабой Угли
+                    doc_seria: '82'
+                    doc_number: '2205693712'
+                    id_doc_seria: FA
+                    id_doc_number: '4678821'
+                    dob: '1985-12-01'
+                    country: ru
+                  requestId: b4c65a6b-45cc-430e-bbeb-a6518014bca4
+              foreign_rnr:
+                summary: foreign_rnr — Разрешение на работу (РНР)
+                value:
+                  params:
+                    method: foreign_rnr
+                    doctype: rnr
+                    doc_seria: '82'
+                    doc_number: '2205693712'
+                    id_doc_seria: FA
+                    id_doc_number: '4678821'
+                    blank_seria: РР
+                    blank_number: '8118448'
+                    country: ru
+                  requestId: b4c61a6b-34cc-430e-bbeb-a6528014bca4
+              rkl:
+                summary: rkl — Проверка по реестру контролируемых лиц
+                value:
+                  params:
+                    method: rkl
+                    country: ru
+                    lastname: Янукович
+                    firstname: Максим
+                    secondname: ''
+                    dob_info: '1991-04-04'
+                    issue_date: '1991-04-04'
+                    id_doc_seria: МС
+                    id_doc_number: '3291775'
+                  requestId: b5c67a6b-59cc-440e-bbeb-a6528024bca4
+              patent_msk:
+                summary: patent_msk — Патент (Москва)
+                value:
+                  params:
+                    method: patent_msk
+                    id_doc_seria: FA
+                    id_doc_number: '2001901'
+                    citizenship: Узбекистан
+                    country: ru
+                  requestId: b4c65a6b-45cc-430e-bbeb-a6528014bca4
+              patent_mo:
+                summary: patent_mo — Патент (Московская область)
+                value:
+                  params:
+                    method: patent_mo
+                    innfiz: <innfiz>
+                    dob: <dob>
+                    country: ru
+                  requestId: 00000000-0000-0000-0000-000000000000
+              arbitr_legal:
+                summary: arbitr_legal — Проверка арбитражных дел (юрлица, КАД)
+                value:
+                  params:
+                    inn: '7707332613'
+                    country: ru
+                    method: arbitr_legal
+                  requestId: a5962f88-2916-5779-b59d-43c023faa913
+              fns_block:
+                summary: fns_block — Проверка блокировок счетов юрлица (ФНС)
+                value:
+                  params:
+                    inn: '1326200720'
+                    country: ru
+                    method: fns_block
+                  webhook: https://newer.net/whook
+                  requestId: 81862f88-2316-4779-b59d-45c011faa898
+              bankrot_legal:
+                summary: bankrot_legal — Проверка на банкротство юрлица (Федресурс)
+                value:
+                  params:
+                    inn: '7707332613'
+                    country: ru
+                    method: bankrot_legal
+                  requestId: a5962f98-2916-4779-b52d-43c123faa812
+              egrul:
+                summary: egrul — Сведения ЕГРЮЛ / Прозрачный бизнес
+                value:
+                  params:
+                    inn: <inn>
+                    method: egrul
+                    country: ru
+                  requestId: 00000000-0000-0000-0000-000000000000
+              fssp_legal:
+                summary: fssp_legal — Исполнительные производства ФССП по ИНН юрлица
+                value:
+                  params:
+                    method: fssp_legal
+                    inn: 7735106398О
+                  webhook: https://newer.net/whook
+                  requestId: 3122f8c9-08ff-429a-8550-54ca099e3111
+              pravo_search:
+                summary: pravo_search — Поиск судебных дел
+                value:
+                  params:
+                    query: Пыж
+                    country: ru
+                    method: pravo_search
+                  requestId: a5962f88-2916-4179-b59d-43c123faa911
+              act_text_search:
+                summary: act_text_search — Поиск судебных дел по текстам актов
+                value:
+                  params:
+                    act_text: <act_text>
+                    country: ru
+                    method: act_text_search
+                  requestId: 00000000-0000-0000-0000-000000000000
+              pravo_cases_details:
+                summary: pravo_cases_details — Получение деталей дела по NewdbID
+                value:
+                  params:
+                    case_id: '1145323'
+                    country: ru
+                    method: pravo_cases_details
+                  requestId: a5962f88-2916-4179-b59d-43c123faa911
+              rosreestr:
+                summary: rosreestr — Проверка объекта недвижимости (Росреестр)
+                value:
+                  params:
+                    address: Одинцово Белорусская д.3 кв. 382
+                    method: rosreestr
+                    country: ru
+                  webhook: https://webhook_url/
+                  requestId: 19342f89-2916-5719-b59d-43c002f1a299
+              pledge_property:
+                summary: pledge_property — Проверка залога и обременений по ID (ФНП + Федресурс)
+                value:
+                  params:
+                    propertyid: <propertyid>
+                    method: pledge_property
+                    country: ru
+                  requestId: 00000000-0000-0000-0000-000000000000
+              pledge_vin:
+                summary: pledge_vin — Проверка залога и обременений по VIN (ФНП + Федресурс)
+                value:
+                  params:
+                    vin: <vin>
+                    method: pledge_vin
+                    country: ru
+                  requestId: 00000000-0000-0000-0000-000000000000
+              nspd_cadastr:
+                summary: nspd_cadastr — Получение геоданных по кадастровому номеру
+                value:
+                  requestId: a5962f88-2916-4779-b59d-43c023fa1894
+                  taskId: nspd-cadastr-local-test-001
+                  params:
+                    method: nspd_cadastr
+                    cad_num: 50:20:0020402:2230
+              realty_price:
+                summary: realty_price — Оценка стоимости недвижимости
+                value:
+                  requestId: a5962f88-2916-4789-b59d-43c023fa1894
+                  taskId: nspd-cadastr-local-test-001
+                  params:
+                    method: realty_price
+                    address: Одинцово ул.  Белорусская д.3 кв. 382
+                    valuation_type: sale
+              arbitr_case:
+                summary: arbitr_case — Детали арбитражного дела по номеру дела
+                value: &id001
+                  params:
+                    case_number: А40-123456/2024
+                    country: ru
+                    method: arbitr_case
+                  requestId: a5962f88-2916-4179-b59d-43c123faa912
+              pledge_legal:
+                summary: pledge_legal — Проверка залогов и обременений юрлица
+                value: &id002
+                  params:
+                    inn: '7707083893'
+                    country: ru
+                    method: pledge_legal
+                  requestId: a5962f88-2926-4279-b59d-43c023faa496
+              complex_by_passport:
+                summary: complex_by_passport — Комплексная проверка по паспорту
+                value: &id003
+                  params:
+                    seria: '4022'
+                    number: 004568
+                    firstname: Эмиль
+                    lastname: Пашаев
+                    secondname: Сейфуллаевич
+                    dob: '1987-01-08'
+                    regioncode: '77'
+                    country: ru
+                    method: complex_by_passport
+                  requestId: 15e00e59-8e7c-5e58-b145-dd8a58f41033
+              complex_by_inn:
+                summary: complex_by_inn — Комплексная проверка компании по ИНН
+                value: &id004
+                  params:
+                    inn: '7707083893'
+                    country: ru
+                    method: complex_by_inn
+                  requestId: 15e00e59-8e7c-5e58-b145-dd8a58f41034
+              complex_by_innfiz:
+                summary: complex_by_innfiz — Комплексная проверка физлица или ИП по ИНН
+                value: &id005
+                  params:
+                    innfiz: '270392288605'
+                    country: ru
+                    method: complex_by_innfiz
+                  requestId: 15e00e59-8e7c-5e58-b145-dd8a58f41035
+      responses:
+        '200':
+          description: Запрос принят или возвращён ранее сохранённый результат
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+  /v2/data:
+    get:
+      tags:
+      - Service
+      summary: Получить результат по requestId
+      operationId: getRequestData
+      security:
+      - QueryToken: []
+      parameters:
+      - in: query
+        name: requestId
+        required: true
+        schema:
+          type: string
+          format: uuid
+      - in: query
+        name: token
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Текущее состояние запроса и результаты
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+  /v2/run:
+    get:
+      tags:
+      - Service
+      summary: Синхронный запуск метода с ожиданием результата
+      description: 'Помимо перечисленных параметров принимает метод-специфичные query-поля в зависимости от `method`,
+
+        например `seria`, `number`, `inn`, `innfiz`, `query`, `act_text` и другие.'
+      operationId: runSyncMethod
+      security:
+      - QueryToken: []
+      parameters:
+      - in: query
+        name: method
+        required: true
+        schema:
+          type: string
+          enum:
+          - fssp_person
+          - passport_fns
+          - passport_mvd
+          - bankrot_person
+          - pledge_person
+          - arbitr_person
+          - nalog_debt
+          - elmk_registry
+          - fns_block_person
+          - egrul_ip
+          - terrorist
+          - mvd_wanted
+          - inoagent
+          - foreign_vng
+          - foreign_patent
+          - foreign_rvp_stamp
+          - foreign_rvp_blank
+          - foreign_rnr
+          - rkl
+          - patent_msk
+          - patent_mo
+          - arbitr_legal
+          - fns_block
+          - bankrot_legal
+          - egrul
+          - fssp_legal
+          - pravo_search
+          - act_text_search
+          - pravo_cases_details
+          - rosreestr
+          - pledge_property
+          - pledge_vin
+          - nspd_cadastr
+          - realty_price
+          - arbitr_case
+          - pledge_legal
+          - complex_by_passport
+          - complex_by_inn
+          - complex_by_innfiz
+      - in: query
+        name: country
+        required: true
+        schema:
+          type: string
+          example: ru
+      - in: query
+        name: token
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: requestId
+        required: false
+        schema:
+          type: string
+          format: uuid
+      responses:
+        '200':
+          description: Результат синхронного выполнения или таймаут
+          content:
+            application/json:
+              schema:
+                oneOf:
+                - $ref: '#/components/schemas/RunCompleteResponse'
+                - $ref: '#/components/schemas/RunTimeoutResponse'
+  /v2/balance:
+    get:
+      tags:
+      - Service
+      summary: Проверить баланс токена
+      operationId: getBalance
+      responses:
+        '200':
+          description: Баланс токена
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BalanceResponse'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+    QueryToken:
+      type: apiKey
+      in: query
+      name: token
+  schemas:
+    GenericTaskResult:
+      type: object
+      properties:
+        taskId:
+          type: string
+          format: uuid
+        dateupdated:
+          type: string
+        result:
+          type: object
+          properties:
+            status:
+              type: integer
+              example: 200
+            data:
+              type: array
+              items:
+                type: object
+                additionalProperties: true
+            meta:
+              type: object
+              additionalProperties: true
+          additionalProperties: true
+      additionalProperties: true
+    AsyncEnvelope:
+      type: object
+      properties:
+        params:
+          type: object
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        datecreated:
+          type: string
+        state:
+          type: string
+          enum:
+          - pending
+          - processing
+          - complete
+          - timeout
+          - error
+        balance:
+          type: integer
+        tasks:
+          type: integer
+        is_repeat:
+          type: boolean
+        error:
+          type: string
+        results:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/GenericTaskResult'
+      additionalProperties: true
+    RunCompleteResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          enum:
+          - complete
+        results:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/GenericTaskResult'
+      required:
+      - requestId
+      - state
+      - results
+    RunTimeoutResponse:
+      type: object
+      properties:
+        requestId:
+          type: string
+          format: uuid
+        state:
+          type: string
+          enum:
+          - timeout
+        error:
+          type: string
+          example: Task execution timeout
+      required:
+      - requestId
+      - state
+      - error
+    BalanceResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          format: uuid
+        balance:
+          type: integer
+      required:
+      - token
+      - balance
+    fssp_personRequest:
+      type: object
+      description: 'fssp_person — Проверка ФЛ по базе ФССП. Источник: docs/fiz/01-fssp_person.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            firstname:
+              type: string
+              example: ДМИТРИЙ
+            lastname:
+              type: string
+              example: КОНЕВ
+            secondname:
+              type: string
+              example: СЕРГЕЕВИЧ
+            dob:
+              type: string
+              format: date
+              example: '1986-10-10'
+            regioncode:
+              type: integer
+              example: 77
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - fssp_person
+              example: fssp_person
+          required:
+          - firstname
+          - lastname
+          - secondname
+          - dob
+          - regioncode
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          firstname: ДМИТРИЙ
+          lastname: КОНЕВ
+          secondname: СЕРГЕЕВИЧ
+          dob: '1986-10-10'
+          country: ru
+          method: fssp_person
+          regioncode: 77
+        webhook: https://newer.net/whook
+        requestId: 3122f8c9-08ff-429a-8550-54ca099e3111
+    passport_fnsRequest:
+      type: object
+      description: 'passport_fns — Проверка  паспорта/ИНН через ФНС. Источник: docs/fiz/02-passport_fns.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            seria:
+              type: string
+              example: 0806
+            number:
+              type: string
+              example: '649286'
+            firstname:
+              type: string
+              example: Максим
+            lastname:
+              type: string
+              example: Пыж
+            secondname:
+              type: string
+              example: Николаевич
+            dob:
+              type: string
+              format: date
+              example: '1987-01-08'
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - passport_fns
+              example: passport_fns
+            seriapass:
+              type: string
+              example: 0806
+            numberpass:
+              type: string
+              example: '649286'
+          required:
+          - seria
+          - number
+          - firstname
+          - lastname
+          - secondname
+          - dob
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: passport_fns
+          country: ru
+          lastname: Пыж
+          firstname: Максим
+          secondname: Николаевич
+          dob: '1987-01-08'
+          seria: 0806
+          number: '649286'
+          seriapass: 0806
+          numberpass: '649286'
+        requestId: ade58bc1-2830-59ec-9933-15e0b2ad6947
+    passport_mvdRequest:
+      type: object
+      description: 'passport_mvd — Проверка паспорта РФ на действительность. Источник: docs/fiz/03-passport_mvd.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            seria:
+              type: string
+              example: '4115'
+            number:
+              type: string
+              example: '350298'
+            firstname:
+              type: string
+              example: Александр
+            lastname:
+              type: string
+              example: Сидоров
+            secondname:
+              type: string
+            dob:
+              type: string
+              format: date
+            method:
+              type: string
+              enum:
+              - passport_mvd
+              example: passport_mvd
+            country:
+              type: string
+              example: ru
+          required:
+          - seria
+          - number
+          - firstname
+          - lastname
+          - secondname
+          - dob
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          seria: '4115'
+          number: '350298'
+          method: passport_mvd
+          firstname: Александр
+          lastname: Сидоров
+          country: ru
+        requestId: b4c61a6b-34cc-430e-bbeb-a6518014bca4
+    bankrot_personRequest:
+      type: object
+      description: 'bankrot_person — Проверка на банкротство физлица (Федресурс). Источник: docs/fiz/05-fedresurs_bankrot.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            innfiz:
+              type: string
+              example: '270392288605'
+            method:
+              type: string
+              enum:
+              - bankrot_person
+              example: bankrot_person
+            country:
+              type: string
+              example: ru
+          required:
+          - innfiz
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          innfiz: '270392288605'
+          country: ru
+          method: bankrot_person
+        requestId: a5962f88-2916-4779-b59d-43c123faa812
+    pledge_personRequest:
+      type: object
+      description: 'pledge_person — Проверка залогов и обременений (ФНП + Федресурс). Источник: docs/fiz/06-pledge_person.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            firstname:
+              type: string
+              example: <firstname>
+            lastname:
+              type: string
+              example: <lastname>
+            method:
+              type: string
+              enum:
+              - pledge_person
+              example: pledge_person
+            country:
+              type: string
+              example: ru
+          required:
+          - firstname
+          - lastname
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          firstname: <firstname>
+          lastname: <lastname>
+          method: pledge_person
+          country: ru
+        requestId: 00000000-0000-0000-0000-000000000000
+    arbitr_personRequest:
+      type: object
+      description: 'arbitr_person — Проверка арбитражных дел (физлица, КАД). Источник: docs/fiz/07-arbitr_person.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            innfiz:
+              type: string
+              example: '780248016408'
+            method:
+              type: string
+              enum:
+              - arbitr_person
+              example: arbitr_person
+            country:
+              type: string
+              example: ru
+          required:
+          - innfiz
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          innfiz: '780248016408'
+          country: ru
+          method: arbitr_person
+        requestId: a5962f88-2916-4179-b59d-43c123faa911
+    nalog_debtRequest:
+      type: object
+      description: 'nalog_debt — Проверка налоговой задолженности по ИНН. Источник: docs/fiz/08-nalog_debt.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              example: <inn>
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - nalog_debt
+              example: nalog_debt
+          required:
+          - inn
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          inn: <inn>
+          country: ru
+          method: nalog_debt
+        requestId: 00000000-0000-0000-0000-000000000000
+    elmk_registryRequest:
+      type: object
+      description: 'elmk_registry — Проверка статуса электронной медицинской книжки. Источник: docs/fiz/09-elmk_registry.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            elmk_number:
+              type: string
+              example: 24-01-007868-25
+            snils:
+              type: string
+              example: 062-558-733 77
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - elmk_registry
+              example: elmk_registry
+          required:
+          - elmk_number
+          - snils
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          elmk_number: 24-01-007868-25
+          snils: 062-558-733 77
+          country: ru
+          method: elmk_registry
+        webhook: https://newdb.net/for_example_webhook
+        requestId: 81862f88-2316-4779-b89d-45c012faa898
+    fns_block_personRequest:
+      type: object
+      description: 'fns_block_person — Проверка блокировок счетов физлица (ФНС). Источник: docs/fiz/10-fns_block_person.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            innfiz:
+              type: string
+              example: <innfiz>
+            method:
+              type: string
+              enum:
+              - fns_block_person
+              example: fns_block_person
+            country:
+              type: string
+              example: ru
+          required:
+          - innfiz
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          innfiz: <innfiz>
+          method: fns_block_person
+          country: ru
+        requestId: 00000000-0000-0000-0000-000000000000
+    egrul_ipRequest:
+      type: object
+      description: 'egrul_ip — Проверка статуса ИП / сведений ЕГРИП. Источник: docs/fiz/11-egrul_ip.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            innfiz:
+              type: string
+              example: '270392288605'
+            method:
+              type: string
+              enum:
+              - egrul_ip
+              example: egrul_ip
+            country:
+              type: string
+              example: ru
+          required:
+          - innfiz
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          innfiz: '270392288605'
+          country: ru
+          method: egrul_ip
+        webhook: https://newer.net/whook
+        requestId: 81862f88-2316-4779-b89d-45c011faa898
+    terroristRequest:
+      type: object
+      description: 'terrorist — Проверка на причастность к терроризму и распространению ОМУ. Источник: docs/fiz/12-terrorist.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            firstname:
+              type: string
+              example: <firstname>
+            lastname:
+              type: string
+              example: <lastname>
+            secondname:
+              type: string
+              example: <secondname>
+            dob:
+              type: string
+              format: date
+              example: <dob>
+            method:
+              type: string
+              enum:
+              - terrorist
+              example: terrorist
+            country:
+              type: string
+              example: ru
+          required:
+          - firstname
+          - lastname
+          - secondname
+          - dob
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          firstname: <firstname>
+          lastname: <lastname>
+          secondname: <secondname>
+          dob: <dob>
+          method: terrorist
+          country: ru
+        requestId: 00000000-0000-0000-0000-000000000000
+    mvd_wantedRequest:
+      type: object
+      description: Метод NEWDB mvd_wanted ищет физическое лицо в публичном сервисе МВД России «Внимание, розыск!» по ФИО и дате рождения.
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - mvd_wanted
+              example: mvd_wanted
+            lastname:
+              type: string
+              example: Иванов
+            firstname:
+              type: string
+              example: Иван
+            secondname:
+              type: string
+              example: Иванович
+            dob:
+              type: string
+              description: Дата рождения. Допускается формат DD.MM.YYYY или YYYY-MM-DD.
+              example: '1990-01-01'
+            email:
+              type: string
+              format: email
+              description: Email нужен источнику МВД для отправки формы и не возвращается в result.
+              example: client@example.com
+          required:
+          - method
+          - lastname
+          - firstname
+          - dob
+          - email
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+          example: 00000000-0000-4000-8000-000000000101
+        webhook:
+          type: string
+          format: uri
+          example: https://example.com/newdb-webhook
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: mvd_wanted
+          lastname: Иванов
+          firstname: Иван
+          secondname: Иванович
+          dob: '1990-01-01'
+          email: client@example.com
+        requestId: 00000000-0000-4000-8000-000000000101
+    foreign_vngRequest:
+    inoagentRequest:
+      type: object
+      description: Метод NEWDB inoagent ищет физическое лицо в реестре иностранных агентов Минюста России по ФИО.
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - inoagent
+              example: inoagent
+            lastname:
+              type: string
+              example: Иванов
+            firstname:
+              type: string
+              example: Иван
+            secondname:
+              type: string
+              example: Иванович
+            fio:
+              type: string
+              description: Альтернативный способ передать ФИО одной строкой.
+              example: Иванов Иван Иванович
+            query:
+              type: string
+              description: Алиас для ФИО одной строкой.
+              example: Иванов Иван Иванович
+            full_name:
+              type: string
+              description: Алиас для ФИО одной строкой.
+              example: Иванов Иван Иванович
+          required:
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+          example: 00000000-0000-4000-8000-000000000201
+        webhook:
+          type: string
+          format: uri
+          example: https://example.com/newdb-webhook
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: inoagent
+          lastname: Иванов
+          firstname: Иван
+          secondname: Иванович
+        requestId: 00000000-0000-4000-8000-000000000201
+      type: object
+      description: 'foreign_vng — Вид на жительство (ВНЖ). Источник: docs/foreign/01-foreign_vng.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - foreign_vng
+              example: foreign_vng
+            doctype:
+              type: string
+              example: vng
+            firstname:
+              type: string
+              example: Хаджиакбар
+            lastname:
+              type: string
+              example: Юлдошев
+            doc_seria:
+              type: string
+              example: '82'
+            doc_number:
+              type: string
+              example: '2205693712'
+            id_doc_seria:
+              type: string
+              example: FA
+            id_doc_number:
+              type: string
+              example: '4678821'
+            blank_seria:
+              type: string
+              example: РР
+            blank_number:
+              type: string
+              example: '8118448'
+            dob:
+              type: string
+              format: date
+              example: '1985-12-01'
+            country:
+              type: string
+              example: ru
+          required:
+          - method
+          - doctype
+          - firstname
+          - lastname
+          - doc_seria
+          - doc_number
+          - id_doc_seria
+          - id_doc_number
+          - blank_seria
+          - blank_number
+          - dob
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: foreign_vng
+          doctype: vng
+          firstname: Хаджиакбар
+          lastname: Юлдошев
+          doc_seria: '82'
+          doc_number: '2205693712'
+          id_doc_seria: FA
+          id_doc_number: '4678821'
+          blank_seria: РР
+          blank_number: '8118448'
+          dob: '1985-12-01'
+          country: ru
+        requestId: b4c63a7b-45cc-031e-bbeb-a6518014bca4
+    foreign_patentRequest:
+      type: object
+      description: 'foreign_patent — Патент. Источник: docs/foreign/02-foreign_patent.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - foreign_patent
+              example: foreign_patent
+            doctype:
+              type: string
+              example: patent
+            firstname:
+              type: string
+              example: Хаджиакбар
+            lastname:
+              type: string
+              example: Юлдошев
+            secondname:
+              type: string
+              example: Джумабой Угли
+            id_doc_seria:
+              type: string
+              example: FA
+            id_doc_number:
+              type: string
+              example: '4678821'
+            blank_seria:
+              type: string
+              example: РР
+            blank_number:
+              type: string
+              example: '8118448'
+            dob:
+              type: string
+              format: date
+              example: '1985-12-01'
+            country:
+              type: string
+              example: ru
+            doc_seria:
+              type: string
+              example: '82'
+            doc_number:
+              type: string
+              example: '2205693712'
+          required:
+          - method
+          - doctype
+          - firstname
+          - lastname
+          - secondname
+          - id_doc_seria
+          - id_doc_number
+          - blank_seria
+          - blank_number
+          - dob
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: foreign_patent
+          doctype: patent
+          firstname: Хаджиакбар
+          lastname: Юлдошев
+          secondname: Джумабой Угли
+          doc_seria: '82'
+          doc_number: '2205693712'
+          id_doc_seria: FA
+          id_doc_number: '4678821'
+          blank_seria: РР
+          blank_number: '8118448'
+          dob: '1985-12-01'
+          country: ru
+        requestId: b4c61a6b-34cc-440e-bbeb-a6528024bca4
+    foreign_rvp_stampRequest:
+      type: object
+      description: 'foreign_rvp_stamp — РВП (штамп в паспорте). Источник: docs/foreign/03-foreign_rvp_stamp.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - foreign_rvp_stamp
+              example: foreign_rvp_stamp
+            doctype:
+              type: string
+              example: rvp_stamp
+            firstname:
+              type: string
+              example: Хаджиакбар
+            lastname:
+              type: string
+              example: Юлдошев
+            issue_date:
+              type: string
+              format: date
+              example: '2025-01-01'
+            id_doc_seria:
+              type: string
+              example: FA
+            id_doc_number:
+              type: string
+              example: '4678821'
+            country:
+              type: string
+              example: ru
+          required:
+          - method
+          - doctype
+          - firstname
+          - lastname
+          - issue_date
+          - id_doc_seria
+          - id_doc_number
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: foreign_rvp_stamp
+          doctype: rvp_stamp
+          firstname: Хаджиакбар
+          lastname: Юлдошев
+          issue_date: '2025-01-01'
+          id_doc_seria: FA
+          id_doc_number: '4678821'
+          country: ru
+        requestId: b4c61a6b-39cc-432e-bbeb-a6518014bca4
+    foreign_rvp_blankRequest:
+      type: object
+      description: 'foreign_rvp_blank — РВП (бланк). Источник: docs/foreign/04-foreign_rvp_blank.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - foreign_rvp_blank
+              example: foreign_rvp_blank
+            doctype:
+              type: string
+              example: rvp_blank
+            firstname:
+              type: string
+              example: Хаджиакбар
+            lastname:
+              type: string
+              example: Юлдошев
+            secondname:
+              type: string
+              example: Джумабой Угли
+            doc_seria:
+              type: string
+              example: '82'
+            doc_number:
+              type: string
+              example: '2205693712'
+            id_doc_seria:
+              type: string
+              example: FA
+            id_doc_number:
+              type: string
+              example: '4678821'
+            dob:
+              type: string
+              format: date
+              example: '1985-12-01'
+            country:
+              type: string
+              example: ru
+          required:
+          - method
+          - doctype
+          - firstname
+          - lastname
+          - secondname
+          - doc_seria
+          - doc_number
+          - id_doc_seria
+          - id_doc_number
+          - dob
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: foreign_rvp_blank
+          doctype: rvp_blank
+          firstname: Хаджиакбар
+          lastname: Юлдошев
+          secondname: Джумабой Угли
+          doc_seria: '82'
+          doc_number: '2205693712'
+          id_doc_seria: FA
+          id_doc_number: '4678821'
+          dob: '1985-12-01'
+          country: ru
+        requestId: b4c65a6b-45cc-430e-bbeb-a6518014bca4
+    foreign_rnrRequest:
+      type: object
+      description: 'foreign_rnr — Разрешение на работу (РНР). Источник: docs/foreign/05-foreign_rnr.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - foreign_rnr
+              example: foreign_rnr
+            doctype:
+              type: string
+              example: rnr
+            doc_seria:
+              type: string
+              example: '82'
+            doc_number:
+              type: string
+              example: '2205693712'
+            id_doc_seria:
+              type: string
+              example: FA
+            id_doc_number:
+              type: string
+              example: '4678821'
+            blank_seria:
+              type: string
+              example: РР
+            blank_number:
+              type: string
+              example: '8118448'
+            country:
+              type: string
+              example: ru
+          required:
+          - method
+          - doctype
+          - doc_seria
+          - doc_number
+          - id_doc_seria
+          - id_doc_number
+          - blank_seria
+          - blank_number
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: foreign_rnr
+          doctype: rnr
+          doc_seria: '82'
+          doc_number: '2205693712'
+          id_doc_seria: FA
+          id_doc_number: '4678821'
+          blank_seria: РР
+          blank_number: '8118448'
+          country: ru
+        requestId: b4c61a6b-34cc-430e-bbeb-a6528014bca4
+    rklRequest:
+      type: object
+      description: 'rkl — Проверка по реестру контролируемых лиц. Источник: docs/foreign/06-foreign_rkl.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            firstname:
+              type: string
+              example: Максим
+            lastname:
+              type: string
+              example: Янукович
+            dob_info:
+              type: string
+              example: '1991-04-04'
+            issue_date:
+              type: string
+              format: date
+              example: '1991-04-04'
+            id_doc_seria:
+              type: string
+              example: МС
+            id_doc_number:
+              type: string
+              example: '3291775'
+            method:
+              type: string
+              enum:
+              - rkl
+              example: rkl
+            country:
+              type: string
+              example: ru
+            secondname:
+              type: string
+              example: ''
+          required:
+          - firstname
+          - lastname
+          - dob_info
+          - issue_date
+          - id_doc_seria
+          - id_doc_number
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: rkl
+          country: ru
+          lastname: Янукович
+          firstname: Максим
+          secondname: ''
+          dob_info: '1991-04-04'
+          issue_date: '1991-04-04'
+          id_doc_seria: МС
+          id_doc_number: '3291775'
+        requestId: b5c67a6b-59cc-440e-bbeb-a6528024bca4
+    patent_mskRequest:
+      type: object
+      description: 'patent_msk — Патент (Москва). Источник: docs/foreign/07-foreign_patent_msk.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - patent_msk
+              example: patent_msk
+            id_doc_seria:
+              type: string
+              example: FA
+            id_doc_number:
+              type: string
+              example: '2001901'
+            citizenship:
+              type: string
+              example: Узбекистан
+            country:
+              type: string
+              example: ru
+          required:
+          - method
+          - id_doc_seria
+          - id_doc_number
+          - citizenship
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: patent_msk
+          id_doc_seria: FA
+          id_doc_number: '2001901'
+          citizenship: Узбекистан
+          country: ru
+        requestId: b4c65a6b-45cc-430e-bbeb-a6528014bca4
+    patent_moRequest:
+      type: object
+      description: 'patent_mo — Патент (Московская область). Источник: docs/foreign/08-foreign_patent_mo.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            method:
+              type: string
+              enum:
+              - patent_mo
+              example: patent_mo
+            innfiz:
+              type: string
+              example: <innfiz>
+            dob:
+              type: string
+              format: date
+              example: <dob>
+            country:
+              type: string
+              example: ru
+          required:
+          - method
+          - innfiz
+          - dob
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: patent_mo
+          innfiz: <innfiz>
+          dob: <dob>
+          country: ru
+        requestId: 00000000-0000-0000-0000-000000000000
+    arbitr_legalRequest:
+      type: object
+      description: 'arbitr_legal — Проверка арбитражных дел (юрлица, КАД). Источник: docs/legal/01-arbitr_legal.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              example: '7707332613'
+            method:
+              type: string
+              enum:
+              - arbitr_legal
+              example: arbitr_legal
+            country:
+              type: string
+              example: ru
+          required:
+          - inn
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          inn: '7707332613'
+          country: ru
+          method: arbitr_legal
+        requestId: a5962f88-2916-5779-b59d-43c023faa913
+    fns_blockRequest:
+      type: object
+      description: 'fns_block — Проверка блокировок счетов юрлица (ФНС). Источник: docs/legal/02-fns_block.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              example: '1326200720'
+            method:
+              type: string
+              enum:
+              - fns_block
+              example: fns_block
+            country:
+              type: string
+              example: ru
+          required:
+          - inn
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          inn: '1326200720'
+          country: ru
+          method: fns_block
+        webhook: https://newer.net/whook
+        requestId: 81862f88-2316-4779-b59d-45c011faa898
+    bankrot_legalRequest:
+      type: object
+      description: 'bankrot_legal — Проверка на банкротство юрлица (Федресурс). Источник: docs/legal/03-bankrot_legal.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              example: '7707332613'
+            method:
+              type: string
+              enum:
+              - bankrot_legal
+              example: bankrot_legal
+            country:
+              type: string
+              example: ru
+          required:
+          - inn
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          inn: '7707332613'
+          country: ru
+          method: bankrot_legal
+        requestId: a5962f98-2916-4779-b52d-43c123faa812
+    egrulRequest:
+      type: object
+      description: 'egrul — Сведения ЕГРЮЛ / Прозрачный бизнес. Источник: docs/legal/04-egrul.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              example: <inn>
+            method:
+              type: string
+              enum:
+              - egrul
+              example: egrul
+            country:
+              type: string
+              example: ru
+          required:
+          - inn
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          inn: <inn>
+          method: egrul
+          country: ru
+        requestId: 00000000-0000-0000-0000-000000000000
+    fssp_legalRequest:
+      type: object
+      description: 'fssp_legal — Исполнительные производства ФССП по ИНН юрлица. Источник: docs/legal/05-fssp_legal.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              example: 7735106398О
+            method:
+              type: string
+              enum:
+              - fssp_legal
+              example: fssp_legal
+            country:
+              type: string
+              example: ru
+          required:
+          - inn
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: fssp_legal
+          inn: 7735106398О
+        webhook: https://newer.net/whook
+        requestId: 3122f8c9-08ff-429a-8550-54ca099e3111
+    pravo_searchRequest:
+      type: object
+      description: 'pravo_search — Поиск судебных дел. Источник: docs/gas/02-pravo_search.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            query:
+              type: string
+              example: Пыж
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - pravo_search
+              example: pravo_search
+          required:
+          - query
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          query: Пыж
+          country: ru
+          method: pravo_search
+        requestId: a5962f88-2916-4179-b59d-43c123faa911
+    act_text_searchRequest:
+      type: object
+      description: 'act_text_search — Поиск судебных дел по текстам актов. Источник: docs/gas/03-act_text_search.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            act_text:
+              type: string
+              example: <act_text>
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - act_text_search
+              example: act_text_search
+          required:
+          - act_text
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          act_text: <act_text>
+          country: ru
+          method: act_text_search
+        requestId: 00000000-0000-0000-0000-000000000000
+    pravo_cases_detailsRequest:
+      type: object
+      description: 'pravo_cases_details — Получение деталей дела по NewdbID. Источник: docs/gas/01-pravo_cases_details.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            case_id:
+              type: integer
+              example: '1145323'
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - pravo_cases_details
+              example: pravo_cases_details
+          required:
+          - case_id
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          case_id: '1145323'
+          country: ru
+          method: pravo_cases_details
+        requestId: a5962f88-2916-4179-b59d-43c123faa911
+    rosreestrRequest:
+      type: object
+      description: 'rosreestr — Проверка объекта недвижимости (Росреестр). Источник: docs/property/01-rosreestr.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            address:
+              type: string
+              example: Одинцово Белорусская д.3 кв. 382
+            method:
+              type: string
+              enum:
+              - rosreestr
+              example: rosreestr
+            country:
+              type: string
+              example: ru
+          required:
+          - address
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          address: Одинцово Белорусская д.3 кв. 382
+          method: rosreestr
+          country: ru
+        webhook: https://webhook_url/
+        requestId: 19342f89-2916-5719-b59d-43c002f1a299
+    pledge_propertyRequest:
+      type: object
+      description: 'pledge_property — Проверка залога и обременений по ID (ФНП + Федресурс). Источник: docs/property/02-pledge_property.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            propertyid:
+              type: string
+              example: <propertyid>
+            method:
+              type: string
+              enum:
+              - pledge_property
+              example: pledge_property
+            country:
+              type: string
+              example: ru
+          required:
+          - propertyid
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          propertyid: <propertyid>
+          method: pledge_property
+          country: ru
+        requestId: 00000000-0000-0000-0000-000000000000
+    pledge_vinRequest:
+      type: object
+      description: 'pledge_vin — Проверка залога и обременений по VIN (ФНП + Федресурс). Источник: docs/property/03-pledge_vin.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            vin:
+              type: string
+              example: <vin>
+            method:
+              type: string
+              enum:
+              - pledge_vin
+              example: pledge_vin
+            country:
+              type: string
+              example: ru
+          required:
+          - vin
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          vin: <vin>
+          method: pledge_vin
+          country: ru
+        requestId: 00000000-0000-0000-0000-000000000000
+    nspd_cadastrRequest:
+      type: object
+      description: 'nspd_cadastr — Получение геоданных, списка связанных объектов и ЗОУИТ по кадастровому номеру.
+        Источник: docs/property/04-nspd_cadastr.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            cad_num:
+              type: string
+              example: 77:01:0000000:1000
+            method:
+              type: string
+              enum:
+              - nspd_cadastr
+              example: nspd_cadastr
+            country:
+              type: string
+              example: ru
+          required:
+          - cad_num
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        requestId: 00000000-0000-4000-8000-000000000001
+        taskId: nspd-cadastr-local-test-001
+        params:
+          method: nspd_cadastr
+          cad_num: 77:01:0000000:1000
+    realty_priceRequest:
+      type: object
+      description: 'realty_price — Оценка стоимости недвижимости. Источник: docs/property/05-realty_price.md.'
+      properties:
+        params:
+          type: object
+          properties:
+            address:
+              type: string
+              example: Одинцово ул.  Белорусская д.3 кв. 382
+            method:
+              type: string
+              enum:
+              - realty_price
+              example: realty_price
+            valuation_type:
+              type: string
+              example: sale
+          required:
+          - address
+          - method
+          - valuation_type
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        requestId: a5962f88-2916-4789-b59d-43c023fa1894
+        taskId: nspd-cadastr-local-test-001
+        params:
+          method: realty_price
+          address: Одинцово ул.  Белорусская д.3 кв. 382
+          valuation_type: sale
+    arbitr_caseRequest:
+      type: object
+      description: arbitr_case — данные из public.spiders_yandex project=allspiders; отдельная markdown-страница в docs не
+        найдена.
+      properties:
+        params:
+          type: object
+          properties:
+            case_number:
+              type: string
+              example: А40-123456/2024
+            country:
+              type: string
+              enum:
+              - ru
+              example: ru
+            method:
+              type: string
+              enum:
+              - arbitr_case
+              example: arbitr_case
+          required:
+          - case_number
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example: *id001
+      x-newdb:
+        source: public.spiders_yandex
+        project: allspiders
+        method: arbitr_case
+    pledge_legalRequest:
+      type: object
+      description: pledge_legal — данные из public.spiders_yandex project=allspiders; отдельная markdown-страница в docs не
+        найдена.
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              pattern: ^\d{10}$
+              example: '7707083893'
+            country:
+              type: string
+              enum:
+              - ru
+              example: ru
+            method:
+              type: string
+              enum:
+              - pledge_legal
+              example: pledge_legal
+          required:
+          - inn
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example: *id002
+      x-newdb:
+        source: public.spiders_yandex
+        project: allspiders
+        method: pledge_legal
+    complex_by_passportRequest:
+      type: object
+      description: complex_by_passport — комплексный метод NEWDB из public.spiders_yandex project=complex.
+      properties:
+        params:
+          type: object
+          properties:
+            seria:
+              type: string
+              pattern: ^\d{4}$
+              example: '4022'
+            number:
+              type: string
+              example: 004568
+            firstname:
+              type: string
+              example: Эмиль
+            lastname:
+              type: string
+              example: Пашаев
+            secondname:
+              type: string
+              example: Сейфуллаевич
+            dob:
+              type: string
+              format: date
+              example: '1987-01-08'
+            regioncode:
+              type: string
+              example: '77'
+            country:
+              type: string
+              enum:
+              - ru
+              example: ru
+            method:
+              type: string
+              enum:
+              - complex_by_passport
+              example: complex_by_passport
+          required:
+          - seria
+          - number
+          - firstname
+          - lastname
+          - secondname
+          - dob
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example: *id003
+      x-newdb:
+        source: public.spiders_yandex
+        project: complex
+        method: complex_by_passport
+    complex_by_innRequest:
+      type: object
+      description: complex_by_inn — комплексный метод NEWDB из public.spiders_yandex project=complex.
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              pattern: ^\d{10}$
+              example: '7707083893'
+            country:
+              type: string
+              enum:
+              - ru
+              example: ru
+            method:
+              type: string
+              enum:
+              - complex_by_inn
+              example: complex_by_inn
+          required:
+          - inn
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example: *id004
+      x-newdb:
+        source: public.spiders_yandex
+        project: complex
+        method: complex_by_inn
+    complex_by_innfizRequest:
+      type: object
+      description: complex_by_innfiz — комплексный метод NEWDB из public.spiders_yandex project=complex.
+      properties:
+        params:
+          type: object
+          properties:
+            innfiz:
+              type: string
+              pattern: ^\d{12}$
+              example: '270392288605'
+            country:
+              type: string
+              enum:
+              - ru
+              example: ru
+            method:
+              type: string
+              enum:
+              - complex_by_innfiz
+              example: complex_by_innfiz
+          required:
+          - innfiz
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+        webhook:
+          type: string
+          format: uri
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example: *id005
+      x-newdb:
+        source: public.spiders_yandex
+        project: complex
+        method: complex_by_innfiz

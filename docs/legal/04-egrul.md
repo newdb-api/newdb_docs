@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет поиск карточки юридического лица по `inn` через сервис ФНС "Прозрачный бизнес". Возвращаются данные поиска, карточка компании, признаки риска и ссылки на выписку.
 
+**Раздел:** [Юридические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела юридические лица](index.md)
+- [bankrot_legal — Проверка на банкротство юрлица (Федресурс)](03-bankrot_legal.md)
+- [fssp_legal — Исполнительные производства ФССП по ИНН юрлица](05-fssp_legal.md)
+- [fns_block — Проверка блокировок счетов юрлица (ФНС)](02-fns_block.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно получить сведения о юридическом лице, его рисках, долгах, блокировках или судебной активности.
+
+## Типовые кейсы
+
+- Проверка контрагента перед сделкой или оплатой
+- Автоматическое обогащение карточки компании по ИНН
+- Выявление признаков банкротства, блокировок, исполнительных производств или арбитража
+
 ## Заголовки
 
 ```text
@@ -292,37 +311,22 @@ X-API-KEY: YOUR_TOKEN
 | `search` | Результаты поиска по источнику |
 | `company` | Детальная карточка компании |
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "egrul",
-      "description": "Получение сведений о юридическом лице по ИНН через сервис ФНС Прозрачный бизнес.",
-      "input_schema": {
-        "inn": "string — ИНН юридического лица",
-        "country": "string (ru)",
-        "method": "string (egrul)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "egrul": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": "array — сведения ЕГРЮЛ и карточка компании"
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет получить сведения о юридическом лице по ИНН, используй метод egrul."
+  "method": "egrul",
+  "intent": "Получение сведений ЕГРЮЛ и данных Прозрачного бизнеса",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["inn", "method", "country"],
+  "returns": ["state", "results.egrul.result.status", "results.egrul.result.data[].search", "results.egrul.result.data[].company"]
 }
 ```
+
+</details>
+
+
