@@ -19,6 +19,25 @@ POST `https://api.newdb.net/v2`
 
 **Рекомендуем также:** блокировки счетов по ФНС — [fns_block](02-fns_block.md), сведения о компании — [egrul](04-egrul.md).
 
+**Раздел:** [Юридические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела юридические лица](index.md)
+- [egrul — Сведения ЕГРЮЛ / Прозрачный бизнес](04-egrul.md)
+- [bankrot_legal — Проверка на банкротство юрлица (Федресурс)](03-bankrot_legal.md)
+- [fns_block — Проверка блокировок счетов юрлица (ФНС)](02-fns_block.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно получить сведения о юридическом лице, его рисках, долгах, блокировках или судебной активности.
+
+## Типовые кейсы
+
+- Проверка контрагента перед сделкой или оплатой
+- Автоматическое обогащение карточки компании по ИНН
+- Выявление признаков банкротства, блокировок, исполнительных производств или арбитража
+
 ## ЗаголовкиG
 
 ```text
@@ -184,68 +203,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "fssp_legal",
-      "description": "Проверка исполнительных производств ФССП по ИНН юридического лица. Возвращает найденные производства, сведения о должнике и реквизиты исполнительного документа.",
-      "input_schema": {
-        "inn": "string — ИНН юридического лица",
-        "country": "string (ru)",
-        "method": "string (fssp_legal)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "fssp_legal": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "Debtor": {
-                    "Type": "string — тип должника",
-                    "Name": "string — наименование организации",
-                    "LegalAddress": "string|null — юридический адрес",
-                    "ActualAddress": "string|null — фактический адрес",
-                    "INN": "string — ИНН юрлица",
-                    "raw": "string — исходная строка из источника"
-                  },
-                  "EnforcementProceeding": {
-                    "Number": "string — номер исполнительного производства",
-                    "InitiationDate": "string (DD.MM.YYYY) — дата возбуждения",
-                    "raw": "string — исходная строка"
-                  },
-                  "WritDetails": {
-                    "Type": "string — тип исполнительного документа",
-                    "IssuedDate": "string (DD.MM.YYYY) — дата документа",
-                    "Number": "string — номер документа",
-                    "IssuerName": "string — орган или должностное лицо",
-                    "ClaimantOrganizationINN": "string|null — ИНН взыскателя",
-                    "raw": "string — исходная строка"
-                  },
-                  "CompletionDateOrReason": {
-                    "CompletionDate": "string|null — дата завершения",
-                    "Article": "string|null — статья основания",
-                    "Part": "string|null — часть статьи",
-                    "Point": "string|null — пункт статьи",
-                    "raw": "string — причина завершения или пустая строка"
-                  }
-                }
-              ]
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить исполнительные производства, долги у судебных приставов или записи ФССП по ИНН компании, используй метод fssp_legal."
+  "method": "fssp_legal",
+  "intent": "Проверка исполнительных производств юридического лица по ФССП",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["inn", "method", "country"],
+  "returns": ["state", "results.fssp_legal.result.status", "results.fssp_legal.result.data"]
 }
 ```
+
+</details>
+
+

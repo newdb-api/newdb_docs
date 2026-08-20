@@ -1,0 +1,1914 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Метод NEWDB pledge_legal ищет сведения о залогах, лизинге и иных обременениях юридического лица по ИНН в ФНП и Федресурсе.">
+      
+      
+      
+        <link rel="canonical" href="https://newdb.net/docs/legal/07-pledge_legal/">
+      
+      
+        <link rel="prev" href="../05-fssp_legal/">
+      
+      
+        <link rel="next" href="../06-complex_by_inn/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.29">
+    
+    
+      
+        <title>pledge_legal — проверка залогов и обременений юрлица - Документация по API NewDB.net</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.76a95c52.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom_theme.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  name="keywords"  content="NEWDB API, pledge_legal, залоги юрлица, лизинг, ФНП, Федресурс, ИНН" >
+      
+        <meta  property="og:title"  content="Проверка залогов и обременений юрлица — метод pledge_legal" >
+      
+        <meta  property="og:description"  content="Получите сведения ФНП и Федресурса о залогах, лизинге и обременениях юридического лица по ИНН через API NEWDB." >
+      
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pledge_legal" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="Документация по API NewDB.net" class="md-header__button md-logo" aria-label="Документация по API NewDB.net" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Документация по API NewDB.net
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pledge_legal — проверка залогов и обременений юрлица
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Документация по API NewDB.net" class="md-nav__button md-logo" aria-label="Документация по API NewDB.net" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Документация по API NewDB.net
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-example/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Пример вызова API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Физические лица
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Физические лица
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/01-fssp_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка ФЛ (ФССП)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/02-passport_fns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка паспорта и ИНН через ФНС
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/03-passport_mvd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка паспорта РФ на действительность
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/04-complex_by_passport/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Комплексная проверка по паспорту
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/05-fedresurs_bankrot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Банкротство физлица (Федресурс)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/10-fns_block_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Блокировка счета физлица (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/11-egrul_ip/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ЕГРИП / статус ИП
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/12-terrorist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Терроризм / ОМУ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/13-mvd_wanted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Розыск МВД
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/14-inoagent/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Иноагенты Минюст
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/08-nalog_debt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Налоговая задолженность по ИНН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/09-elmk_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статус электронной медкнижки (ЭЛМК)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/06-pledge_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залоги
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/07-arbitr_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Арбитражные дела физлиц (КАД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Иностранные граждане
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Иностранные граждане
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/01-foreign_vng/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Вид на жительство (ВНЖ)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/02-foreign_patent/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/07-foreign_patent_msk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент (Москва)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/08-foreign_patent_mo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент (Московская область)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/03-foreign_rvp_stamp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    РВП (штамп)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/04-foreign_rvp_blank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    РВП (бланк)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/05-foreign_rnr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Разрешение на работу
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/06-foreign_rkl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр контролируемых лиц (RKL)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Юридические лица
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Юридические лица
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-arbitr_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Арбитражные дела юрлиц (КАД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-fns_block/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Блокировка счета ФНС
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-bankrot_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Банкротство юрлица (Федресурс)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../04-egrul/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ЕГРЮЛ / Прозрачный бизнес
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../05-fssp_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ФССП по ИНН юрлица
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Залоги юрлица
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Залоги юрлица
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Связанные страницы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Когда использовать
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заголовки
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Входная схема (request)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример ответа
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resultspledge_legalresultdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля результата results.pledge_legal.result.data[]
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fedresurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля fedresurs[]
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ошибки валидации
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../06-complex_by_inn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Комплексная проверка компании по ИНН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    ГАС Правосудие
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            ГАС Правосудие
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gas/01-pravo_cases_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Детали судебного дела по NewdbID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gas/02-pravo_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск судебных дел
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../gas/03-act_text_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск по текстам актов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Имущество
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Имущество
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/01-rosreestr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Росреестр
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/02-pledge_property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залог по ID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/03-pledge_vin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залог по VIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/04-nspd_cadastr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Геоданные по кадастровому номеру
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/05-realty_price/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оценка стоимости недвижимости
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Связанные страницы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Когда использовать
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заголовки
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Входная схема (request)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример ответа
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resultspledge_legalresultdata" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля результата results.pledge_legal.result.data[]
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fedresurs" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля fedresurs[]
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ошибки валидации
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="pledge_legal">pledge_legal — Проверка залогов и обременений юрлица<a class="headerlink" href="#pledge_legal" title="Permanent link">&para;</a></h1>
+<p>POST <code>https://api.newdb.net/v2</code></p>
+<p>Метод выполняет поиск сведений о залогах, договорах лизинга и других обременениях юридического лица по <code>inn</code>.</p>
+<p>Используются источники:</p>
+<ul>
+<li><strong>ФНП</strong> — реестр уведомлений о залоге движимого имущества;</li>
+<li><strong>Федресурс</strong> — сообщения о договорах финансовой аренды, правах залога и изменениях обременений.</li>
+</ul>
+<p><strong>Раздел:</strong> <a href="../">Юридические лица</a></p>
+<h2 id="_1">Связанные страницы<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../">Обзор раздела юридические лица</a></li>
+<li><a href="../04-egrul/">egrul — Сведения ЕГРЮЛ / Прозрачный бизнес</a></li>
+<li><a href="../05-fssp_legal/">fssp_legal — Исполнительные производства ФССП по ИНН юрлица</a></li>
+<li><a href="../06-complex_by_inn/">complex_by_inn — Комплексная проверка компании по ИНН</a></li>
+</ul>
+<h2 id="_2">Когда использовать<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Используйте метод, когда нужно проверить наличие залогов, лизинга или иных обременений у компании перед сделкой, финансированием, закупкой или мониторингом контрагента.</p>
+<h2 id="_3">Заголовки<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Content-Type: application/json
+X-API-KEY: &lt;your_token&gt;
+</code></pre></div>
+<h2 id="request">Входная схема (request)<a class="headerlink" href="#request" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string (ИНН юрлица)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pledge_legal&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/webhook&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional-string&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="_4">Пример запроса<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pledge_legal&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000081&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="_5">Пример ответа<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pledge_legal&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;newdb_qid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EXAMPLE_QID&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000081&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;datecreated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-07-12 15:04:09&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;balance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">90000</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tasks&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;is_repeat&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pledge_legal&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000082&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-07-12 15:04:30&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;fnp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">            </span><span class="nt">&quot;fedresurs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Федресурс&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;message_number_and_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000001 от 12.07.2026&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;message_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000001&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;message_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://fedresurs.ru/sfactmessages/00000000-0000-4000-8000-000000000083&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;message_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Изменение договора финансовой аренды (лизинга)&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;lessee&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО \&quot;ПРИМЕР\&quot;&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;lessor&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Сведения скрыты&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;found_in_message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;... Лизингополучатель: ООО \&quot;ПРИМЕР\&quot;, ОГРН: 1157746000000, ИНН: 7712345678 Договор: 000/26 от 30.06.2026 ...&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;links&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000001 от 12.07.2026&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://fedresurs.ru/sfactmessages/00000000-0000-4000-8000-000000000083&quot;</span>
+<span class="w">                  </span><span class="p">}</span>
+<span class="w">                </span><span class="p">],</span>
+<span class="w">                </span><span class="nt">&quot;encumbrance_guid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000083&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;encumbrance_publish_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-07-12T12:15:37.142276&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;encumbrance_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ChangeFinancialLeaseContract2&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;encumbrance_highlights_raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                  </span><span class="s2">&quot;Номер сообщения: 00000001\nЛизингополучатель: ООО \&quot;ПРИМЕР\&quot;, ОГРН: 1157746000000, ИНН: &lt;res&gt;7712345678&lt;/res&gt;\nДоговор: 000/26 от 30.06.2026&quot;</span>
+<span class="w">                </span><span class="p">],</span>
+<span class="w">                </span><span class="nt">&quot;encumbrance_highlights_text&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Номер сообщения: 00000001\nЛизингополучатель: ООО \&quot;ПРИМЕР\&quot;, ОГРН: 1157746000000, ИНН: &lt;res&gt;7712345678&lt;/res&gt;\nДоговор: 000/26 от 30.06.2026&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;encumbrance_message_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://fedresurs.ru/message/00000000-0000-4000-8000-000000000083&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;json_extra&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000001&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;guid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000083&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;publishDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-07-12T12:15:37.142276&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ChangeFinancialLeaseContract2&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;lessee&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;guid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000084&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Company&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lessee&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;isHidden&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО \&quot;ПРИМЕР\&quot;&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;ogrn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1157746000000&quot;</span>
+<span class="w">                  </span><span class="p">},</span>
+<span class="w">                  </span><span class="nt">&quot;lessor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                    </span><span class="nt">&quot;guid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-0000-0000-000000000000&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Company&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Lessor&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;isHidden&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;ogrn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;ogrnip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="nt">&quot;regNum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span>
+<span class="w">                  </span><span class="p">},</span>
+<span class="w">                  </span><span class="nt">&quot;message_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://fedresurs.ru/message/00000000-0000-4000-8000-000000000083&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;fnp_urls&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;finished&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="resultspledge_legalresultdata">Поля результата <code>results.pledge_legal.result.data[]</code><a class="headerlink" href="#resultspledge_legalresultdata" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Поле</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fnp</code></td>
+<td>Найденные уведомления ФНП о залоге движимого имущества. Может быть пустым массивом.</td>
+</tr>
+<tr>
+<td><code>fedresurs</code></td>
+<td>Найденные сообщения Федресурса о залоге, лизинге и иных обременениях.</td>
+</tr>
+<tr>
+<td><code>fnp_urls</code></td>
+<td>Ссылки на найденные записи ФНП, если источник вернул отдельные URL.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="fedresurs">Поля <code>fedresurs[]</code><a class="headerlink" href="#fedresurs" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Поле</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>source</code></td>
+<td>Источник записи, обычно <code>Федресурс</code>.</td>
+</tr>
+<tr>
+<td><code>message_number_and_date</code></td>
+<td>Номер и дата сообщения.</td>
+</tr>
+<tr>
+<td><code>message_url</code></td>
+<td>Ссылка на сообщение в источнике.</td>
+</tr>
+<tr>
+<td><code>message_type</code></td>
+<td>Тип сообщения: заключение договора лизинга, изменение договора, возникновение права залога и т.д.</td>
+</tr>
+<tr>
+<td><code>lessee</code></td>
+<td>Лизингополучатель или слабая сторона сделки.</td>
+</tr>
+<tr>
+<td><code>lessor</code></td>
+<td>Лизингодатель или сильная сторона сделки, если не скрыта источником.</td>
+</tr>
+<tr>
+<td><code>found_in_message</code></td>
+<td>Фрагмент сообщения, где найден проверяемый ИНН.</td>
+</tr>
+<tr>
+<td><code>json_extra</code></td>
+<td>Расширенные структурированные данные источника.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">Ошибки валидации<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>Если отсутствует обязательный параметр, API возвращает <code>errors_info</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pledge_legal&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000099&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;errors_info&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Отсутствует обязательный параметр: inn&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;error_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;docs_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://newdb.net/docs/legal/07-pledge_legal/&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="ai-summary">AI Summary<a class="headerlink" href="#ai-summary" title="Permanent link">&para;</a></h2>
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pledge_legal&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Проверка залогов, лизинга и обременений юридического лица по ИНН&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST https://api.newdb.net/v2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;required_headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;X-API-KEY&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;required_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;inn&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;method&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;optional_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;webhook&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;requestId&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;returns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;results.pledge_legal.result.status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;results.pledge_legal.result.data&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</details>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "navigation.sections", "navigation.tracking", "toc.follow", "content.code.copy", "content.action.edit", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../javascripts/header-actions.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,16 @@
+При отправке некорректных данных приходит ответ с кодом 400
+json
+```
+{
+    "params": {
+            ...
+    },
+    "requestId": "27ba17f3-82ce-437c-913a-49d75bbfb000",
+    "errors_info": [
+        {
+            "error": "seria is not valid (must be 4 digits) - 451532",
+            "error_code": 400
+        }
+    ]
+}
+```

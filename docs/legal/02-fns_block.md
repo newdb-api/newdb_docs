@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод возвращает сведения о решениях ФНС по приостановлению операций по банковским счетам юридического лица (блокировки счетов) по ИНН.
 
+**Раздел:** [Юридические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела юридические лица](index.md)
+- [arbitr_legal — Проверка арбитражных дел (юрлица, КАД)](01-arbitr_legal.md)
+- [bankrot_legal — Проверка на банкротство юрлица (Федресурс)](03-bankrot_legal.md)
+- [egrul — Сведения ЕГРЮЛ / Прозрачный бизнес](04-egrul.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно получить сведения о юридическом лице, его рисках, долгах, блокировках или судебной активности.
+
+## Типовые кейсы
+
+- Проверка контрагента перед сделкой или оплатой
+- Автоматическое обогащение карточки компании по ИНН
+- Выявление признаков банкротства, блокировок, исполнительных производств или арбитража
+
 ## Заголовки
 
 ```text
@@ -171,52 +190,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "fns_block",
-      "description": "Проверка решений ФНС о приостановлении операций по счетам (блокировках счетов) юридического лица по ИНН.",
-      "input_schema": {
-        "inn": "string — ИНН юридического лица",
-        "country": "string (ru)",
-        "method": "string (fns_block)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "fns_block": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "DATASTART": "string (DD.MM.YYYY) — дата начала блокировки",
-                  "NOMER": "string — номер решения",
-                  "DATA": "string (DD.MM.YYYY) — дата решения",
-                  "KODOSNOV": "string — код основания",
-                  "SALDO": "string — сальдо/остаток (может отсутствовать)",
-                  "IFNS": "string — код ИФНС",
-                  "BIK": "string — БИК банка",
-                  "DATABI": "string (DD.MM.YYYY HH:MM:SS) — дата/время записи"
-                }
-              ],
-              "query": {
-                "inn": "string",
-                "bik": "string"
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить блокировку счетов компании, приостановление операций по счетам, решения ФНС по счетам юрлица по ИНН — используй метод fns_block."
+  "method": "fns_block",
+  "intent": "Проверка блокировки счета юридического лица по ФНС",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["inn", "method", "country"],
+  "returns": ["state", "results.fns_block.result.status", "results.fns_block.result.data"]
 }
 ```
+
+</details>
+
+

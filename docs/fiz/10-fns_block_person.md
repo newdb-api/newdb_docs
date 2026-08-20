@@ -19,6 +19,25 @@ POST `https://api.newdb.net/v2`
 
 Для запроса нужно передавать `innfiz` из 12 цифр.
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [elmk_registry — Проверка статуса электронной медицинской книжки](09-elmk_registry.md)
+- [egrul_ip — Проверка статуса ИП / сведений ЕГРИП](11-egrul_ip.md)
+- [nalog_debt — Проверка налоговой задолженности по ИНН](08-nalog_debt.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 
 ```text
@@ -131,38 +150,22 @@ X-API-KEY: YOUR_TOKEN
 | `BIK` | БИК банка |
 | `DATABI` | Дата и время публикации записи |
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "fns_block_person",
-      "description": "Проверка решений ФНС о приостановлении операций по счетам физического лица по ИНН.",
-      "input_schema": {
-        "innfiz": "string — ИНН физического лица, 12 цифр",
-        "country": "string (ru)",
-        "method": "string (fns_block_person)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "fns_block": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": "array — решения о блокировке счетов",
-              "query": "object — параметры поиска"
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить блокировки счетов физлица по ИНН, используй метод fns_block_person и ожидай результат в results.fns_block."
+  "method": "fns_block_person",
+  "intent": "Проверка блокировки счета физического лица по данным ФНС",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["innfiz", "method", "country"],
+  "returns": ["state", "results.fns_block_person.result.status", "results.fns_block_person.result.data"]
 }
 ```
+
+</details>
+
+

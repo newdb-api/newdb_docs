@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет поиск совпадений по ФИО и дате рождения в перечнях лиц, причастных к экстремистской деятельности, терроризму и распространению оружия массового уничтожения.
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [egrul_ip — Проверка статуса ИП / сведений ЕГРИП](11-egrul_ip.md)
+- [fns_block_person — Проверка блокировок счетов физлица (ФНС)](10-fns_block_person.md)
+- [elmk_registry — Проверка статуса электронной медицинской книжки](09-elmk_registry.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 
 ```text
@@ -123,45 +142,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "terrorist",
-      "description": "Проверка физического лица по ФИО и дате рождения на совпадения с перечнями причастных к экстремистской деятельности, терроризму и распространению оружия массового уничтожения.",
-      "input_schema": {
-        "lastname": "string — фамилия",
-        "firstname": "string — имя",
-        "secondname": "string — отчество",
-        "dob": "string (YYYY-MM-DD) — дата рождения",
-        "country": "string (ru)",
-        "method": "string (terrorist)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "terrorist": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "query": "string — поисковая строка",
-                  "suggestions": "array — найденные совпадения"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить физлицо на причастность к терроризму, экстремизму или распространению ОМУ по ФИО и дате рождения, используй метод terrorist."
+  "method": "terrorist",
+  "intent": "Проверка физического лица по перечням терроризма и ОМУ",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["firstname", "lastname", "secondname", "dob", "method", "country"],
+  "returns": ["state", "results.terrorist.result.status", "results.terrorist.result.data"]
 }
 ```
+
+</details>
+
+

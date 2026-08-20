@@ -19,6 +19,25 @@ POST `https://api.newdb.net/v2`
 
 **Рекомендуем также:** комплексная проверка по паспорту — [complex_by_passport](04-complex_by_passport.md).
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [passport_fns — Проверка  паспорта/ИНН через ФНС](02-passport_fns.md)
+- [passport_mvd — Проверка паспорта РФ на действительность](03-passport_mvd.md)
+- [complex_by_passport — Комплексная проверка по данным паспорта](04-complex_by_passport.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 ```
 Content-Type: application/json
@@ -225,91 +244,18 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
-```
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
+```json
 {
-  "tools": [
-    {
-      "name": "fssp_person",
-      "description": "Проверка физического лица по базе исполнительных производств ФССП России. Возвращает сведения о долгах, судебных приказах и судебных приставах по ФИО, дате рождения и региону. Для поиска по всем регионам передайте regioncode=100.",
-      "input_schema": {
-        "firstname": "string",
-        "lastname": "string",
-        "secondname": "string",
-        "dob": "string (YYYY-MM-DD)",
-        "regioncode": "string | number (код региона ФССП или 100 для всех регионов)",
-        "country": "string (ru)",
-        "method": "string (fssp_person)",
-        "webhook": "string (URL)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "fssp_person": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "Debtor": "string — ФИО и дата рождения должника",
-                  "EnforcementProceeding": "string — Номер и дата исполнительного производства",
-                  "WritDetails": "string — Реквизиты исполнительного листа или судебного приказа",
-                  "SubjectAndDebtAmount": "string — Сумма долга и тип взыскания",
-                  "BailiffDepartment": "string — Отдел судебных приставов",
-                  "BailiffOfficer": "string — ФИО пристава-исполнителя",
-                  "Phone": "string — Контактный телефон отдела"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "firstname": "Алиса",
-            "lastname": "Иванова",
-            "secondname": "Егоровна",
-            "dob": "1987-11-27",
-            "regioncode": 100,
-            "country": "ru",
-            "method": "fssp_person"
-          },
-          "webhook": "https://newer.net/whook"
-        },
-        "response": {
-          "requestId": "3122f8c9-08ff-439a-8550-54ca099e3124",
-          "datecreated": "2025-11-09 23:58:38",
-          "state": "complete",
-          "results": {
-            "fssp_person": {
-              "taskId": "eeaaac06-aacc-45d9-964a-431022fe2fdd",
-              "dateupdated": "2025-11-09 20:59:43",
-              "result": {
-                "status": 200,
-                "data": [
-                  {
-                    "Debtor": "ИВАНОВА АЛИСА ЕГОРОВНА 27.11.1987 Г. СЕВЕРОУРАЛЬСК",
-                    "EnforcementProceeding": "88442/25/66049-ИП от 09.09.2025",
-                    "WritDetails": "Исполнительный лист № 2-19/2025 от 05.09.2025 СЕВЕРОУРАЛЬСКИЙ ГОРОДСКОЙ СУД",
-                    "SubjectAndDebtAmount": "Сумма долга: 30000.00 руб.",
-                    "BailiffDepartment": "Североуральское РОСП, ул. Ватутина, д. 18",
-                    "BailiffOfficer": "БАРАБАНОВА С. В.",
-                    "Phone": "+7(34380)2-36-40"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь спрашивает о долгах, судебных приставах, исполнительных производствах или хочет проверить человека по ФИО и дате рождения — вызывай метод fssp_person и верни сведения из базы ФССП."
+  "method": "fssp_person",
+  "intent": "Проверка исполнительных производств физического лица по данным ФССП",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["firstname", "lastname", "secondname", "dob", "regioncode", "country", "method", "webhook", "requestId"],
+  "returns": ["state", "results.fssp_person.result.status", "results.fssp_person.result.data"]
 }
 ```

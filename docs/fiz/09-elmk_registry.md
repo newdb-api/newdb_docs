@@ -19,6 +19,25 @@ POST `https://api.newdb.net/v2`
 
 **Рекомендуем также:** проверка физлица по базе ФССП — [fssp_person](01-fssp_person.md), налоговая задолженность по ИНН — [nalog_debt](08-nalog_debt.md).
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [nalog_debt — Проверка налоговой задолженности по ИНН](08-nalog_debt.md)
+- [fns_block_person — Проверка блокировок счетов физлица (ФНС)](10-fns_block_person.md)
+- [arbitr_person — Проверка арбитражных дел (физлица, КАД)](07-arbitr_person.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 ```http
 Content-Type: application/json
@@ -129,82 +148,22 @@ X-API-KEY: YOUR_TOKEN
 - `results.elmk_registry.result.data[].fbuz_short_name` — краткое наименование учреждения.
 - `results.elmk_registry.result.data[].created_fullname` — источник создания записи.
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 ```json
 {
-  "tools": [
-    {
-      "name": "elmk_registry",
-      "description": "Проверка статуса электронной личной медицинской книжки по номеру ЭЛМК и СНИЛС по данным Единого реестра выданных ЭЛМК Роспотребнадзора.",
-      "input_schema": {
-        "elmk_number": "string — номер ЭЛМК",
-        "snils": "string — СНИЛС владельца",
-        "country": "string (ru)",
-        "method": "string (elmk_registry)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "elmk_registry": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "elmk_status_name": "string — статус ЭЛМК",
-                  "elmk_number": "string — номер ЭЛМК",
-                  "first_name": "string — имя",
-                  "last_name": "string — фамилия",
-                  "middle_name": "string — отчество",
-                  "snils": "string — маскированный СНИЛС",
-                  "work_type": "array — перечень видов работ",
-                  "decision_dt": "string — дата решения",
-                  "med_opinions_dt": "string — дата медзаключения",
-                  "certification_dt": "string — дата аттестации",
-                  "recertification_dt": "string — дата переаттестации",
-                  "fbuz_short_name": "string — учреждение",
-                  "created_fullname": "string — источник создания записи"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "elmk_number": "00-00-000000-00",
-            "snils": "000-000-000 00",
-            "country": "ru",
-            "method": "elmk_registry"
-          },
-          "requestId": "11111111-2222-3333-4444-555555555555"
-        },
-        "response": {
-          "state": "complete",
-          "results": {
-            "elmk_registry": {
-              "result": {
-                "status": 200,
-                "data": [
-                  {
-                    "elmk_status_name": "Не действует",
-                    "elmk_number": "00-00-000000-00"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить статус электронной медицинской книжки, ЭЛМК, сведения из реестра Роспотребнадзора или запись в Едином реестре выданных ЭЛМК — используй метод elmk_registry."
+  "method": "elmk_registry",
+  "intent": "Проверка статуса электронной медицинской книжки",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["elmk_number", "snils", "country", "method", "webhook", "requestId"],
+  "returns": ["state", "results.elmk_registry.result.status", "results.elmk_registry.result.data"]
 }
 ```
+
+</details>
+
+
