@@ -58,6 +58,7 @@ nav:
       - Поиск судебных дел: legal/06-ods_case_search.md
       - Залоги юрлица: legal/07-pledge_legal.md
       - Комплексная проверка компании по ИНН: legal/06-complex_by_inn.md
+      - Процессуальный контроль дела (КАД): legal/08-kad_event_monitor.md
   - ГАС Правосудие:
       - Обзор: gas/index.md
       - Детали судебного дела по NewdbID: gas/01-pravo_cases_details.md

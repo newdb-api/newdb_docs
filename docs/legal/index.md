@@ -24,4 +24,8 @@ meta:
 - [fssp_legal](05-fssp_legal.md) — исполнительные производства ФССП по ИНН юридического лица
 - [pledge_legal](07-pledge_legal.md) — залоги, лизинг и обременения юрлица по ИНН
 - [complex_by_inn](06-complex_by_inn.md) — комплексная проверка компании по ИНН, включая руководителей и учредителей
+<<<<<<< HEAD
 - [ods_case_search](06-ods_case_search.md) — поиск судебных дел по ODS с пагинацией
+=======
+- [kad_event_monitor](08-kad_event_monitor.md) — процессуальный контроль и мониторинг изменений по делу КАД
+>>>>>>> 59d649e (docs(legal): add kad_event_monitor method documentation)
