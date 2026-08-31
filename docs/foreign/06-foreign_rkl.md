@@ -204,12 +204,64 @@ params_raw = json.dumps({
             "registry_status": "not_found"
           }
         ],
-        "screen_url": "https://storage.yandexcloud.net/newdb-items/spider_screenshots/rkl/2026/08/31/d61bea9e_b114bbb2.png"
+        "screen_url": "https://api.newdb.net/v2/screen?request_id=b114bbb2-f3f6-1051-4dac-c8bb6f2533ec"
       }
     }
   }
 }
 ```
+
+## Получение скриншота проверки (`get_screen`)
+
+Метод поддерживает создание снимка экрана официального ответа сервиса Госуслуг в момент выполнения проверки.
+
+### 1. Как включить создание скриншота
+
+Для получения снимка экрана добавьте параметр `"get_screen": 1` (или `"get_screen": true`) в объект `params`:
+
+```json
+{
+  "params": {
+    "method": "rkl",
+    "country": "ru",
+    "dob_info": "19.10.1995",
+    "issue_date": "08.06.2023",
+    "id_doc_number": "7887320",
+    "get_screen": 1
+  }
+}
+```
+
+### 2. Защищенная ссылка на скриншот
+
+После завершения проверки в структуре `results.rkl.result` возвращается защищенная ссылка `screen_url`:
+
+```json
+"screen_url": "https://api.newdb.net/v2/screen?request_id=b114bbb2-f3f6-1051-4dac-c8bb6f2533ec"
+```
+
+Скриншоты хранятся в защищенном хранилище и доступны **только авторизованным пользователям** по API-токену.
+
+### 3. Как открыть или скачать скриншот
+
+Получить изображение в формате PNG можно двумя способами:
+
+#### Способ А: Запрос с заголовком авторизации (рекомендуется для бекенда)
+
+```bash
+curl -H "X-API-KEY: YOUR_API_TOKEN" \
+  "https://api.newdb.net/v2/screen?request_id=b114bbb2-f3f6-1051-4dac-c8bb6f2533ec" \
+  --output rkl_screenshot.png
+```
+
+#### Способ Б: Запрос с токеном в параметрах URL (для браузера и Mini App)
+
+```text
+https://api.newdb.net/v2/screen?request_id=b114bbb2-f3f6-1051-4dac-c8bb6f2533ec&token=YOUR_API_TOKEN
+```
+
+При обращении эндпоинт возвращает бинарные данные PNG-изображения с заголовком `Content-Type: image/png`.
+
 
 ## AI Summary
 
