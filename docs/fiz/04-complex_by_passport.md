@@ -28,6 +28,25 @@ POST `https://api.newdb.net/v2`
 
 ---
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [passport_mvd — Проверка паспорта РФ на действительность](03-passport_mvd.md)
+- [bankrot_person — Проверка на банкротство физлица (Федресурс)](05-fedresurs_bankrot.md)
+- [passport_fns — Проверка  паспорта/ИНН через ФНС](02-passport_fns.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 
  
@@ -49,13 +68,15 @@ X-API-KEY: <your_token>
     "secondname": "string",
     "dob": "YYYY-MM-DD",
     "country": "ru",
-    "regioncode": "number",
+    "regioncode": "number (код региона ФССП или 100 для всех регионов)",
     "method": "complex_by_passport"
   },
   "webhook": "https://your.host/whook",
   "requestId": "optional-string"
 }
 ```
+
+`regioncode` используется для проверки ФССП внутри комплексной проверки. Передайте `regioncode: 100`, если нужно искать исполнительные производства по всем регионам ФССП.
 
 ---
 
@@ -181,102 +202,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
----
-
-## x-ai (метаданные для AI)
+## AI Summary
+ 
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "complex_by_passport",
-      "description": "Комплексная проверка человека по серии и номеру паспорта РФ. Может включать проверки МВД (действительность паспорта), ФНС (ИНН), ФССП (исполнительные производства), залоги и обременения физлица, а также сведения ЕГРИП.",
-      "input_schema": {
-        "seria": "string — серия паспорта",
-        "number": "string — номер паспорта",
-        "firstname": "string",
-        "lastname": "string",
-        "secondname": "string",
-        "dob": "string (YYYY-MM-DD)",
-        "country": "string (ru)",
-        "regioncode": "number",
-        "method": "string (complex_by_passport)",
-        "webhook": "string (URL)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "passport_mvd": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": [
-                { "doc_status": "string — статус паспорта" }
-              ]
-            }
-          },
-          "passport_fns": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": [
-                { "innfiz": "string — ИНН физического лица" }
-              ]
-            }
-          },
-          "fssp_person": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": "array — данные по исполнительным производствам"
-            }
-          },
-          "pledge_person": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": "array — данные по залогам и обременениям"
-            }
-          },
-          "egrul_ip": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": "array — сведения по ИП / ЕГРИП"
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "seria": "1234",
-            "number": "123456",
-            "firstname": "Петр",
-            "secondname": "Петрович",
-            "lastname": "Иванов",
-            "dob": "1987-01-08",
-            "country": "ru",
-            "regioncode": 77,
-            "method": "complex_by_passport"
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь предоставляет серию, номер паспорта, ФИО, регион проживания и дату рождения — вызывай метод complex_by_passport. В ответе могут возвращаться проверки по МВД, ФНС, ФССП, залогам и сведениям по ИП."
+  "method": "complex_by_passport",
+  "intent": "Комплексная проверка физического лица по паспортным данным",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["firstname", "lastname", "secondname", "dob", "seria", "number", "method", "country"],
+  "returns": ["state", "results.complex_by_passport.result.status", "results.complex_by_passport.result.data"]
 }
 ```
 
----
+</details>
 
- 
+

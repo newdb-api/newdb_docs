@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет проверку разрешения на временное проживание (штамп) иностранного гражданина по данным паспорта и дате выдачи.
 
+**Раздел:** [Иностранные граждане](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела иностранные граждане](index.md)
+- [foreign_patent — Патент](02-foreign_patent.md)
+- [foreign_rvp_blank — РВП (бланк)](04-foreign_rvp_blank.md)
+- [foreign_vng — Вид на жительство (ВНЖ)](01-foreign_vng.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить статус документа или разрешительного основания иностранного гражданина.
+
+## Типовые кейсы
+
+- Проверка ВНЖ, патента, РВП или разрешения на работу перед оформлением
+- Контроль миграционных документов в HR или compliance-процессе
+- Подтверждение статуса документа по данным анкеты и реквизитам
+
 ## Заголовки
 ```
 Content-Type: application/json
@@ -105,77 +124,21 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 ```json
 {
-  "tools": [
-    {
-      "name": "foreign_rvp_stamp",
-      "description": "Проверка разрешения на временное проживание (РВП, штамп в паспорте) иностранного гражданина по данным паспорта и дате выдачи.",
-      "input_schema": {
-        "method": "string (foreign_rvp_stamp)",
-        "doctype": "string (rvp_stamp)",
-        "firstname": "string",
-        "lastname": "string",
-        "issue_date": "string (YYYY-MM-DD)",
-        "id_doc_seria": "string",
-        "id_doc_number": "string",
-        "country": "string (ru)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "foreign_rvp_stamp": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "doc_status": "string"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "method": "foreign_rvp_stamp",
-            "doctype": "rvp_stamp",
-            "firstname": "Хаджиакбар",
-            "lastname": "Юлдошев",
-            "issue_date": "2025-01-01",
-            "id_doc_seria": "FA",
-            "id_doc_number": "4678821",
-            "country": "ru"
-          },
-          "requestId": "b4c61a6b-39cc-432e-bbeb-a6518014bca4"
-        },
-        "response": {
-          "requestId": "b4c61a6b-39cc-432e-bbeb-a6518014bca4",
-          "state": "complete",
-          "results": {
-            "foreign_rvp_stamp": {
-              "result": {
-                "status": 200,
-                "data": [
-                  {
-                    "doc_status": "Данные не найдены"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь просит проверить РВП (штамп в паспорте) — используйте метод foreign_rvp_stamp и верните статус по документу."
+  "method": "foreign_rvp_stamp",
+  "intent": "Проверка РВП по штампу",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["method", "doctype", "firstname", "lastname", "issue_date", "id_doc_seria", "id_doc_number", "country", "requestId"],
+  "returns": ["state", "results.foreign_rvp_stamp.result.status", "results.foreign_rvp_stamp.result.data"]
 }
 ```
+
+</details>
+

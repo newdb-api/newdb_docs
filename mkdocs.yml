@@ -31,6 +31,8 @@ nav:
       - Блокировка счета физлица (ФНС): fiz/10-fns_block_person.md
       - ЕГРИП / статус ИП: fiz/11-egrul_ip.md
       - Терроризм / ОМУ: fiz/12-terrorist.md
+      - Розыск МВД: fiz/13-mvd_wanted.md
+      - Иноагенты Минюст: fiz/14-inoagent.md
       - Налоговая задолженность по ИНН: fiz/08-nalog_debt.md
       - Статус электронной медкнижки (ЭЛМК): fiz/09-elmk_registry.md
       - Залоги : fiz/06-pledge_person.md
@@ -54,11 +56,21 @@ nav:
       - ЕГРЮЛ / Прозрачный бизнес: legal/04-egrul.md
       - ФССП по ИНН юрлица: legal/05-fssp_legal.md
       - Поиск судебных дел: legal/06-ods_case_search.md
+      - Залоги юрлица: legal/07-pledge_legal.md
+      - Комплексная проверка компании по ИНН: legal/06-complex_by_inn.md
+      - Процессуальный контроль дела (КАД): legal/08-kad_event_monitor.md
+  - ГАС Правосудие:
+      - Обзор: gas/index.md
+      - Детали судебного дела по NewdbID: gas/01-pravo_cases_details.md
+      - Поиск судебных дел: gas/02-pravo_search.md
+      - Поиск по текстам актов: gas/03-act_text_search.md
   - Имущество:
       - Обзор: property/index.md
       - Росреестр: property/01-rosreestr.md
       - Залог по ID: property/02-pledge_property.md
       - Залог по VIN: property/03-pledge_vin.md
+      - Геоданные по кадастровому номеру: property/04-nspd_cadastr.md
+      - Оценка стоимости недвижимости: property/05-realty_price.md
 
 plugins:
   - search

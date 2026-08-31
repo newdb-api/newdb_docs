@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет проверку разрешения на временное проживание (бланк) иностранного гражданина по данным документа и ФИО.
 
+**Раздел:** [Иностранные граждане](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела иностранные граждане](index.md)
+- [foreign_rvp_stamp — РВП (штамп в паспорте)](03-foreign_rvp_stamp.md)
+- [foreign_rnr — Разрешение на работу (РНР)](05-foreign_rnr.md)
+- [foreign_patent — Патент](02-foreign_patent.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить статус документа или разрешительного основания иностранного гражданина.
+
+## Типовые кейсы
+
+- Проверка ВНЖ, патента, РВП или разрешения на работу перед оформлением
+- Контроль миграционных документов в HR или compliance-процессе
+- Подтверждение статуса документа по данным анкеты и реквизитам
+
 ## Заголовки
 ```
 Content-Type: application/json
@@ -114,83 +133,21 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 ```json
 {
-  "tools": [
-    {
-      "name": "foreign_rvp_blank",
-      "description": "Проверка разрешения на временное проживание (РВП, бланк) иностранного гражданина по данным документа и ФИО.",
-      "input_schema": {
-        "method": "string (foreign_rvp_blank)",
-        "doctype": "string (rvp_blank)",
-        "firstname": "string",
-        "lastname": "string",
-        "secondname": "string",
-        "doc_seria": "string",
-        "doc_number": "string",
-        "id_doc_seria": "string",
-        "id_doc_number": "string",
-        "dob": "string (YYYY-MM-DD)",
-        "country": "string (ru)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "foreign_rvp_blank": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "doc_status": "string"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "method": "foreign_rvp_blank",
-            "doctype": "rvp_blank",
-            "firstname": "Хаджиакбар",
-            "lastname": "Юлдошев",
-            "secondname": "Джумабой Угли",
-            "doc_seria": "82",
-            "doc_number": "2205693712",
-            "id_doc_seria": "FA",
-            "id_doc_number": "4678821",
-            "dob": "1985-12-01",
-            "country": "ru"
-          },
-          "requestId": "b4c65a6b-45cc-430e-bbeb-a6518014bca4"
-        },
-        "response": {
-          "requestId": "b4c65a6b-45cc-430e-bbeb-a6518014bca4",
-          "state": "complete",
-          "results": {
-            "foreign_rvp_blank": {
-              "result": {
-                "status": 200,
-                "data": [
-                  {
-                    "doc_status": "Данные не найдены"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь просит проверить РВП (бланк) — используйте метод foreign_rvp_blank и верните статус по документу."
+  "method": "foreign_rvp_blank",
+  "intent": "Проверка РВП по бланку",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["method", "doctype", "firstname", "lastname", "secondname", "doc_seria", "doc_number", "id_doc_seria", "id_doc_number", "dob", "country", "requestId"],
+  "returns": ["state", "results.foreign_rvp_blank.result.status", "results.foreign_rvp_blank.result.data"]
 }
 ```
+
+</details>
+

@@ -21,6 +21,25 @@ POST `https://api.newdb.net/v2`
 
 ---
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [complex_by_passport — Комплексная проверка по данным паспорта](04-complex_by_passport.md)
+- [pledge_person — Проверка залогов и обременений (ФНП + Федресурс)](06-pledge_person.md)
+- [passport_mvd — Проверка паспорта РФ на действительность](03-passport_mvd.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 
 Content-Type: application/json
@@ -163,44 +182,22 @@ X-API-KEY: YOUR_TOKEN
 | `encumbrances` | Обременения, если они найдены |
 | `publications` | Публикации по лицу в ЕФРСБ |
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "bankrot_person",
-      "description": "Проверка сведений о банкротстве физического лица или ИП по ИНН через Федресурс.",
-      "input_schema": {
-        "innfiz": "string — ИНН физического лица, 12 цифр",
-        "country": "string (ru)",
-        "method": "string (bankrot_person)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "bankrot_person": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "bankruptcy": "array — дела о банкротстве",
-                  "commmon": "object — карточка лица",
-                  "encumbrances": "array — обременения",
-                  "publications": "array — публикации"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить банкротство физлица или ИП по ИНН, используй метод bankrot_person."
+  "method": "bankrot_person",
+  "intent": "Проверка банкротства физического лица по данным Федресурса",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["innfiz", "method", "country"],
+  "returns": ["state", "results.bankrot_person.result.status", "results.bankrot_person.result.data"]
 }
 ```
+
+</details>
+
+
