@@ -79,15 +79,15 @@ paths:
                 summary: fssp_person — Проверка ФЛ по базе ФССП
                 value:
                   params:
-                    firstname: ДМИТРИЙ
-                    lastname: КОНЕВ
-                    secondname: СЕРГЕЕВИЧ
-                    dob: '1986-10-10'
+                    firstname: Иван
+                    lastname: Иванов
+                    secondname: Иванович
+                    dob: '1990-01-01'
                     country: ru
                     method: fssp_person
-                    regioncode: 77
-                  webhook: https://newer.net/whook
-                  requestId: 3122f8c9-08ff-429a-8550-54ca099e3111
+                    regioncode: 100
+                    newdb_qid: SYNTH-FSSP-0001
+                  requestId: 00000000-0000-4000-8000-000000000001
               passport_fns:
                 summary: passport_fns — Проверка  паспорта/ИНН через ФНС
                 value:
@@ -714,27 +714,28 @@ components:
       - balance
     fssp_personRequest:
       type: object
-      description: 'fssp_person — Проверка ФЛ по базе ФССП. Источник: docs/fiz/01-fssp_person.md.'
+      description: 'fssp_person — Проверка ФЛ по базе ФССП. Для поиска по всем регионам ФССП передайте regioncode=100. Источник: docs/fiz/01-fssp_person.md.'
       properties:
         params:
           type: object
           properties:
             firstname:
               type: string
-              example: ДМИТРИЙ
+              example: Иван
             lastname:
               type: string
-              example: КОНЕВ
+              example: Иванов
             secondname:
               type: string
-              example: СЕРГЕЕВИЧ
+              example: Иванович
             dob:
               type: string
               format: date
-              example: '1986-10-10'
+              example: '1990-01-01'
             regioncode:
               type: integer
-              example: 77
+              description: Код региона ФССП. Значение 100 означает поиск по всем регионам.
+              example: 100
             country:
               type: string
               example: ru
@@ -765,15 +766,15 @@ components:
       additionalProperties: false
       example:
         params:
-          firstname: ДМИТРИЙ
-          lastname: КОНЕВ
-          secondname: СЕРГЕЕВИЧ
-          dob: '1986-10-10'
+          firstname: Иван
+          lastname: Иванов
+          secondname: Иванович
+          dob: '1990-01-01'
           country: ru
           method: fssp_person
-          regioncode: 77
-        webhook: https://newer.net/whook
-        requestId: 3122f8c9-08ff-429a-8550-54ca099e3111
+          regioncode: 100
+          newdb_qid: SYNTH-FSSP-0001
+        requestId: 00000000-0000-4000-8000-000000000001
     passport_fnsRequest:
       type: object
       description: 'passport_fns — Проверка  паспорта/ИНН через ФНС. Источник: docs/fiz/02-passport_fns.md.'
