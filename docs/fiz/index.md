@@ -32,3 +32,6 @@ meta:
 - [mvd_wanted](13-mvd_wanted.md) — проверка физлица в розыске МВД
 - [inoagent](14-inoagent.md) — проверка физлица в реестре иностранных агентов Минюста
 - [self_employed](15-self_employed.md) — проверка статуса самозанятого (НПД) по ИНН в ФНС
+- [fns_mass_founders](16-fns_mass_founders.md) — проверка в реестре массовых учредителей ФНС
+- [fns_mass_leaders](17-fns_mass_leaders.md) — проверка в реестре массовых руководителей ФНС
+- [intellectual_property](18-intellectual_property.md) — поиск патентов и интеллектуальной собственности (Роспатент / ФИПС)

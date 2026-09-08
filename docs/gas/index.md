@@ -20,3 +20,4 @@ meta:
 - [pravo_cases_details](01-pravo_cases_details.md) — детали судебного дела по `case_id`
 - [pravo_search](02-pravo_search.md) — поиск судебных дел по параметру `query`
 - [act_text_search](03-act_text_search.md) — поиск судебных дел по текстам актов
+- [pravo_event_monitor](04-pravo_event_monitor.md) — онлайн-мониторинг судебного дела по `ods_id`, `case_url` или `court_url` + `case_number`

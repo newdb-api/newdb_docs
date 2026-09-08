@@ -1,0 +1,2325 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Документация по REST API NEWDB и метаданные для AI-агентов">
+      
+      
+      
+        <link rel="canonical" href="https://newdb.net/docs/ai_prompts/">
+      
+      
+        <link rel="prev" href="../sdk/">
+      
+      
+        <link rel="next" href="../fiz/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.29">
+    
+    
+      
+        <title>AI-промпты для LLM - Документация по API NewDB.net</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.76a95c52.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/custom_theme.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ai-llm-mcp" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href=".." title="Документация по API NewDB.net" class="md-header__button md-logo" aria-label="Документация по API NewDB.net" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Документация по API NewDB.net
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              AI-промпты для LLM
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Документация по API NewDB.net" class="md-nav__button md-logo" aria-label="Документация по API NewDB.net" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Документация по API NewDB.net
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-example/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Пример вызова API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sdk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Официальные SDK
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    AI-промпты для LLM
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    AI-промпты для LLM
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-kyc-person_due_diligence" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Промпт: Комплексный KYC и скоринг физического лица (person_due_diligence)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Промпт: Комплексный KYC и скоринг физического лица (person_due_diligence)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт / Инструкция:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-company_counterparty_verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Промпт: Проверка благонадежности контрагента (company_counterparty_verification)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Промпт: Проверка благонадежности контрагента (company_counterparty_verification)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт / Инструкция:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-passport_and_identity_audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Промпт: Экспресс-аудит подлинности паспорта (passport_and_identity_audit)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Промпт: Экспресс-аудит подлинности паспорта (passport_and_identity_audit)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-vehicle_pre_purchase_check" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Промпт: Проверка автомобиля перед покупкой (vehicle_pre_purchase_check)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Промпт: Проверка автомобиля перед покупкой (vehicle_pre_purchase_check)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-foreign_worker_compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Промпт: Миграционный комплаенс иностранных граждан (foreign_worker_compliance)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Промпт: Миграционный комплаенс иностранных граждан (foreign_worker_compliance)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-court_litigation_analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Промпт: Анализ судебной нагрузки и рисков (court_litigation_analysis)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Промпт: Анализ судебной нагрузки и рисков (court_litigation_analysis)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт / Инструкция:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#english-prompt-examples-ready-to-use-for-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌍 English Prompt Examples (Ready-to-Use for AI Agents)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌍 English Prompt Examples (Ready-to-Use for AI Agents)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-russian-company-counterparty-risk-due-diligence-by-inn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Russian Company Counterparty Risk &amp; Due Diligence (by INN)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-russian-citizen-kyc-background-check-by-passport-fio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Russian Citizen KYC &amp; Background Check (by Passport &amp; FIO)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-vehicle-pre-purchase-collateral-pledge-check-by-vin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 3: Vehicle Pre-Purchase Collateral &amp; Pledge Check (by VIN)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-foreign-worker-migration-compliance-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 4: Foreign Worker Migration Compliance Audit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-russian-court-litigation-dispute-risk-audit-cad-arbitr-gas-pravosudie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 5: Russian Court Litigation &amp; Dispute Risk Audit (CAD Arbitr + GAS Pravosudie)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mcp-claude-desktop-cursor" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Использование через MCP в Claude Desktop и Cursor
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Физические лица
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Физические лица
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/01-fssp_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка ФЛ (ФССП)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/02-passport_fns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка паспорта и ИНН через ФНС
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/03-passport_mvd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка паспорта РФ на действительность
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/04-complex_by_passport/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Комплексная проверка по паспорту
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/05-fedresurs_bankrot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Банкротство физлица (Федресурс)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/10-fns_block_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Блокировка счета физлица (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/11-egrul_ip/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ЕГРИП / статус ИП
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/12-terrorist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Терроризм / ОМУ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/13-mvd_wanted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Розыск МВД
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/14-inoagent/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Иноагенты Минюст
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/08-nalog_debt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Налоговая задолженность по ИНН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/09-elmk_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статус электронной медкнижки (ЭЛМК)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/06-pledge_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залоги
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/07-arbitr_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Арбитражные дела физлиц (КАД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/15-self_employed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статус самозанятого (НПД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/16-fns_mass_founders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Массовые учредители (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/17-fns_mass_leaders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Массовые руководители (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/18-intellectual_property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Интеллектуальная собственность (Роспатент)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Иностранные граждане
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Иностранные граждане
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/01-foreign_vng/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Вид на жительство (ВНЖ)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/02-foreign_patent/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/07-foreign_patent_msk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент (Москва)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/08-foreign_patent_mo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент (Московская область)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/03-foreign_rvp_stamp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    РВП (штамп)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/04-foreign_rvp_blank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    РВП (бланк)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/05-foreign_rnr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Разрешение на работу
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../foreign/06-foreign_rkl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр контролируемых лиц (RKL)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Юридические лица
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Юридические лица
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/01-arbitr_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Арбитражные дела юрлиц (КАД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/02-fns_block/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Блокировка счета ФНС
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/03-bankrot_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Банкротство юрлица (Федресурс)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/04-egrul/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ЕГРЮЛ / Прозрачный бизнес
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/05-fssp_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ФССП по ИНН юрлица
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/06-ods_case_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск судебных дел
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/07-pledge_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залоги юрлица
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/06-complex_by_inn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Комплексная проверка компании по ИНН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/08-kad_event_monitor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Процессуальный контроль дела (КАД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    ГАС Правосудие
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            ГАС Правосудие
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gas/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gas/01-pravo_cases_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Детали судебного дела по NewdbID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gas/02-pravo_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск судебных дел
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gas/03-act_text_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск по текстам актов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gas/04-pravo_event_monitor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Онлайн-мониторинг дела СОЮ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Имущество
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            Имущество
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../property/01-rosreestr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Росреестр
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../property/02-pledge_property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залог по ID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../property/03-pledge_vin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залог по VIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../property/04-nspd_cadastr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Геоданные по кадастровому номеру
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../property/05-realty_price/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оценка стоимости недвижимости
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../property/06-intellectual_property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Интеллектуальная собственность (Роспатент)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-kyc-person_due_diligence" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Промпт: Комплексный KYC и скоринг физического лица (person_due_diligence)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Промпт: Комплексный KYC и скоринг физического лица (person_due_diligence)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт / Инструкция:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-company_counterparty_verification" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Промпт: Проверка благонадежности контрагента (company_counterparty_verification)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Промпт: Проверка благонадежности контрагента (company_counterparty_verification)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт / Инструкция:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-passport_and_identity_audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Промпт: Экспресс-аудит подлинности паспорта (passport_and_identity_audit)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Промпт: Экспресс-аудит подлинности паспорта (passport_and_identity_audit)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-vehicle_pre_purchase_check" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Промпт: Проверка автомобиля перед покупкой (vehicle_pre_purchase_check)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Промпт: Проверка автомобиля перед покупкой (vehicle_pre_purchase_check)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-foreign_worker_compliance" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Промпт: Миграционный комплаенс иностранных граждан (foreign_worker_compliance)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Промпт: Миграционный комплаенс иностранных граждан (foreign_worker_compliance)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-court_litigation_analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Промпт: Анализ судебной нагрузки и рисков (court_litigation_analysis)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. Промпт: Анализ судебной нагрузки и рисков (court_litigation_analysis)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Системный промпт / Инструкция:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#english-prompt-examples-ready-to-use-for-ai-agents" class="md-nav__link">
+    <span class="md-ellipsis">
+      🌍 English Prompt Examples (Ready-to-Use for AI Agents)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="🌍 English Prompt Examples (Ready-to-Use for AI Agents)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-russian-company-counterparty-risk-due-diligence-by-inn" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Russian Company Counterparty Risk &amp; Due Diligence (by INN)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-russian-citizen-kyc-background-check-by-passport-fio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Russian Citizen KYC &amp; Background Check (by Passport &amp; FIO)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-vehicle-pre-purchase-collateral-pledge-check-by-vin" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 3: Vehicle Pre-Purchase Collateral &amp; Pledge Check (by VIN)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-foreign-worker-migration-compliance-audit" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 4: Foreign Worker Migration Compliance Audit
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-russian-court-litigation-dispute-risk-audit-cad-arbitr-gas-pravosudie" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 5: Russian Court Litigation &amp; Dispute Risk Audit (CAD Arbitr + GAS Pravosudie)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mcp-claude-desktop-cursor" class="md-nav__link">
+    <span class="md-ellipsis">
+      💡 Использование через MCP в Claude Desktop и Cursor
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="ai-llm-mcp">Готовые AI-промпты и сценарии для LLM / MCP<a class="headerlink" href="#ai-llm-mcp" title="Permanent link">&para;</a></h1>
+<p>Платформа <strong>NewDB</strong> и официальный <strong>MCP Server</strong> предоставляют набор готовых шаблонов системных и пользовательских промптов для интеграции с современными AI-ассистентами (<strong>Claude Desktop, Cursor, ChatGPT, Antigravity, LangChain</strong>).</p>
+<hr />
+<h2 id="1-kyc-person_due_diligence">1. Промпт: Комплексный KYC и скоринг физического лица (<code>person_due_diligence</code>)<a class="headerlink" href="#1-kyc-person_due_diligence" title="Permanent link">&para;</a></h2>
+<p>Используется для проверки кандидатов при найме, заемщиков в финтехе, арендаторов или контрагентов-физлиц.</p>
+<h3 id="_1">Системный промпт / Инструкция:<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Ты — ведущий аналитик службы безопасности и эксперт по комплаенсу (KYC/AML).
+Твоя задача — провести всестороннюю проверку физического лица по официальным государственным реестрам РФ через NewDB API/MCP и составить структурированное заключение о рисках.
+Данные для проверки:
+<span class="k">-</span><span class="w"> </span>ФИО: {Фамилия} {Имя} {Отчество}
+<span class="k">-</span><span class="w"> </span>Дата рождения: {ГГГГ-ММ-ДД}
+<span class="k">-</span><span class="w"> </span>Паспорт: {Серия} {Номер}
+<span class="k">-</span><span class="w"> </span>ИНН: {ИНН} (если известен)
+
+Последовательность действий:
+<span class="k">1.</span> Проверь действительность паспорта гражданина РФ через метод <span class="sb">`passport_mvd`</span> или запусти <span class="sb">`complex_by_passport`</span>.
+<span class="k">2.</span> Проверь наличие открытых исполнительных производств, тип статей и общую сумму задолженности через <span class="sb">`fssp_person`</span> (regioncode=&#39;100&#39;).
+<span class="k">3.</span> Проверь статус банкротства в Федресурсе через <span class="sb">`bankrot_person`</span>.
+<span class="k">4.</span> Проверь наличие блокировок счетов по решениям ФНС через <span class="sb">`fns_block_person`</span>.
+<span class="k">5.</span> Проверь участие в судебных спорах общей юрисдикции и арбитраже (<span class="sb">`arbitr_person`</span>, <span class="sb">`ods_case_search`</span>).
+
+Структура отчета:
+<span class="k">-</span><span class="w"> </span>🟢/🟡/🔴 Итоговый уровень риска (НИЗКИЙ / СРЕДНИЙ / ВЫСОКИЙ / КРИТИЧЕСКИЙ).
+<span class="k">-</span><span class="w"> </span>Статус документов: действителен ли паспорт, совпадает ли ФИО с ИНН.
+<span class="k">-</span><span class="w"> </span>Финансовая нагрузка: общая сумма долгов ФССП, наличие банкротств, блокировки счетов.
+<span class="k">-</span><span class="w"> </span>Стоп-факторы и красные флаги (активные долги по кредитам, судимости/розыск, аннулированный паспорт).
+<span class="k">-</span><span class="w"> </span>Итоговая рекомендация (Рекомендован / Требуется дополнительное согласование / Отказ).
+</code></pre></div>
+<hr />
+<h2 id="2-company_counterparty_verification">2. Промпт: Проверка благонадежности контрагента (<code>company_counterparty_verification</code>)<a class="headerlink" href="#2-company_counterparty_verification" title="Permanent link">&para;</a></h2>
+<p>Используется отделами закупок, юристами и службами безопасности для проверки поставщиков, подрядчиков и партнеров.</p>
+<h3 id="_2">Системный промпт / Инструкция:<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Ты — старший комплаенс-контролер и аудитор контрагентов.
+Проведи анализ благонадежности и финансовой стабильности юридического лица по ИНН: {ИНН}.
+
+Последовательность действий:
+<span class="k">1.</span> Запроси выписку ЕГРЮЛ через метод <span class="sb">`egrul`</span>: оцени дату регистрации, размер уставного капитала, статус (действующее/ликвидируется), смену директора и учредителей.
+<span class="k">2.</span> Проверь наличие действующих решений ФНС о приостановлении операций по банковским счетам через <span class="sb">`fns_block`</span>.
+<span class="k">3.</span> Проверь активные исполнительные производства и задолженности компании через <span class="sb">`fssp_legal`</span>.
+<span class="k">4.</span> Проверь реестр банкротств Федресурс через <span class="sb">`bankrot_legal`</span>.
+<span class="k">5.</span> Оцени объем и характер арбитражных споров через <span class="sb">`arbitr_legal`</span> (суммы исков в роли ответчика против истца).
+
+Структура заключения:
+<span class="k">1.</span> <span class="gs">**Рейтинг надежности компании (Score 0–100).**</span>
+<span class="k">2.</span> <span class="gs">**Признаки фирмы-однодневки:**</span> массовый адрес, номинальный директор, минимальный капитал, нулевая активность.
+<span class="k">3.</span> <span class="gs">**Финансовые риски:**</span> блокировки счетов налоговой, непогашенные долги приставов, признаки банкротства.
+<span class="k">4.</span> <span class="gs">**Судебная нагрузка:**</span> соотношение исков к выручке/масштабу бизнеса.
+<span class="k">5.</span> <span class="gs">**Рекомендуемые условия сотрудничества:**</span> допустима ли работа по постоплате, требуется ли предоплата или банковская гарантия.
+</code></pre></div>
+<hr />
+<h2 id="3-passport_and_identity_audit">3. Промпт: Экспресс-аудит подлинности паспорта (<code>passport_and_identity_audit</code>)<a class="headerlink" href="#3-passport_and_identity_audit" title="Permanent link">&para;</a></h2>
+<p>Используется для быстрой верификации документов при удаленной идентификации клиентов или соискателей.</p>
+<h3 id="_3">Системный промпт:<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Проверь подлинность и действительность паспорта гражданина РФ:
+<span class="k">-</span><span class="w"> </span>Серия и номер: {Серия} {Номер}
+<span class="k">-</span><span class="w"> </span>ФИО владельца: {Фамилия} {Имя} {Отчество}
+
+Инструкции:
+<span class="k">1.</span> Вызови метод <span class="sb">`passport_mvd`</span> для проверки в официальном реестре недействительных паспортов МВД РФ.
+<span class="k">2.</span> Вызови метод <span class="sb">`passport_fns`</span>, чтобы убедиться, что Федеральная налоговая служба подтверждает принадлежность паспорта указанному ФИО и ИНН.
+<span class="k">3.</span> Сформируй краткий вердикт:
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Статус паспорта: [ДЕЙСТВИТЕЛЕН / НЕДЕЙСТВИТЕЛЕН / ЧИСЛИТСЯ В РОЗЫСКЕ / НЕСООТВЕТСТВИЕ ФИО].
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Рекомендация для службы верификации.
+</code></pre></div>
+<hr />
+<h2 id="4-vehicle_pre_purchase_check">4. Промпт: Проверка автомобиля перед покупкой (<code>vehicle_pre_purchase_check</code>)<a class="headerlink" href="#4-vehicle_pre_purchase_check" title="Permanent link">&para;</a></h2>
+<p>Используется автоподборщиками, лизинговыми компаниями и покупателями авто.</p>
+<h3 id="_4">Системный промпт:<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Проверь юридическую чистоту транспортного средства по VIN-номеру: {VIN}.
+
+Инструкции:
+<span class="k">1.</span> Вызови метод <span class="sb">`pledge_vin`</span> для проверки в Реестре уведомлений о залоге движимого имущества Федеральной нотариальной палаты (ФНП).
+<span class="k">2.</span> Проверь наличие залогов в пользу банков, микрофинансовых организаций или лизинговых компаний.
+<span class="k">3.</span> Сформируй отчет:
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Юридический статус: [ЧИСТ / В ЗАЛОГЕ / ЛИЗИНГ].
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Залогодержатель (Банк) и дата регистрации уведомления.
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Риски: вероятность изъятия автомобиля банком у нового владельца.
+</code></pre></div>
+<hr />
+<h2 id="5-foreign_worker_compliance">5. Промпт: Миграционный комплаенс иностранных граждан (<code>foreign_worker_compliance</code>)<a class="headerlink" href="#5-foreign_worker_compliance" title="Permanent link">&para;</a></h2>
+<p>Используется HR-службами при трудоустройстве иностранных сотрудников для предотвращения штрафов до 1 млн рублей по ст. 18.15 КоАП РФ.</p>
+<h3 id="_5">Системный промпт:<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Проведи проверку легальности иностранного гражданина для оформления на работу в РФ:
+<span class="k">-</span><span class="w"> </span>ФИО: {Фамилия} {Имя}
+<span class="k">-</span><span class="w"> </span>Дата рождения: {ГГГГ-ММ-ДД}
+<span class="k">-</span><span class="w"> </span>Номер документа: {Номер паспорта}
+<span class="k">-</span><span class="w"> </span>Номер трудового патента: {Номер патента} (при наличии)
+
+Инструкции:
+<span class="k">1.</span> Вызови метод <span class="sb">`foreign_rkl`</span> — проверь, не внесен ли гражданин в Реестр контролируемых лиц МВД РФ.
+<span class="k">2.</span> Вызови метод <span class="sb">`foreign_patent`</span> (или <span class="sb">`foreign_patent_msk`</span> / <span class="sb">`foreign_patent_mo`</span>) для проверки действительности патента на работу.
+<span class="k">3.</span> Сформируй HR-заключение:
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Разрешено ли официальное трудоустройство в данном регионе.
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Риски административной ответственности работодателя.
+</code></pre></div>
+<hr />
+<h2 id="6-court_litigation_analysis">6. Промпт: Анализ судебной нагрузки и рисков (<code>court_litigation_analysis</code>)<a class="headerlink" href="#6-court_litigation_analysis" title="Permanent link">&para;</a></h2>
+<p>Используется юристами, аудиторами и службами безопасности для оценки судебных рисков компании или физического лица по <strong>Арбитражным судам (КАД Арбитр)</strong> и <strong>Судам общей юрисдикции (ГАС Правосудие)</strong>.</p>
+<h3 id="_6">Системный промпт / Инструкция:<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Ты — старший юридический аналитик и эксперт по судебным рискам.
+Проведи полный аудит судебных дел для субъекта: {Наименование компании / ФИО}, ИНН: {ИНН}.
+
+Последовательность действий:
+<span class="k">1.</span> <span class="gs">**Арбитражные суды (КАД Арбитр / kad.arbitr.ru):**</span>
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Вызови метод <span class="sb">`arbitr_legal`</span> (для юрлиц) или <span class="sb">`arbitr_person`</span> (для ИП/физлиц).
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Подсчитай общее количество дел и сумму исковых требований в роли <span class="gs">**Ответчика**</span> vs <span class="gs">**Истца**</span>.
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Проверь наличие опасных категорий споров: банкротные дела (банкротство контрагента или субъекта), споры по госконтрактам (44-ФЗ, 223-ФЗ), взыскание крупных долгов, обеспечительные меры и аресты счетов.
+<span class="k">2.</span> <span class="gs">**Суды общей юрисдикции (ГАС Правосудие / Районные и мировые суды):**</span>
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Вызови метод <span class="sb">`ods_case_search`</span> или <span class="sb">`pravo_search`</span> по наименованию/ФИО и региону.
+<span class="w">   </span><span class="k">-</span><span class="w"> </span>Проверь гражданские иски (трудовые споры, защита прав потребителей, взыскание ущерба), административные и уголовные дела.
+
+Структура судебного отчета:
+<span class="k">-</span><span class="w"> </span>⚖️ <span class="gs">**Итоговый уровень судебного риска:**</span> [НИЗКИЙ / УМЕРЕННЫЙ / ВЫСОКИЙ / КРИТИЧЕСКИЙ].
+<span class="k">-</span><span class="w"> </span><span class="gs">**Финансовая экспозиция:**</span> общая сумма активных исков в роли ответчика по отношению к масштабу бизнеса.
+<span class="k">-</span><span class="w"> </span><span class="gs">**Таблица ключевых активных споров:**</span> Номер дела | Суд | Истец | Сумма иска | Статус.
+<span class="k">-</span><span class="w"> </span><span class="gs">**Риски для сделки:**</span> вероятность ареста счетов, субсидиарной ответственности или срыва обязательств.
+</code></pre></div>
+<hr />
+<h2 id="english-prompt-examples-ready-to-use-for-ai-agents">🌍 English Prompt Examples (Ready-to-Use for AI Agents)<a class="headerlink" href="#english-prompt-examples-ready-to-use-for-ai-agents" title="Permanent link">&para;</a></h2>
+<p>Below are ready-to-copy prompts in English tailored for ChatGPT, Claude, Cursor, and custom AI agents connected to NewDB.</p>
+<h3 id="example-1-russian-company-counterparty-risk-due-diligence-by-inn">Example 1: Russian Company Counterparty Risk &amp; Due Diligence (by INN)<a class="headerlink" href="#example-1-russian-company-counterparty-risk-due-diligence-by-inn" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Act as a Senior Corporate Risk Analyst. Perform a comprehensive counterparty investigation for Russian company with INN 7707083893 using the NewDB platform.
+
+Please verify:
+1. Legal status in EGRUL (registration date, active vs liquidation, director and authorized capital).
+2. Federal Tax Service (FNS) active bank account suspension decisions (BIKP blocks).
+3. Open bailiff enforcement debts in FSSP registry.
+4. Active bankruptcy cases in Fedresurs (EFRSB).
+5. Commercial litigation history in Russian Arbitration courts (CAD Arbitr) as defendant vs plaintiff.
+
+Output a structured Due Diligence Report with:
+- Reliability Score (0 to 100)
+- Red Flags (shell company traits, mass director/address, tax arrears)
+- Recommended payment terms (e.g., 100% advance payment vs 30-day post-payment).
+</code></pre></div>
+<hr />
+<h3 id="example-2-russian-citizen-kyc-background-check-by-passport-fio">Example 2: Russian Citizen KYC &amp; Background Check (by Passport &amp; FIO)<a class="headerlink" href="#example-2-russian-citizen-kyc-background-check-by-passport-fio" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Conduct a comprehensive KYC background check for a Russian citizen:
+- Full Name: Ivanov Ivan Ivanovich
+- DOB: 1988-04-12
+- Passport: Series 4510 Number 123456
+- INN: 771234567890
+
+Please check:
+1. Ministry of Internal Affairs (MVD) invalid/lost passport database.
+2. Federal Bailiff Service (FSSP) enforcement proceedings across all Russian regions.
+3. Federal Tax Service (FNS) bank account freeze orders.
+4. Fedresurs individual bankruptcy registry.
+
+Provide a Security Clearance Verdict (Low / Medium / High / Critical Risk) with an itemized debt summary and red flags.
+</code></pre></div>
+<hr />
+<h3 id="example-3-vehicle-pre-purchase-collateral-pledge-check-by-vin">Example 3: Vehicle Pre-Purchase Collateral &amp; Pledge Check (by VIN)<a class="headerlink" href="#example-3-vehicle-pre-purchase-collateral-pledge-check-by-vin" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Perform an automotive encumbrance audit for vehicle VIN: XTA21703080123456.
+
+Query the Federal Notary Chamber (FNP) registry via NewDB to detect whether this vehicle has active bank pledge notifications, leasing liens, or loan collateral. 
+
+Provide a clear advisory:
+- Status: [CLEAN / ACTIVE PLEDGE DETECTED]
+- Pledgee Bank &amp; Registration Date (if pledged)
+- Buyer legal risk assessment (risk of repossession by the creditor).
+</code></pre></div>
+<hr />
+<h3 id="example-4-foreign-worker-migration-compliance-audit">Example 4: Foreign Worker Migration Compliance Audit<a class="headerlink" href="#example-4-foreign-worker-migration-compliance-audit" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Audit migration compliance for an expatriate employee in Russia:
+- Name: John Doe
+- DOB: 1990-05-15
+- Passport Number: AB9876543
+- Labor Patent: 7712345678 (Moscow)
+
+Check:
+1. MVD Controlled Persons Registry (Реестр контролируемых лиц МВД - RKL).
+2. Labor patent validity status in Moscow.
+
+Synthesize an HR Migration Report stating whether legal onboarding is permitted and warning of employer fine risks under Article 18.15 of the Russian Administrative Code.
+</code></pre></div>
+<hr />
+<h3 id="example-5-russian-court-litigation-dispute-risk-audit-cad-arbitr-gas-pravosudie">Example 5: Russian Court Litigation &amp; Dispute Risk Audit (CAD Arbitr + GAS Pravosudie)<a class="headerlink" href="#example-5-russian-court-litigation-dispute-risk-audit-cad-arbitr-gas-pravosudie" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>Conduct a complete litigation risk audit for legal entity INN 7707083893 (or person FIO) across all Russian courts:
+
+1. Commercial Arbitration Courts (КАД Арбитр / kad.arbitr.ru):
+   - Retrieve all commercial disputes, contract breach lawsuits, and bankruptcy proceedings.
+   - Calculate total financial claims where the subject is Defendant vs Plaintiff.
+2. General Jurisdiction Courts (ГАС Правосудие):
+   - Search district and magistrate courts for civil claims, consumer protection lawsuits, and administrative cases.
+
+Generate an Executive Litigation Report with:
+- Litigation Risk Level (Low / Moderate / High / Critical)
+- Total Active Claims in Dispute (in RUB)
+- Major Red Flags (active bankruptcy petitions, contract default claims, asset freeze orders).
+</code></pre></div>
+<hr />
+<h2 id="mcp-claude-desktop-cursor">💡 Использование через MCP в Claude Desktop и Cursor<a class="headerlink" href="#mcp-claude-desktop-cursor" title="Permanent link">&para;</a></h2>
+<p>Все эти шаблоны встроены в официальный MCP-сервер NewDB и доступны в AI-ассистентах через меню промптов (<code>/</code> или вызов команды):</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Запуск через npx</span>
+npx<span class="w"> </span>-y<span class="w"> </span>@newdb/mcp-server
+</code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.top", "navigation.sections", "navigation.tracking", "toc.follow", "content.code.copy", "content.action.edit", "search.suggest", "search.highlight"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../javascripts/header-actions.js"></script>
+      
+    
+  </body>
+</html>

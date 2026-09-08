@@ -38,6 +38,9 @@ nav:
       - Залоги : fiz/06-pledge_person.md
       - Арбитражные дела физлиц (КАД): fiz/07-arbitr_person.md
       - Статус самозанятого (НПД): fiz/15-self_employed.md
+      - Массовые учредители (ФНС): fiz/16-fns_mass_founders.md
+      - Массовые руководители (ФНС): fiz/17-fns_mass_leaders.md
+      - Интеллектуальная собственность (Роспатент): fiz/18-intellectual_property.md
   - Иностранные граждане:
       - Обзор: foreign/index.md
       - Вид на жительство (ВНЖ): foreign/01-foreign_vng.md
