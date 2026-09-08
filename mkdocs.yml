@@ -20,6 +20,7 @@ nav:
   - Главная: index.md
   - Пример вызова API: api-example.md
   - Официальные SDK: sdk.md
+  - Тестовый контур (Sandbox): test-api.md
   - AI-промпты для LLM: ai_prompts.md
   - Физические лица:
       - Обзор: fiz/index.md

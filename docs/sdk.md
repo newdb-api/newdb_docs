@@ -41,7 +41,15 @@ print(passport.results)
 company_task = client.legal.complex_check(inn="7707083893")
 completed = client.wait_for_result(company_task.request_id, timeout=60)
 print(completed.results)
+
+# 3. Работа в тестовом контуре (Sandbox) без списания баланса
+test_client = NewDBClient(test_mode=True)
+test_res = test_client.person.check_passport_mvd(seria="4510", number="123456", firstname="Иван", lastname="Иванов")
+print(test_res.results)
 ```
+
+> [!TIP]
+> Подробнее о тестовом контуре и синтетических данных читайте в разделе [Тестовый контур (Sandbox)](test-api.md).
 
 [Репозиторий на GitHub &rarr;](https://github.com/newdb-api/newdb-python)
 
@@ -75,6 +83,11 @@ async function run() {
   
   const result = await client.waitForResult(task.requestId);
   console.log(result.results);
+
+  // Тестовый режим без списания баланса:
+  const testClient = new NewDBClient({ testMode: true });
+  const testRes = await testClient.person.checkPassportMvd({ seria: '4510', number: '123456', firstname: 'Иван', lastname: 'Иванов' });
+  console.log('Sandbox:', testRes.results);
 }
 run();
 ```
@@ -107,6 +120,12 @@ $client = new Client('your_api_key');
 
 $passport = $client->checkPassportMvd('4510', '123456', 'Иван', 'Иванов');
 print_r($passport);
+
+// Тестовый режим без списания баланса:
+$testClient = new Client(testMode: true);
+$testRes = $testClient->checkPassportMvd('4510', '123456', 'Иван', 'Иванов');
+print_r($testRes);
 ```
 
 [Репозиторий на GitHub &rarr;](https://github.com/newdb-api/newdb-php)
+
