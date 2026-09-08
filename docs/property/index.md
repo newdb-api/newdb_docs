@@ -22,3 +22,4 @@ meta:
 - [pledge_vin](03-pledge_vin.md) — залог и обременения по VIN
 - [nspd_cadastr](04-nspd_cadastr.md) — получение геоданных и характеристик объекта по кадастровому номеру
 - [realty_price](05-realty_price.md) — оценка стоимости недвижимости для покупки или аренды
+- [intellectual_property](06-intellectual_property.md) — поиск патентов и объектов интеллектуальной собственности (Роспатент)

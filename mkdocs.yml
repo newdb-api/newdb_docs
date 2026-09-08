@@ -37,6 +37,7 @@ nav:
       - Статус электронной медкнижки (ЭЛМК): fiz/09-elmk_registry.md
       - Залоги : fiz/06-pledge_person.md
       - Арбитражные дела физлиц (КАД): fiz/07-arbitr_person.md
+      - Статус самозанятого (НПД): fiz/15-self_employed.md
   - Иностранные граждане:
       - Обзор: foreign/index.md
       - Вид на жительство (ВНЖ): foreign/01-foreign_vng.md
@@ -64,6 +65,7 @@ nav:
       - Детали судебного дела по NewdbID: gas/01-pravo_cases_details.md
       - Поиск судебных дел: gas/02-pravo_search.md
       - Поиск по текстам актов: gas/03-act_text_search.md
+      - Онлайн-мониторинг дела СОЮ: gas/04-pravo_event_monitor.md
   - Имущество:
       - Обзор: property/index.md
       - Росреестр: property/01-rosreestr.md
@@ -71,6 +73,7 @@ nav:
       - Залог по VIN: property/03-pledge_vin.md
       - Геоданные по кадастровому номеру: property/04-nspd_cadastr.md
       - Оценка стоимости недвижимости: property/05-realty_price.md
+      - Интеллектуальная собственность (Роспатент): property/06-intellectual_property.md
 
 plugins:
   - search
