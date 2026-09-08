@@ -150,7 +150,7 @@ curl -X POST https://api.newdb.net/test/v2/complex_by_passport \
     "regioncode": "77"
   }'
 ```
-В поле `results` будут сразу доступны результаты по `passport_mvd`, `passport_fns`, `fssp_person`, `bankrot_person`, `arbitr_person`, `fns_block_person`, `terrorist`, `mvd_wanted`, `pledge_person`, `egrul_ip` и `self_employed`.
+В поле `results` будут сразу доступны результаты по всем 16 подметодам: `passport_mvd`, `passport_fns`, `fssp_person`, `bankrot_person`, `arbitr_person`, `pravo_search`, `fns_block_person`, `terrorist`, `mvd_wanted`, `inoagent`, `pledge_person`, `egrul_ip`, `self_employed`, `fns_mass_founders`, `fns_mass_leaders` и `intellectual_property`.
 
 ---
 
