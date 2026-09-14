@@ -91,7 +91,7 @@ X-API-KEY: YOUR_TOKEN
 {
   "state": "complete",
   "results": {
-    "company": {
+    "passport_fns": {
       "result": {
         "status": 200,
         "data": [
@@ -109,7 +109,7 @@ X-API-KEY: YOUR_TOKEN
 {
   "state": "complete",
   "results": {
-    "company": {
+    "passport_fns": {
       "result": {
         "status": 200,
         "data": []

@@ -78,12 +78,12 @@ X-API-KEY: <your_token>
   "params": {
     "seria": "string (серия паспорта)",
     "number": "string (номер паспорта)",
-    "firstname": "string",
-    "lastname": "string",
-    "secondname": "string",
-    "dob": "YYYY-MM-DD",
+    "firstname": "string (имя)",
+    "lastname": "string (фамилия)",
+    "secondname": "string (отчество, необязательно; если нет отчества — передайте null или пустую строку)",
+    "dob": "string (дата рождения в формате YYYY-MM-DD или DD.MM.YYYY)",
     "country": "ru",
-    "regioncode": "number (код региона ФССП или 100 для всех регионов)",
+    "regioncode": "number | string (необязательно, код региона ФССП; по умолчанию 100 — поиск по всей России)",
     "method": "complex_by_passport"
   },
   "webhook": "https://your.host/whook",
@@ -91,7 +91,7 @@ X-API-KEY: <your_token>
 }
 ```
 
-`regioncode` используется для проверки ФССП внутри комплексной проверки. Передайте `regioncode: 100`, если нужно искать исполнительные производства по всем регионам ФССП.
+Параметр `regioncode` используется для проверки ФССП внутри комплексной проверки. Если `regioncode` не передан, по умолчанию применяется `100` (поиск по всем территориальным органам ФССП РФ). Отчество `secondname` является необязательным (поддерживаются граждане без отчества).
 
 ---
 
@@ -153,7 +153,7 @@ X-API-KEY: YOUR_TOKEN
     },
     "passport_fns": {
       "status": "complete",
-      "error": "passport_fns request failed with status 405",
+      "error": null,
       "requestId": "eeeeeeee-1111-2222-3333-ffffffffffff"
     },
     "pledge_person": {
@@ -171,8 +171,13 @@ X-API-KEY: YOUR_TOKEN
     "passport_fns": {
       "taskId": "99999999-8888-7777-6666-555555555555",
       "result": {
-        "status": 405,
-        "data": []
+        "status": 200,
+        "data": [
+          {
+            "innfiz": "7703245603",
+            "status": "ИНН найден"
+          }
+        ]
       },
       "dateupdated": "2026-03-17 12:00:10"
     },
@@ -235,4 +240,14 @@ X-API-KEY: YOUR_TOKEN
 
 </details>
 
+## Готовый HTML/PDF-отчет
+
+После перехода запроса в `complete` отчет формируется через `GET /v2/report`:
+
+```bash
+curl 'https://api.newdb.net/v2/report?requestId=00000000-0000-4000-8000-000000000101&format=pdf' \
+  --header 'X-API-KEY: YOUR_API_KEY' --output person-report.pdf
+```
+
+[Открыть пример](https://newdb.net/examples/complex-passport-report) · [Описание API отчетов](../reports.md)
 

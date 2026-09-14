@@ -42,7 +42,12 @@ company_task = client.legal.complex_check(inn="7707083893")
 completed = client.wait_for_result(company_task.request_id, timeout=60)
 print(completed.results)
 
-# 3. Работа в тестовом контуре (Sandbox) без списания баланса
+# 3. Скачать PDF-отчет по завершенной проверке
+pdf = client.generate_report(completed.request_id, format="pdf")
+with open("company-report.pdf", "wb") as report_file:
+    report_file.write(pdf)
+
+# 4. Работа в тестовом контуре (Sandbox) без списания баланса
 test_client = NewDBClient(test_mode=True)
 test_res = test_client.person.check_passport_mvd(seria="4510", number="123456", firstname="Иван", lastname="Иванов")
 print(test_res.results)
@@ -84,6 +89,9 @@ async function run() {
   const result = await client.waitForResult(task.requestId);
   console.log(result.results);
 
+  const report = await client.generateReport(task.requestId, 'pdf');
+  // Node.js: сохраните Buffer.from(report) в файл или передайте дальше.
+
   // Тестовый режим без списания баланса:
   const testClient = new NewDBClient({ testMode: true });
   const testRes = await testClient.person.checkPassportMvd({ seria: '4510', number: '123456', firstname: 'Иван', lastname: 'Иванов' });
@@ -121,6 +129,10 @@ $client = new Client('your_api_key');
 $passport = $client->checkPassportMvd('4510', '123456', 'Иван', 'Иванов');
 print_r($passport);
 
+// Метод возвращает бинарное содержимое HTML/PDF-файла.
+$pdf = $client->generateReport('00000000-0000-4000-8000-000000000101', 'pdf');
+file_put_contents('person-report.pdf', $pdf);
+
 // Тестовый режим без списания баланса:
 $testClient = new Client(testMode: true);
 $testRes = $testClient->checkPassportMvd('4510', '123456', 'Иван', 'Иванов');
@@ -129,3 +141,4 @@ print_r($testRes);
 
 [Репозиторий на GitHub &rarr;](https://github.com/newdb-api/newdb-php)
 
+Подробнее об одиночных и агрегированных отчетах: [Отчеты по комплексным проверкам](reports.md).

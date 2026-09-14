@@ -70,11 +70,7 @@ X-API-KEY: <your_token>
 
 | Код | Регион |
 |-----|--------|
-<<<<<<< HEAD
-| 100 | Все регионы |
-=======
 | 100 | Все регионы ФССП |
->>>>>>> db02b88 (docs: restore FSSP region 100 and response example)
 | 77 | Москва |
 | 78 | Санкт-Петербург |
 | 50 | Московская область |
@@ -172,16 +168,12 @@ X-API-KEY: YOUR_TOKEN
   "params": {
     "country": "ru",
     "method": "fssp_person",
-<<<<<<< HEAD
-    "regioncode": 100
-=======
     "lastname": "Иванов",
     "firstname": "Иван",
     "secondname": "Иванович",
     "dob": "1990-01-01",
     "regioncode": "100",
     "newdb_qid": "SYNTH-FSSP-0001"
->>>>>>> db02b88 (docs: restore FSSP region 100 and response example)
   },
   "requestId": "00000000-0000-4000-8000-000000000001"
 }
@@ -193,16 +185,12 @@ X-API-KEY: YOUR_TOKEN
   "params": {
     "country": "ru",
     "method": "fssp_person",
-<<<<<<< HEAD
-    "regioncode": 100
-=======
     "lastname": "Иванов",
     "firstname": "Иван",
     "secondname": "Иванович",
     "dob": "1990-01-01",
     "regioncode": "100",
     "newdb_qid": "SYNTH-FSSP-0001"
->>>>>>> db02b88 (docs: restore FSSP region 100 and response example)
   },
   "requestId": "00000000-0000-4000-8000-000000000001",
   "method": "",
@@ -219,33 +207,50 @@ X-API-KEY: YOUR_TOKEN
       "dateupdated": "2026-08-31 14:51:26",
       "result": {
         "status": 200,
-        "data": [],
+        "data": [
+          {
+            "НомИспДок": "12345/24/77001-ИП от 15.02.2024",
+            "Должник": "ИВАНОВ ИВАН ИВАНОВИЧ, 01.01.1990",
+            "Реквизиты": "Исполнительный лист от 10.01.2024 № ФС 012345678",
+            "ДатаПричОконч": "",
+            "ПредметИсп": "Задолженность по кредитным платежам: 45000.00 руб.",
+            "ОтделСудПриств": "Мещанский РОСП ГУФССП России по г. Москве",
+            "СудПриств": "СИДОРОВ С.С., +7(495)123-45-67",
+            "СуммаДолга": 45000.00
+          }
+        ],
         "ai_interpretation": {
           "status": "success",
-          "risk_level": "low",
-          "summary": "В базе ФССП не найдено действующих исполнительных производств для указанного субъекта. Финансовые риски по данным ФССП отсутствуют.",
+          "risk_level": "medium",
+          "summary": "Обнаружено 1 открытое исполнительное производство на сумму 45 000.00 руб. (кредитная задолженность).",
           "debtor_info": {
-            "fio": "",
-            "dob": "",
-            "place_of_birth": ""
+            "fio": "ИВАНОВ ИВАН ИВАНОВИЧ",
+            "dob": "1990-01-01",
+            "place_of_birth": "Г. МОСКВА"
           },
           "financial_summary": {
-            "total_proceedings": 0,
-            "total_debt_amount": 0.0,
-            "total_debt_remaining": 0.0,
-            "categories": []
+            "total_proceedings": 1,
+            "total_debt_amount": 45000.0,
+            "total_debt_remaining": 45000.0,
+            "categories": ["Кредитные платежи"]
           },
-          "proceedings_details": [],
+          "proceedings_details": [
+            {
+              "number": "12345/24/77001-ИП",
+              "subject": "Задолженность по кредитным платежам",
+              "amount": 45000.0,
+              "bailiff": "СИДОРОВ С.С."
+            }
+          ],
           "key_findings": [
-            "Исполнительные производства в ФССП отсутствуют",
-            "Задолженности перед судебными приставами не зафиксировано"
+            "Имеется непогашенная задолженность перед приставами на сумму 45 000 руб."
           ],
           "recommended_actions": [
-            "Провести повторную проверку через стандартные интервалы времени при необходимости",
-            "Использовать дополнительные источники для комплексной оценки комплаенс-рисков"
+            "Запросить у субъекта квитанцию об оплате задолженности",
+            "Проверить наличие постановлений об ограничении выезда из РФ"
           ],
           "confidence": 1.0,
-          "limitations": "Анализ выполнен на основе предоставленного пустого набора данных ФССП. Отсутствие записей в ФССП не гарантирует отсутствие обязательств в других источниках."
+          "limitations": "Данные актуальны на момент запроса к официальному банку данных ФССП."
         }
       }
     },
@@ -269,8 +274,5 @@ X-API-KEY: YOUR_TOKEN
   "returns": ["state", "results.fssp_person.result.status", "results.fssp_person.result.data", "results.fssp_person.result.ai_interpretation"]
 }
 ```
-<<<<<<< HEAD
-=======
 
 </details>
->>>>>>> db02b88 (docs: restore FSSP region 100 and response example)

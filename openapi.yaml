@@ -95,6 +95,7 @@ paths:
               - $ref: '#/components/schemas/arbitr_caseRequest'
               - $ref: '#/components/schemas/kad_event_monitorRequest'
               - $ref: '#/components/schemas/fns_blockRequest'
+              - $ref: '#/components/schemas/fns_boRequest'
               - $ref: '#/components/schemas/bankrot_legalRequest'
               - $ref: '#/components/schemas/egrulRequest'
               - $ref: '#/components/schemas/fssp_legalRequest'
@@ -111,6 +112,7 @@ paths:
               - $ref: '#/components/schemas/intellectual_propertyRequest'
               - $ref: '#/components/schemas/fns_mass_foundersRequest'
               - $ref: '#/components/schemas/fns_mass_leadersRequest'
+              - $ref: '#/components/schemas/vin_checkRequest'
             examples:
               fssp_person:
                 summary: fssp_person — Проверка ФЛ по базе ФССП
@@ -449,6 +451,14 @@ paths:
                     method: pledge_vin
                     country: ru
                   requestId: 00000000-0000-4000-8000-000000000002
+              vin_check:
+                summary: vin_check — Проверка авто по VIN (Госуслуги)
+                value:
+                  params:
+                    vin: X0000000000000000
+                    method: vin_check
+                    get_screen: 0
+                  requestId: 00000000-0000-4000-8000-000000000003
               nspd_cadastr:
                 summary: nspd_cadastr — Получение геоданных по кадастровому номеру
                 value:
@@ -623,6 +633,79 @@ paths:
                   description: Клиентский endpoint отклонил webhook.
                 '500':
                   description: Ошибка на стороне клиентского webhook endpoint.
+  /v2/report:
+    get:
+      tags: [Service]
+      summary: Сформировать отчет по завершенной комплексной проверке
+      operationId: getComplexReport
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - in: query
+        name: requestId
+        required: true
+        schema: {type: string, format: uuid}
+      - in: query
+        name: report_type
+        required: false
+        schema:
+          type: string
+          enum: [complex_by_passport, complex_by_inn, realty_price, complex_foreign]
+      - in: query
+        name: format
+        required: false
+        schema: {type: string, enum: [html, pdf], default: html}
+      responses:
+        '200':
+          description: Готовый HTML- или PDF-отчет.
+          content:
+            text/html: {schema: {type: string}}
+            application/pdf: {schema: {type: string, format: binary}}
+        '401': {description: API-ключ отсутствует или недействителен.}
+        '404': {description: Запрос не найден или принадлежит другому пользователю.}
+        '409': {description: Проверка еще не завершена.}
+        '422': {description: Тип проверки не поддерживает генерацию отчета.}
+    post:
+      tags: [Service]
+      summary: Сформировать агрегированный отчет
+      description: Для комплексного отчета по иностранному гражданину передайте requestIds завершенных проверок РКЛ, ВНЖ, патента, РВП и разрешения на работу. Все запросы должны принадлежать API-ключу вызывающего пользователя.
+      operationId: createAggregatedReport
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [requestIds, report_type]
+              properties:
+                requestIds:
+                  type: array
+                  minItems: 1
+                  maxItems: 20
+                  items: {type: string, format: uuid}
+                report_type:
+                  type: string
+                  enum: [complex_by_passport, complex_by_inn, realty_price, complex_foreign]
+                format: {type: string, enum: [html, pdf], default: html}
+            example:
+              requestIds:
+              - 00000000-0000-4000-8000-000000000101
+              - 00000000-0000-4000-8000-000000000102
+              report_type: complex_foreign
+              format: pdf
+      responses:
+        '200':
+          description: Готовый HTML- или PDF-отчет.
+          content:
+            text/html: {schema: {type: string}}
+            application/pdf: {schema: {type: string, format: binary}}
+        '400': {description: Некорректные параметры.}
+        '401': {description: API-ключ отсутствует или недействителен.}
+        '404': {description: Один из запросов не найден.}
+        '409': {description: Одна из проверок еще не завершена.}
+        '422': {description: Результаты не соответствуют типу отчета.}
   /v2/data:
     get:
       tags:
@@ -729,6 +812,7 @@ paths:
           - intellectual_property
           - fns_mass_founders
           - fns_mass_leaders
+          - vin_check
       - in: query
         name: country
         required: true
@@ -3230,6 +3314,128 @@ paths:
                 $ref: '#/components/schemas/ErrorsInfoResponse'
       externalDocs:
         url: https://newdb.net/docs/legal/02-fns_block/
+  /v2/methods/fns_bo:
+    post:
+      tags:
+      - Legal Entities
+      summary: fns_bo — Бухгалтерская (финансовая) отчетность организации (ГИР БО / ФНС)
+      description: Метод NEWDB fns_bo возвращает бухгалтерскую отчетность организации из ГИР БО и реестра доходов/расходов ФНС по ИНН.
+      operationId: newdb_fns_bo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fns_boRequest'
+            examples:
+              fns_bo:
+                summary: fns_bo — Бухгалтерская отчетность юрлица (ГИР БО / ФНС)
+                value:
+                  params:
+                    inn: '7712345678'
+                    country: ru
+                    method: fns_bo
+                  webhook: https://example.com/newdb-webhook
+                  requestId: 00000000-0000-4000-8000-000000000001
+      responses:
+        '200':
+          description: Текущее состояние запроса и, при state=complete, результат метода.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+              examples:
+                fns_bo_complete:
+                  summary: Успешный ответ fns_bo
+                  value:
+                    params:
+                      inn: '7712345678'
+                      country: ru
+                      method: fns_bo
+                    webhook: https://example.com/newdb-webhook
+                    requestId: 00000000-0000-4000-8000-000000000001
+                    datecreated: '2026-09-11 13:42:15'
+                    state: complete
+                    balance: 9776
+                    tasks: 1
+                    is_repeat: false
+                    results:
+                      fns_bo:
+                        taskId: 00000000-0000-4000-8000-000000000002
+                        dateupdated: '2026-09-11 13:42:15'
+                        result:
+                          status: 200
+                          found: true
+                          inn: '7712345678'
+                          organization:
+                            inn: '7712345678'
+                            ogrn: '1157746102535'
+                            kpp: '770701001'
+                            short_name: 'ООО "КОМПАНИЯ"'
+                            full_name: 'ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ "КОМПАНИЯ"'
+                            address: '127473, Г. МОСКВА, УЛ. ПРИМЕРНАЯ, Д. 1'
+                            okved:
+                              id: '62.01'
+                              name: 'Разработка компьютерного программного обеспечения'
+                            status: 'ACTIVE'
+                          financial_summary:
+                          - inn: '7712345678'
+                            org_name: 'ООО "КОМПАНИЯ"'
+                            year: 2024
+                            period: '2024'
+                            revenue: 150000.0
+                            cost_of_sales: 95000.0
+                            gross_profit: 55000.0
+                            other_expenses: 5000.0
+                            net_profit: 42000.0
+                            assets: 180000.0
+                            capital: 120000.0
+                            short_term_debt: 40000.0
+                            long_term_debt: 20000.0
+                            has_audit: false
+                            has_explanations: false
+                            opendata_income: 150000.0
+                            opendata_expense: 108000.0
+                            source: merged
+                          data:
+                          - inn: '7712345678'
+                            org_name: 'ООО "КОМПАНИЯ"'
+                            year: 2024
+                            period: '2024'
+                            revenue: 150000.0
+                            cost_of_sales: 95000.0
+                            gross_profit: 55000.0
+                            other_expenses: 5000.0
+                            net_profit: 42000.0
+                            assets: 180000.0
+                            capital: 120000.0
+                            short_term_debt: 40000.0
+                            long_term_debt: 20000.0
+                            has_audit: false
+                            has_explanations: false
+                            opendata_income: 150000.0
+                            opendata_expense: 108000.0
+                            source: merged
+        '400':
+          description: 'Некорректный запрос: ошибка в параметрах или отсутствует обязательное поле.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '402':
+          description: Недостаточно средств на счете.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Системная ошибка сервиса или ошибка на источнике.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/legal/09-fns_bo/
   /v2/methods/bankrot_legal:
     post:
       tags:
@@ -4482,6 +4688,97 @@ paths:
                 $ref: '#/components/schemas/ErrorsInfoResponse'
       externalDocs:
         url: https://newdb.net/docs/property/03-pledge_vin/
+  /v2/methods/vin_check:
+    post:
+      tags:
+      - Property
+      summary: vin_check — Проверка авто по VIN (Госуслуги)
+      description: Метод NEWDB vin_check выполняет проверку транспортного средства через Госуслуги (розыск, ограничения, залоги в ФНП, розыск ПТС и техданные).
+      operationId: newdb_vin_check
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/vin_checkRequest'
+            examples:
+              vin_check:
+                summary: vin_check — Проверка авто по VIN (Госуслуги)
+                value:
+                  params:
+                    vin: X4XWY39460L583993
+                    method: vin_check
+                    get_screen: 0
+                  requestId: 00000000-0000-4000-8000-000000000003
+      responses:
+        '200':
+          description: Успешный ответ с данными проверки ТС
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/vin_checkResponse'
+              examples:
+                vin_check_complete:
+                  summary: Успешный ответ vin_check
+                  value:
+                    status: success
+                    taskId: 00000000-0000-4000-8000-000000000003
+                    requestId: 00000000-0000-4000-8000-000000000003
+                    method: vin_check
+                    results:
+                      vin_check:
+                        taskId: 00000000-0000-4000-8000-000000000003
+                        dateupdated: '2026-09-13 22:15:40'
+                        result:
+                          status: 200
+                          found: true
+                          data:
+                          - vin: X4XWY39460L583993
+                            body_number: X4XWY39460L583993
+                            chassis_number: null
+                            brand_model: BMW X3
+                            year: '2020'
+                            color: Черный
+                            category: B
+                            power_hp: '190'
+                            power_kw: '140'
+                            engine_volume: '1995'
+                            engine_type: Дизельный
+                            eco_class: Пятый
+                            max_weight: '2420'
+                            curb_weight: '1825'
+                            is_wanted: false
+                            wanted_text: 'Нет'
+                            has_restrictions: false
+                            restrictions_text: 'Нет'
+                            restrictions_details: []
+                            has_pts_wanted: false
+                            wanted_pts_text: 'Нет'
+                            is_pledged: false
+                            pledge_text: 'Нет'
+                            pledge_details: []
+                            report_url: https://www.gosuslugi.ru/600308/1/form?external&screenId=s3&q1=X4XWY39460L583993&l1=
+                    dateupdated: '2026-09-13 22:15:40'
+        '400':
+          description: 'Некорректный запрос: ошибка в параметрах или отсутствует обязательное поле.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '402':
+          description: Недостаточно средств на счете.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Системная ошибка сервиса или ошибка на источнике.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/property/07-vin_check/
   /v2/methods/nspd_cadastr:
     post:
       tags:
@@ -6737,6 +7034,54 @@ components:
           method: fns_block
         webhook: https://example.com/newdb-webhook
         requestId: 00000000-0000-4000-8000-000000000001
+    fns_boRequest:
+      type: object
+      description: Метод NEWDB fns_bo возвращает бухгалтерскую (финансовую) отчетность организации из ГИР БО и реестра доходов/расходов ФНС по ИНН.
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              description: ИНН юридического лица (10 цифр)
+              example: '7712345678'
+            method:
+              type: string
+              enum:
+              - fns_bo
+              example: fns_bo
+            country:
+              type: string
+              example: ru
+            get_screen:
+              type: boolean
+              description: Флаг получения скриншота карточки отчета
+              example: false
+          required:
+          - inn
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          example: 00000000-0000-4000-8000-000000000001
+        webhook:
+          type: string
+          format: uri
+          description: HTTPS URL клиента для получения результата через webhook.
+          example: https://example.com/newdb-webhook
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          inn: '7712345678'
+          country: ru
+          method: fns_bo
+        webhook: https://example.com/newdb-webhook
+        requestId: 00000000-0000-4000-8000-000000000001
     bankrot_legalRequest:
       type: object
       description: Метод NEWDB bankrot_legal ищет сведения о банкротстве юридического лица в Едином федеральном реестре сведений
@@ -7102,6 +7447,47 @@ components:
           vin: <vin>
           method: pledge_vin
           country: ru
+        requestId: 00000000-0000-4000-8000-000000000003
+    vin_checkRequest:
+      type: object
+      description: Метод NEWDB vin_check выполняет проверку транспортного средства через Госуслуги (розыск, ограничения, залоги в ФНП, розыск ПТС и техданные).
+      properties:
+        params:
+          type: object
+          properties:
+            vin:
+              type: string
+              description: 17-значный VIN номер автомобиля или номер кузова/шасси
+              example: X4XWY39460L583993
+            method:
+              type: string
+              enum:
+              - vin_check
+              example: vin_check
+            get_screen:
+              type: integer
+              description: 1 — сделать снимок экрана отчета, 0 — без скриншота
+              example: 0
+          required:
+          - vin
+          - method
+          additionalProperties: true
+        requestId: 00000000-0000-4000-8000-000000000003
+        webhook:
+          type: string
+          format: uri
+          description: HTTPS URL клиента для получения результата через webhook.
+          example: https://example.com/newdb-webhook
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          vin: X4XWY39460L583993
+          method: vin_check
+          get_screen: 0
         requestId: 00000000-0000-4000-8000-000000000003
     nspd_cadastrRequest:
       type: object

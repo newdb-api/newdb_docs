@@ -25,3 +25,4 @@ meta:
 - [rkl](06-foreign_rkl.md) — проверка по реестру контролируемых лиц
 - [patent_msk](07-foreign_patent_msk.md) — патент для Москвы
 - [patent_mo](08-foreign_patent_mo.md) — патент для Московской области
+- [Комплексный отчет](09-complex-report.md) — объединение результатов РКЛ, ВНЖ, патентов, РВП и РНР в HTML/PDF

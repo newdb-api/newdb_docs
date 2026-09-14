@@ -22,6 +22,7 @@ nav:
   - Совместимость с ЗАПРАВИЛЬНЫЙБИЗНЕС (ZB): compatibility-zachestnyibiznes.md
   - Совместимость с Контур.Покус (Pokus): compatibility-kontur.md
   - Официальные SDK: sdk.md
+  - Отчеты по комплексным проверкам: reports.md
   - Тестовый контур (Sandbox): test-api.md
   - AI-промпты для LLM: ai_prompts.md
   - Физические лица:
@@ -54,6 +55,7 @@ nav:
       - РВП (бланк): foreign/04-foreign_rvp_blank.md
       - Разрешение на работу: foreign/05-foreign_rnr.md
       - Реестр контролируемых лиц (RKL): foreign/06-foreign_rkl.md
+      - Комплексный отчет: foreign/09-complex-report.md
 
   - Юридические лица:
       - Обзор: legal/index.md
@@ -66,6 +68,7 @@ nav:
       - Залоги юрлица: legal/07-pledge_legal.md
       - Комплексная проверка компании по ИНН: legal/06-complex_by_inn.md
       - Процессуальный контроль дела (КАД): legal/08-kad_event_monitor.md
+      - Бухгалтерская отчетность (ГИР БО): legal/09-fns_bo.md
   - ГАС Правосудие:
       - Обзор: gas/index.md
       - Детали судебного дела по NewdbID: gas/01-pravo_cases_details.md
@@ -77,6 +80,7 @@ nav:
       - Росреестр: property/01-rosreestr.md
       - Залог по ID: property/02-pledge_property.md
       - Залог по VIN: property/03-pledge_vin.md
+      - Проверка авто по VIN (Госуслуги): property/07-vin_check.md
       - Геоданные по кадастровому номеру: property/04-nspd_cadastr.md
       - Оценка стоимости недвижимости: property/05-realty_price.md
       - Интеллектуальная собственность (Роспатент): property/06-intellectual_property.md

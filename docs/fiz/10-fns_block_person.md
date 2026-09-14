@@ -135,9 +135,9 @@ X-API-KEY: YOUR_TOKEN
 
 ## Особенность ответа
 
-Несмотря на метод `fns_block_person`, данные в ответе приходят в блоке `results.fns_block`.
+Ответ возвращается под каноническим ключом `results.fns_block_person`. Для обратной совместимости также поддерживается зеркальный алиас `results.fns_block`.
 
-## Поля результата `results.fns_block.result.data[]`
+## Поля результата `results.fns_block_person.result.data[]`
 
 | Поле | Описание |
 |------|----------|

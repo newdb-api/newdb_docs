@@ -326,3 +326,12 @@ X-API-KEY: YOUR_TOKEN
 ```
 
 </details>
+
+## Готовый HTML/PDF-отчет
+
+```bash
+curl 'https://api.newdb.net/v2/report?requestId=00000000-0000-4000-8000-000000000101&format=pdf' \
+  --header 'X-API-KEY: YOUR_API_KEY' --output realty-report.pdf
+```
+
+[Открыть пример](https://newdb.net/examples/complex-realty-report) · [Описание API отчетов](../reports.md)

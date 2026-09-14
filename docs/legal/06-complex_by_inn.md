@@ -325,3 +325,12 @@ results.management.<innfiz>.results.<method>.result
 ```
 
 </details>
+
+## Готовый HTML/PDF-отчет
+
+```bash
+curl 'https://api.newdb.net/v2/report?requestId=00000000-0000-4000-8000-000000000101&format=html' \
+  --header 'X-API-KEY: YOUR_API_KEY' --output company-report.html
+```
+
+[Открыть пример](https://newdb.net/examples/complex-company-report) · [Описание API отчетов](../reports.md)
