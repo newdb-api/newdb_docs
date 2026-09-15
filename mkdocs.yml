@@ -19,6 +19,7 @@ theme:
 nav:
   - Главная: index.md
   - Пример вызова API: api-example.md
+  - История запросов (Журнал): requests.md
   - Совместимость с ЗАПРАВИЛЬНЫЙБИЗНЕС (ZB): compatibility-zachestnyibiznes.md
   - Совместимость с Контур.Покус (Pokus): compatibility-kontur.md
   - Официальные SDK: sdk.md

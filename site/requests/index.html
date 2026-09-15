@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Синхронный и асинхронный варианты вызова API, получение результата по requestId и работа с webhook.">
+        <meta name="description" content="Получение списка и истории ранее созданных проверок через эндпоинт GET /v2/requests и режим совместимости ZB GET /flcheck/data/list.">
       
       
       
-        <link rel="canonical" href="https://newdb.net/docs/api-example/">
+        <link rel="canonical" href="https://newdb.net/docs/requests/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../api-example/">
       
       
-        <link rel="next" href="../requests/">
+        <link rel="next" href="../compatibility-zachestnyibiznes/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>Примеры вызова API - Документация по API NewDB.net</title>
+        <title>История запросов и журнал проверок (GET /v2/requests) - Документация по API NewDB.net</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#api" class="md-skip">
+        <a href="#_1" class="md-skip">
           Перейти к содержанию
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Примеры вызова API
+              История запросов и журнал проверок (GET /v2/requests)
             
           </span>
         </div>
@@ -216,6 +216,26 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-example/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Пример вызова API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -232,7 +252,7 @@
           
   
   <span class="md-ellipsis">
-    Пример вызова API
+    История запросов (Журнал)
   </span>
   
 
@@ -243,7 +263,7 @@
         
   
   <span class="md-ellipsis">
-    Пример вызова API
+    История запросов (Журнал)
   </span>
   
 
@@ -265,7 +285,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       Когда использовать
     </span>
@@ -274,9 +294,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#url" class="md-nav__link">
     <span class="md-ellipsis">
-      Типовые кейсы
+      Точки входа (URL)
     </span>
   </a>
   
@@ -285,16 +305,16 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Общая логика
+      Авторизация
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#run" class="md-nav__link">
+  <a href="#query-string" class="md-nav__link">
     <span class="md-ellipsis">
-      Синхронный метод (run)
+      Параметры запроса (Query String)
     </span>
   </a>
   
@@ -303,62 +323,50 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Асинхронный метод
+      Примеры вызова
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#webhook" class="md-nav__link">
-    <span class="md-ellipsis">
-      Асинхронный метод с webhook
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Асинхронный метод с webhook">
+    <nav class="md-nav" aria-label="Примеры вызова">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#1-newdb" class="md-nav__link">
     <span class="md-ellipsis">
-      Как это работает
+      1. Боевой запрос в формате NewDB
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Боевой запрос в формате NewDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#newdb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля ответа NewDB:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-zb" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Запрос в формате «ЗаЧестныйБизнес» (ZB)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#webhook-url" class="md-nav__link">
+  <a href="#3-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
-      Требования к webhook URL
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#webhook_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример запроса с webhook
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#webhook-" class="md-nav__link">
-    <span class="md-ellipsis">
-      Что должен сделать webhook-обработчик
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#webhook_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Когда выбирать webhook
+      3. Вызов в тестовом контуре (Sandbox)
     </span>
   </a>
   
@@ -370,18 +378,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-v2requests" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      История запросов и журнал проверок (GET /v2/requests)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ai-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      AI Summary
+      Получение полного результата проверки
     </span>
   </a>
   
@@ -391,26 +390,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../requests/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    История запросов (Журнал)
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1910,7 +1889,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       Когда использовать
     </span>
@@ -1919,9 +1898,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#url" class="md-nav__link">
     <span class="md-ellipsis">
-      Типовые кейсы
+      Точки входа (URL)
     </span>
   </a>
   
@@ -1930,16 +1909,16 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Общая логика
+      Авторизация
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#run" class="md-nav__link">
+  <a href="#query-string" class="md-nav__link">
     <span class="md-ellipsis">
-      Синхронный метод (run)
+      Параметры запроса (Query String)
     </span>
   </a>
   
@@ -1948,62 +1927,50 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Асинхронный метод
+      Примеры вызова
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#webhook" class="md-nav__link">
-    <span class="md-ellipsis">
-      Асинхронный метод с webhook
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Асинхронный метод с webhook">
+    <nav class="md-nav" aria-label="Примеры вызова">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#1-newdb" class="md-nav__link">
     <span class="md-ellipsis">
-      Как это работает
+      1. Боевой запрос в формате NewDB
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Боевой запрос в формате NewDB">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#newdb" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля ответа NewDB:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-zb" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Запрос в формате «ЗаЧестныйБизнес» (ZB)
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#webhook-url" class="md-nav__link">
+  <a href="#3-sandbox" class="md-nav__link">
     <span class="md-ellipsis">
-      Требования к webhook URL
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#webhook_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример запроса с webhook
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#webhook-" class="md-nav__link">
-    <span class="md-ellipsis">
-      Что должен сделать webhook-обработчик
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#webhook_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Когда выбирать webhook
+      3. Вызов в тестовом контуре (Sandbox)
     </span>
   </a>
   
@@ -2015,18 +1982,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#get-v2requests" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      История запросов и журнал проверок (GET /v2/requests)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ai-summary" class="md-nav__link">
-    <span class="md-ellipsis">
-      AI Summary
+      Получение полного результата проверки
     </span>
   </a>
   
@@ -2047,244 +2005,191 @@
                   
 
 
-<h1 id="api">Примеры вызова API<a class="headerlink" href="#api" title="Permanent link">&para;</a></h1>
-<p>Ниже приведены три типовых сценария интеграции: синхронный вызов, асинхронный вызов с polling по <code>requestId</code> и асинхронный вызов с <code>webhook</code>.</p>
-<h2 id="_1">Когда использовать<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>Используйте эту страницу, когда нужно быстро выбрать режим интеграции с API NEWDB и понять, как получать результат по <code>requestId</code>.</p>
-<h2 id="_2">Типовые кейсы<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h1 id="_1">История запросов и журнал проверок<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>NEWDB предоставляет программный интерфейс для получения списка всех ранее созданных проверок (заявок), их статусов и параметров через эндпоинт <strong><code>GET /v2/requests</code></strong> (или алиас <code>GET /v2/history</code>), а также через drop-in совместимый эндпоинт <strong><code>GET /flcheck/data/list</code></strong> для интеграций по схеме «ЗаЧестныйБизнес».</p>
+<hr />
+<h2 id="_2">Когда использовать<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Подготовка первой интеграции с API NEWDB</li>
-<li>Выбор между синхронным ожиданием результата и асинхронной обработкой</li>
-<li>Настройка callback-уведомлений через <code>webhook</code></li>
-<li>Проверка формата запросов, токена и структуры ответа API</li>
+<li>Построение пользовательского интерфейса истории проверок в вашей CRM / ERP или внутреннем кабинете.</li>
+<li>Проверка текущих статусов фоновых задач (например, переход из <code>processing</code> в <code>complete</code>).</li>
+<li>Аудит отправленных запросов, поиск <code>requestId</code> по дате или методу.</li>
+<li>Drop-in миграция с внешних провайдеров (например, ЗаЧестныйБизнес), использующих метод списка проверок физлиц.</li>
 </ul>
-<h2 id="_3">Общая логика<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="url">Точки входа (URL)<a class="headerlink" href="#url" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Контур / Формат</th>
+<th style="text-align: center;">Метод</th>
+<th>URL</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Продуктовый контур (NewDB)</strong></td>
+<td style="text-align: center;"><code>GET</code></td>
+<td><code>https://api.newdb.net/v2/requests</code></td>
+<td>Основной боевой эндпоинт с пагинацией и данными из <code>request_log</code></td>
+</tr>
+<tr>
+<td><strong>Продуктовый контур (Алиас)</strong></td>
+<td style="text-align: center;"><code>GET</code></td>
+<td><code>https://api.newdb.net/v2/history</code></td>
+<td>Полный функциональный синоним <code>/v2/requests</code></td>
+</tr>
+<tr>
+<td><strong>Совместимость с ЗБ</strong></td>
+<td style="text-align: center;"><code>GET</code></td>
+<td><code>https://api.newdb.net/flcheck/data/list</code></td>
+<td>Эндпоинт в формате «ЗаЧестныйБизнес»</td>
+</tr>
+<tr>
+<td><strong>Тестовый контур (Sandbox)</strong></td>
+<td style="text-align: center;"><code>GET</code></td>
+<td><code>https://api.newdb.net/test/v2/requests</code></td>
+<td>Изолированная песочница без авторизации и списаний</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_3">Авторизация<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>Запрос требует обязательной авторизации (в тестовом контуре используется синтетический токен по умолчанию). Поддерживаются следующие способы передачи ключа:</p>
 <ol>
-<li>Клиент отправляет запрос в NEWDB и передаёт параметры проверки в объекте <code>params</code>.</li>
-<li>NEWDB создаёт задачу и связывает её с <code>requestId</code>.</li>
-<li>Если результат уже готов, API возвращает состояние <code>complete</code> и объект <code>results</code>.</li>
-<li>Если обработка ещё идёт, клиент получает промежуточное состояние и может повторно запросить результат по тому же <code>requestId</code>.</li>
-<li>Если в запросе передан <code>webhook</code>, NEWDB дополнительно отправляет HTTP-уведомление на указанный URL после обновления состояния запроса.</li>
+<li>HTTP-заголовок <strong><code>X-API-KEY: &lt;your_token&gt;</code></strong> (рекомендуется).</li>
+<li>HTTP-заголовок <strong><code>Authorization: Bearer &lt;your_token&gt;</code></strong>.</li>
+<li>Параметр в строке запроса: <strong><code>?token=&lt;your_token&gt;</code></strong> или <strong><code>?api_key=&lt;your_token&gt;</code></strong>.</li>
 </ol>
-<p><code>requestId</code> рекомендуется формировать на стороне клиента в формате UUIDv4. Повторный запрос с тем же <code>requestId</code> не создаёт новую проверку: API вернёт уже сохранённый результат или текущее состояние ранее созданной задачи.</p>
-<h2 id="run">Синхронный метод (run)<a class="headerlink" href="#run" title="Permanent link">&para;</a></h2>
-<p>Синхронный режим ставит задачу в очередь и удерживает соединение до получения результата или таймаута. Максимальное время ожидания — 3600 секунд. Если <code>requestId</code> не передан, он будет создан автоматически. Если <code>requestId</code> уже существует, API вернёт ранее сохранённый результат.</p>
-<p><strong>Пример GET-запроса</strong></p>
-<div class="highlight"><pre><span></span><code><span class="err">GET https://api.newdb.net/v2/run?method=passport_mvd&amp;seria=4115&amp;number=350298&amp;firstname=Александр&amp;lastname=Сидоров&amp;country=ru&amp;token=&lt;your_token&gt;&amp;requestId=&lt;uuid4&gt;</span>
-</code></pre></div>
-<p><strong>Пример <code>curl</code></strong></p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--get<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/v2/run&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;method=passport_mvd&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;seria=4115&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;number=350298&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;firstname=Александр&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;lastname=Сидоров&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;country=ru&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;token=&lt;your_token&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;requestId=b4c61a6b-34cc-430e-bbeb-a6518014bca4&#39;</span>
-</code></pre></div>
-<p><strong>Успешный ответ (пример)</strong></p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b4c61a6b-34cc-430e-bbeb-a6518014bca4&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;passport_mvd&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;doc_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Данные не найдены&quot;</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">]</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<p><strong>Ответ по таймауту</strong></p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b4c61a6b-34cc-430e-bbeb-a6518014bca4&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;timeout&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Task execution timeout&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="_4">Асинхронный метод<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>Асинхронный режим используется, когда клиент не должен держать HTTP-соединение открытым до завершения проверки. Он состоит из двух шагов: отправка запроса и последующее получение результата по <code>requestId</code>.</p>
-<p><strong>Шаг 1. Отправка запроса</strong></p>
-<p>Отправьте POST на <code>https://api.newdb.net/v2</code> и передайте токен в заголовке <code>X-API-KEY</code>.</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/v2&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;X-API-KEY: &lt;your_token&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;params&quot;: {</span>
-<span class="s1">      &quot;seria&quot;: &quot;4115&quot;,</span>
-<span class="s1">      &quot;number&quot;: &quot;350298&quot;,</span>
-<span class="s1">      &quot;method&quot;: &quot;passport_mvd&quot;,</span>
-<span class="s1">      &quot;firstname&quot;: &quot;Александр&quot;,</span>
-<span class="s1">      &quot;lastname&quot;: &quot;Сидоров&quot;,</span>
-<span class="s1">      &quot;country&quot;: &quot;ru&quot;</span>
-<span class="s1">    },</span>
-<span class="s1">    &quot;requestId&quot;: &quot;b4c61a6b-34cc-430e-bbeb-a6518014bca4&quot;</span>
-<span class="s1">  }&#39;</span>
-</code></pre></div>
-<p>Тело запроса:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;seria&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4115&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;350298&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passport_mvd&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Александр&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Сидоров&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b4c61a6b-34cc-430e-bbeb-a6518014bca4&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p><strong>Шаг 2. Получение результата через polling</strong></p>
-<div class="highlight"><pre><span></span><code><span class="err">POST https://api.newdb.net/v2</span>
-</code></pre></div>
-<p>Отправьте повторный POST-запрос с тем же <code>requestId</code>. Параметры проверки можно оставить теми же: NEWDB найдёт существующую задачу по <code>requestId</code> и вернёт её текущее состояние.</p>
-<p>Или получить результат через отдельный GET-метод по <code>requestId</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="err">GET https://api.newdb.net/v2/data?requestId=b4c61a6b-34cc-430e-bbeb-a6518014bca4&amp;token=&lt;your_token&gt;</span>
-</code></pre></div>
-<p>Где:
-- <code>requestId</code> — идентификатор ранее отправленного запроса
-- <code>token</code> — API-токен</p>
-<p><strong>Пример <code>curl</code> для получения результата</strong></p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>--get<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/v2/data&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;requestId=b4c61a6b-34cc-430e-bbeb-a6518014bca4&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--data-urlencode<span class="w"> </span><span class="s1">&#39;token=&lt;your_token&gt;&#39;</span>
-</code></pre></div>
-<p><strong>Пример ответа</strong></p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;seria&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4115&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;350298&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passport_mvd&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Александр&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Сидоров&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;newdb_qid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EL4VILiX9MW7MygB&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b4c61a6b-34cc-430e-bbeb-a6518014bca4&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;datecreated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-01-13 22:02:33&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;balance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9884</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;tasks&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;is_repeat&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;passport_mvd&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;f7bb40dd-703c-40c6-8c9b-2a0d4306f90b&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-01-13 22:03:19&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;doc_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Данные не найдены&quot;</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">]</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<h2 id="webhook">Асинхронный метод с webhook<a class="headerlink" href="#webhook" title="Permanent link">&para;</a></h2>
-<p><code>webhook</code> нужен, чтобы NEWDB сам уведомил вашу систему об изменении состояния запроса. Это удобнее polling, если проверка может занимать заметное время или если нужно обрабатывать результат в фоновом процессе.</p>
-<h3 id="_5">Как это работает<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<ol>
-<li>В запросе на <code>POST https://api.newdb.net/v2</code> передайте поле <code>webhook</code> на верхнем уровне JSON.</li>
-<li>NEWDB примет задачу и вернёт <code>requestId</code> и текущее состояние.</li>
-<li>Когда состояние запроса обновится, NEWDB отправит HTTP POST на указанный <code>webhook</code> URL.</li>
-<li>Ваш обработчик принимает уведомление, сохраняет <code>requestId</code> и результат.</li>
-<li>Если уведомление не дошло или обработчик временно недоступен, результат можно получить обычным polling-запросом по <code>requestId</code>.</li>
-</ol>
-<h3 id="webhook-url">Требования к webhook URL<a class="headerlink" href="#webhook-url" title="Permanent link">&para;</a></h3>
-<ul>
-<li>Используйте публично доступный HTTPS URL.</li>
-<li>Обработчик должен принимать <code>POST</code> с JSON-телом.</li>
-<li>Возвращайте HTTP <code>2xx</code>, когда уведомление успешно принято.</li>
-<li>Обрабатывайте повторные уведомления идемпотентно: ключом должен быть <code>requestId</code>.</li>
-<li>Не запускайте новую проверку из webhook-обработчика, если уведомление относится к уже известному <code>requestId</code>.</li>
-</ul>
-<h3 id="webhook_1">Пример запроса с webhook<a class="headerlink" href="#webhook_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/v2&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;Content-Type: application/json&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;X-API-KEY: &lt;your_token&gt;&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;params&quot;: {</span>
-<span class="s1">      &quot;seria&quot;: &quot;4115&quot;,</span>
-<span class="s1">      &quot;number&quot;: &quot;350298&quot;,</span>
-<span class="s1">      &quot;method&quot;: &quot;passport_mvd&quot;,</span>
-<span class="s1">      &quot;firstname&quot;: &quot;Александр&quot;,</span>
-<span class="s1">      &quot;lastname&quot;: &quot;Сидоров&quot;,</span>
-<span class="s1">      &quot;country&quot;: &quot;ru&quot;</span>
-<span class="s1">    },</span>
-<span class="s1">    &quot;requestId&quot;: &quot;b4c61a6b-34cc-430e-bbeb-a6518014bca4&quot;,</span>
-<span class="s1">    &quot;webhook&quot;: &quot;https://example.com/newdb/webhook&quot;</span>
-<span class="s1">  }&#39;</span>
-</code></pre></div>
-<p>Тело запроса:</p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;seria&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4115&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;350298&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passport_mvd&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Александр&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Сидоров&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b4c61a6b-34cc-430e-bbeb-a6518014bca4&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/newdb/webhook&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<h3 id="webhook-">Что должен сделать webhook-обработчик<a class="headerlink" href="#webhook-" title="Permanent link">&para;</a></h3>
-<p>Минимальная логика на стороне клиента:</p>
-<ol>
-<li>Принять POST-запрос от NEWDB.</li>
-<li>Прочитать JSON-тело.</li>
-<li>Найти <code>requestId</code>.</li>
-<li>Проверить поле <code>state</code>.</li>
-<li>Если <code>state = complete</code>, сохранить <code>results</code>.</li>
-<li>Вернуть HTTP <code>200</code> или другой <code>2xx</code> статус.</li>
-</ol>
-<p>Пример псевдокода:</p>
-<div class="highlight"><pre><span></span><code>on POST /newdb/webhook:
-  payload = parse_json(request.body)
-  request_id = payload.requestId
-
-  if payload.state == &quot;complete&quot;:
-    save_result(request_id, payload.results)
-  else:
-    save_state(request_id, payload.state)
-
-  return 200
-</code></pre></div>
-<p>Формат уведомления соответствует обычному ответу API по <code>requestId</code>: в нём используются те же поля <code>requestId</code>, <code>state</code>, <code>params</code>, <code>results</code>, <code>tasks</code>, <code>balance</code> и служебные даты, если они доступны для конкретного запроса.</p>
-<h3 id="webhook_2">Когда выбирать webhook<a class="headerlink" href="#webhook_2" title="Permanent link">&para;</a></h3>
-<p>Используйте <code>webhook</code>, если результат не нужен прямо в пользовательском HTTP-запросе, проверка запускается из очереди или CRM/скоринга, а ваша система готова принимать входящие callback-запросы. Если входящие запросы принять нельзя, используйте асинхронный режим с polling по <code>requestId</code>.</p>
-<h2 id="get-v2requests">История запросов и журнал проверок (GET /v2/requests)<a class="headerlink" href="#get-v2requests" title="Permanent link">&para;</a></h2>
-<p>Для получения списка всех ранее созданных проверок (заявок), их статусов и параметров используйте эндпоинт <strong><code>GET https://api.newdb.net/v2/requests</code></strong> (или алиас <code>GET /v2/history</code>).</p>
-<p>Поддерживается пагинация (<code>page</code>, <code>limit</code>), фильтрация и режим совместимости с форматом «ЗаЧестныйБизнес» (<code>/flcheck/data/list</code> или параметр <code>format=zb</code>).</p>
+<hr />
+<h2 id="query-string">Параметры запроса (Query String)<a class="headerlink" href="#query-string" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Параметр</th>
+<th style="text-align: center;">Тип</th>
+<th style="text-align: center;">По умолчанию</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>page</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;"><code>1</code></td>
+<td>Номер страницы (начиная с 1).</td>
+</tr>
+<tr>
+<td><code>limit</code></td>
+<td style="text-align: center;">integer</td>
+<td style="text-align: center;"><code>20</code></td>
+<td>Количество записей на странице (от 1 до 100).</td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td style="text-align: center;">string</td>
+<td style="text-align: center;">—</td>
+<td>При значении <code>zb</code> (или <code>ЗБ</code>) ответ форматируется по контракту «ЗаЧестныйБизнес».</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">Примеры вызова<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="1-newdb">1. Боевой запрос в формате NewDB<a class="headerlink" href="#1-newdb" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/v2/requests?page=1&amp;limit=20&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;X-API-KEY: &lt;your_token&gt;&#39;</span>
 </code></pre></div>
-<p>Подробное описание параметров, структуры ответа и примеры интеграции приведены в отдельном разделе <a href="../requests/">История запросов (Журнал)</a>.</p>
-<h2 id="ai-summary">AI Summary<a class="headerlink" href="#ai-summary" title="Permanent link">&para;</a></h2>
-<details>
-<summary>Компактные метаданные для AI и агентных систем</summary>
-
+<p><strong>Пример ответа:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;run | async | async_with_webhook&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Быстрый старт по синхронному и асинхронному вызову API NEWDB, polling и webhook&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST https://api.newdb.net/v2&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;required_headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;X-API-KEY&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;required_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;optional_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;requestId&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;webhook&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;returns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;results.&lt;method&gt;.result.status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;results.&lt;method&gt;.result.data&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1420</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;page&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;40ee40ad-8011-4987-9ec7-0103df269c06&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;fssp_person&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;datecreated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 09:05:16&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иван&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;secondname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванович&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dob&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1985-05-15&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;regioncode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;100&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;8f12a34b-56cd-78ef-90ab-1234567890cd&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complex_by_passport&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;datecreated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 08:42:10&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;seria&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4510&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;123456&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Петров&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Сергей&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;dob&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1990-11-20&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-
-</details>
+<h4 id="newdb">Поля ответа NewDB:<a class="headerlink" href="#newdb" title="Permanent link">&para;</a></h4>
+<ul>
+<li><code>total</code> — общее количество запросов пользователя за всё время.</li>
+<li><code>page</code> — текущий номер страницы.</li>
+<li><code>limit</code> — лимит элементов на странице.</li>
+<li><code>data</code> — массив объектов запросов:<ul>
+<li><code>requestId</code> — уникальный UUID заявки.</li>
+<li><code>method</code> — идентификатор метода проверки (<code>fssp_person</code>, <code>complex_by_passport</code>, <code>egrul</code> и др.).</li>
+<li><code>state</code> — статус обработки: <code>complete</code> (завершен), <code>processing</code> (в работе), <code>queued</code> (в очереди), <code>error</code> (ошибка).</li>
+<li><code>datecreated</code> — дата и время создания запроса в формате <code>YYYY-MM-DD HH:MM:SS</code>.</li>
+<li><code>params</code> — входные параметры, переданные при создании проверки.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="2-zb">2. Запрос в формате «ЗаЧестныйБизнес» (ZB)<a class="headerlink" href="#2-zb" title="Permanent link">&para;</a></h3>
+<p>Вы можете вызвать специальный маршрут <code>/flcheck/data/list</code> или добавить параметр <code>format=zb</code>:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/flcheck/data/list?api_key=&lt;your_token&gt;&amp;page=1&amp;limit=20&#39;</span>
+</code></pre></div>
+<p><strong>Пример ответа:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;200&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Запрос выполнен успешно&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1420</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;currentPage&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;40ee40ad-8011-4987-9ec7-0103df269c06&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Готово&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;ФИО&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов Иван Иванович&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;birthdate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1985-05-15&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;771234567890&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;паспорт&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4510 123456&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;ВУ&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;create_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 09:05:16&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="3-sandbox">3. Вызов в тестовом контуре (Sandbox)<a class="headerlink" href="#3-sandbox" title="Permanent link">&para;</a></h3>
+<p>Для отладки без боевого токена и реальных обращений к базе:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/test/v2/requests&#39;</span>
+</code></pre></div>
+<hr />
+<h2 id="_5">Получение полного результата проверки<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>По полученному из списка <code>requestId</code> (или <code>id</code>) вы можете в любой момент запросить полный JSON-результат проверки:</p>
+<ol>
+<li><strong>В формате NEWDB:</strong>
+   <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/v2/data?requestId=40ee40ad-8011-4987-9ec7-0103df269c06&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s1">&#39;X-API-KEY: &lt;your_token&gt;&#39;</span>
+</code></pre></div></li>
+<li><strong>В формате «ЗаЧестныйБизнес» (отчет по заявке):</strong>
+   <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s1">&#39;https://api.newdb.net/flcheck/data/report?id=40ee40ad-8011-4987-9ec7-0103df269c06&amp;api_key=&lt;your_token&gt;&#39;</span>
+</code></pre></div></li>
+</ol>
 
 
 
