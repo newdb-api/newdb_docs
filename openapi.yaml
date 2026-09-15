@@ -748,75 +748,6 @@ paths:
       description: Возвращает текущее состояние асинхронного запроса. state=queued — задача в очереди; in_progress — выполняется;
         restart — идет повторная попытка; complete — запрос отработал; failed — запрос некорректен, не оплачен или завершился
         ошибкой.
-  /v2/requests:
-    get:
-      tags:
-      - Service
-      summary: История запросов и проверок
-      operationId: getRequestsHistory
-      security:
-      - ApiKeyAuth: []
-      - QueryToken: []
-      parameters:
-      - in: query
-        name: page
-        required: false
-        schema:
-          type: integer
-          default: 1
-        description: Номер страницы (начиная с 1)
-      - in: query
-        name: limit
-        required: false
-        schema:
-          type: integer
-          default: 20
-        description: Количество записей на странице (1-100)
-      - in: query
-        name: format
-        required: false
-        schema:
-          type: string
-        description: Формат ответа (zb для контракта ЗаЧестныйБизнес)
-      responses:
-        '200':
-          description: Список запросов пользователя с пагинацией
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  total:
-                    type: integer
-                    example: 1420
-                  page:
-                    type: integer
-                    example: 1
-                  limit:
-                    type: integer
-                    example: 20
-                  data:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        requestId:
-                          type: string
-                          format: uuid
-                        method:
-                          type: string
-                          example: fssp_person
-                        state:
-                          type: string
-                          example: complete
-                        datecreated:
-                          type: string
-                          example: "2026-09-15 09:05:16"
-                        params:
-                          type: object
-        '401':
-          description: Токен не передан или недействителен
-      description: Возвращает историю ранее созданных запросов авторизованного пользователя с пагинацией и переданными параметрами.
   /v2/run:
     get:
       tags:
@@ -5197,8 +5128,8 @@ paths:
     post:
       tags:
       - Property
-      summary: intellectual_property — Поиск патентов и товарных знаков (Роспатент / ФИПС)
-      description: Метод NEWDB intellectual_property осуществляет поиск зарегистрированных патентов, полезных моделей, изобретений и товарных знаков в базах Роспатента (ФИПС) по ФИО автора, наименованию правообладателя, названию бренда или номеру свидетельства.
+      summary: intellectual_property — Поиск патентов и интеллектуальной собственности (Роспатент)
+      description: Метод NEWDB intellectual_property осуществляет поиск зарегистрированных патентов, полезных моделей и изобретений в базе Роспатента по ФИО автора, патентообладателя или наименованию организации.
       operationId: newdb_intellectual_property
       requestBody:
         required: true
@@ -8158,18 +8089,44 @@ components:
         requestId: 00000000-0000-4000-8000-000000000001
     intellectual_propertyRequest:
       type: object
-      description: Метод NEWDB intellectual_property осуществляет поиск зарегистрированных патентов, полезных моделей и изобретений в базе Роспатента по ФИО автора, патентообладателя или наименованию организации.
+      description: 'Метод NEWDB intellectual_property осуществляет комплексный поиск по всем категориям интеллектуальной собственности Роспатента (ФИПС): патенты, полезные модели, промышленные образцы, программы для ЭВМ, базы данных и товарные знаки.'
       properties:
         params:
           type: object
           properties:
             query:
               type: string
-              description: ФИО автора/патентообладателя или наименование организации (1–1000 символов).
-              example: Иванов Иван Иванович
+              description: ФИО автора/патентообладателя, наименование организации или название бренда (1–1000 символов).
+              example: ООО "ЯНДЕКС"
+            search_type:
+              type: string
+              description: Режим поиска объектов интеллектуальной собственности.
+              enum:
+              - all
+              - patents
+              - trademarks
+              - programs
+              default: all
+              example: all
+            trademark_name:
+              type: string
+              description: Словесное обозначение товарного знака.
+              example: ЯНДЕКС
+            applicant:
+              type: string
+              description: Наименование заявителя / правообладателя.
+              example: Общество с ограниченной ответственностью "ЯНДЕКС"
+            reg_num:
+              type: string
+              description: Номер государственной регистрации товарного знака в РФ.
+              example: '833077'
+            appl_num:
+              type: string
+              description: Номер входящей заявки в Роспатент.
+              example: '2021720972'
             limit:
               type: integer
-              description: Количество результатов на страницу (1-100).
+              description: Количество результатов на категорию (1-100).
               default: 10
               example: 10
             offset:
@@ -8177,29 +8134,14 @@ components:
               description: Смещение для пагинации.
               default: 0
               example: 0
-            search_type:
+            transport:
               type: string
               enum:
-              - patents
-              - trademarks
-              default: patents
-              description: Режим поиска (patents или trademarks).
-            trademark_name:
-              type: string
-              description: Словесное обозначение товарного знака.
-              example: ЯНДЕКС
-            applicant:
-              type: string
-              description: Наименование правообладателя или заявителя.
-              example: ООО ЯНДЕКС
-            reg_num:
-              type: string
-              description: Номер государственной регистрации (свидетельства) товарного знака.
-              example: "833077"
-            appl_num:
-              type: string
-              description: Номер заявки на товарный знак.
-              example: "2021720972"
+              - auto
+              - http
+              - cdp
+              default: auto
+              example: auto
             country:
               type: string
               example: ru
@@ -8209,7 +8151,6 @@ components:
               - intellectual_property
               example: intellectual_property
           required:
-          - country
           - method
           additionalProperties: true
         requestId: 00000000-0000-4000-8000-000000000001
@@ -8225,7 +8166,8 @@ components:
       additionalProperties: false
       example:
         params:
-          query: Иванов Иван Иванович
+          query: ООО "ЯНДЕКС"
+          search_type: all
           limit: 10
           offset: 0
           country: ru

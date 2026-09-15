@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Метод NEWDB intellectual_property осуществляет оперативный поиск зарегистрированных патентов, изобретений, полезных моделей и товарных знаков по ФИО автора, наименованию правообладателя, названию бренда или номеру свидетельства через Роспатент (ФИПС).">
+        <meta name="description" content="Метод NEWDB intellectual_property осуществляет одновременный поиск по всем категориям интеллектуальной собственности: патенты на изобретения, полезные модели, промышленные образцы, программы для ЭВМ, базы данных и товарные знаки через Роспатент (ФИПС).">
       
       
       
@@ -24,7 +24,7 @@
     
     
       
-        <title>intellectual_property — поиск патентов и товарных знаков в Роспатенте (ФИПС) - Документация по API NewDB.net</title>
+        <title>intellectual_property — комплексный поиск патентов и товарных знаков в Роспатенте (ФИПС) - Документация по API NewDB.net</title>
       
     
     
@@ -56,11 +56,11 @@
     
     
       
-        <meta  name="keywords"  content="NEWDB API, intellectual_property, Роспатент, ФИПС, патенты, товарные знаки, изобретения, правообладатель, автор, проверка патента" >
+        <meta  name="keywords"  content="NEWDB API, intellectual_property, Роспатент, ФИПС, патенты, товарные знаки, изобретения, программы для эвм, базы данных, полезные модели, правообладатель, автор, проверка патента" >
       
-        <meta  property="og:title"  content="Поиск патентов и товарных знаков — метод intellectual_property" >
+        <meta  property="og:title"  content="Комплексный поиск патентов и товарных знаков — метод intellectual_property" >
       
-        <meta  property="og:description"  content="Поиск патентов, товарных знаков и объектов интеллектуальной собственности в Роспатенте (ФИПС) по ФИО или наименованию компании." >
+        <meta  property="og:description"  content="Поиск патентов, программ ЭВМ, товарных знаков и объектов интеллектуальной собственности в Роспатенте (ФИПС) по ФИО или наименованию компании." >
       
     
     
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              intellectual_property — поиск патентов и товарных знаков в Роспатенте (ФИПС)
+              intellectual_property — комплексный поиск патентов и товарных знаков в Роспатенте (ФИПС)
             
           </span>
         </div>
@@ -901,16 +901,7 @@
           <li class="md-nav__item">
   <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Поиск патентов по ФИО автора
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Поиск товарных знаков по названию бренда или номеру свидетельства
+      1. Комплексный поиск по всем категориям (патенты + программы + товарные знаки)
     </span>
   </a>
   
@@ -1914,16 +1905,7 @@
           <li class="md-nav__item">
   <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
-      1. Поиск патентов по ФИО автора
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2" class="md-nav__link">
-    <span class="md-ellipsis">
-      2. Поиск товарных знаков по названию бренда или номеру свидетельства
+      1. Комплексный поиск по всем категориям (патенты + программы + товарные знаки)
     </span>
   </a>
   
@@ -1949,12 +1931,14 @@
                   
 
 
-<h1 id="intellectual_property">intellectual_property — Патенты и интеллектуальная собственность (Роспатент / ФИПС)<a class="headerlink" href="#intellectual_property" title="Permanent link">&para;</a></h1>
+<h1 id="intellectual_property">intellectual_property — Патенты, товарные знаки и интеллектуальная собственность (Роспатент / ФИПС)<a class="headerlink" href="#intellectual_property" title="Permanent link">&para;</a></h1>
 <p>POST <code>https://api.newdb.net/v2</code></p>
-<p>Метод выполняет онлайн-поиск по официальным государственным реестрам Федеральной службы по интеллектуальной собственности (<strong>Роспатент / ФИПС</strong>). Метод позволяет проверять:</p>
+<p>Метод выполняет комплексный онлайн-поиск по официальным государственным реестрам Федеральной службы по интеллектуальной собственности (<strong>Роспатент / ФИПС</strong>).</p>
+<p>По умолчанию метод выполняет <strong>одновременный параллельный поиск сразу по всем категориям</strong> (<code>search_type: "all"</code>):</p>
 <ol>
-<li><strong>Патенты на изобретения и полезные модели</strong> (<code>search_type: "patents"</code>): по ФИО автора, патентообладателя или организации.</li>
-<li><strong>Товарные знаки и торговые марки</strong> (<code>search_type: "trademarks"</code>): по словесному обозначению бренда, правообладателю, номеру свидетельства или номеру заявки.</li>
+<li><strong>Патенты на изобретения, полезные модели и промышленные образцы</strong> (<code>patents</code>): по ФИО автора, патентообладателя или названию организации.</li>
+<li><strong>Программы для ЭВМ, базы данных и топологии интегральных микросхем</strong> (<code>programs</code>): по авторам, правообладателям или ключевым словам.</li>
+<li><strong>Товарные знаки, знаки обслуживания и заявки на регистрацию</strong> (<code>trademarks</code>): по словесному обозначению бренда, правообладателю, номеру свидетельства или заявки.</li>
 </ol>
 <p><strong>Раздел:</strong> <a href="../">Физические лица</a></p>
 <h2 id="_1">Связанные страницы<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
@@ -1966,10 +1950,10 @@
 </ul>
 <h2 id="_2">Когда использовать<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Оценка нематериальных активов и деловой активности физического лица или контрагента</li>
-<li>Проверка реальной квалификации и научно-технического портфолио ключевых специалистов и разработчиков</li>
-<li>Проверка зарегистрированных прав на товарные знаки и торговые марки физлиц, самозанятых и ИП</li>
-<li>Due Diligence технологических стартапов и инновационных проектов перед инвестициями</li>
+<li>Оценка нематериальных активов и деловой активности физического лица, предпринимателя или контрагента</li>
+<li>Проверка реальной квалификации и научно-технического портфолио ключевых специалистов, изобретателей и разработчиков</li>
+<li>Проверка зарегистрированных прав на товарные знаки и торговые марки физлиц, самозанятых, ИП и организаций</li>
+<li>Due Diligence технологических стартапов и инновационных проектов перед инвестициями и сделками M&amp;A</li>
 </ul>
 <h2 id="_3">Заголовки<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="err">Content-Type: application/json</span>
@@ -2005,8 +1989,8 @@
 <td><code>search_type</code></td>
 <td><code>string</code></td>
 <td>Нет</td>
-<td><code>"patents"</code></td>
-<td>Режим поиска: <code>"patents"</code> (патенты и полезные модели) или <code>"trademarks"</code> (товарные знаки).</td>
+<td><code>"all"</code></td>
+<td>Режим поиска: <code>"all"</code> (все категории), <code>"patents"</code> (патенты и образцы), <code>"trademarks"</code> (товарные знаки), <code>"programs"</code> (программы ЭВМ и БД).</td>
 </tr>
 <tr>
 <td><code>trademark_name</code></td>
@@ -2041,7 +2025,7 @@
 <td><code>integer</code></td>
 <td>Нет</td>
 <td><code>10</code></td>
-<td>Количество возвращаемых результатов на страницу (от 1 до 100).</td>
+<td>Количество возвращаемых результатов на категорию (от 1 до 100).</td>
 </tr>
 <tr>
 <td><code>offset</code></td>
@@ -2055,18 +2039,18 @@
 <p><em>* В запросе должен быть передан параметр <code>query</code> либо хотя бы один из параметров товарного знака (<code>trademark_name</code>, <code>reg_num</code>, <code>appl_num</code>, <code>applicant</code>).</em></p>
 <hr />
 <h2 id="_5">Примеры запросов<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<h3 id="1">1. Поиск патентов по ФИО автора<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
+<h3 id="1">1. Комплексный поиск по всем категориям (патенты + программы + товарные знаки)<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intellectual_property&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Семенов Виктор Иванович&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Яндекс&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;offset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p><strong>Пример ответа по патентам:</strong></p>
+<p><strong>Пример ответа:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
@@ -2077,62 +2061,79 @@
 <span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RU2765432C1&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Способ обработки данных в распределенных вычислительных сетях&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;authors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Семенов Виктор Иванович&quot;</span><span class="p">],</span>
-<span class="w">            </span><span class="nt">&quot;patentees&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;ООО \&quot;ИНТЕЛЛЕКТУАЛЬНЫЕ СИСТЕМЫ\&quot;&quot;</span><span class="p">],</span>
-<span class="w">            </span><span class="nt">&quot;document_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2765432&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C1&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;application_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021123456&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;filing_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021-06-15&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;publication_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2022-02-10&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Действует&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://searchplatform.rospatent.gov.ru/doc/RU2765432C1&quot;</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">]</span>
-<span class="w">      </span><span class="p">}</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>
-<hr />
-<h3 id="2">2. Поиск товарных знаков по названию бренда или номеру свидетельства<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intellectual_property&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;search_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;trademarks&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;trademark_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЯНДЕКС&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000002&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p><strong>Пример ответа по товарным знакам:</strong></p>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000002&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;intellectual_property&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;task-ip-002&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 10:00:00&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;regNum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;833077&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;regDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20211019&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;ApplicNum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021720972&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;ExpirDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20310408&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;PublicUR&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www1.fips.ru/fips_servl/fips_servlet?DB=RUTM&amp;DocNumber=833077&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЯНДЕКС&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;applicant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Общество с ограниченной ответственностью \&quot;ЯНДЕКС\&quot;, 119021, Москва, ул. Льва Толстого, 16 (RU)&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;trademarkType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Регистрация&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Действует&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://searchplatform.rospatent.gov.ru/images/trademarks/833077.png&quot;</span>
-<span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">]</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;summary&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;patents_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;programs_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;trademarks_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span>
+<span class="w">          </span><span class="p">},</span>
+<span class="w">          </span><span class="nt">&quot;patents&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RU2853751C1_20251226&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Изобретение&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;patent&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;document_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2853751&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;C1&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;publication_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025.12.26&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;application_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025106327&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;filing_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025.03.18&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;СПОСОБ И СИСТЕМА ДЛЯ ИНИЦИИРОВАНИЯ КОРРЕКТИРУЮЩЕГО ДЕЙСТВИЯ НА КЛИЕНТСКОМ УСТРОЙСТВЕ&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;language&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;inventors&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Кальченко Виталий Викторович (RU)&quot;</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;patentees&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;ООО \&quot;ЯНДЕКС\&quot; (RU)&quot;</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;public_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www1.fips.ru/fips_servl/fips_servlet?DB=RUPAT&amp;DocNumber=2853751&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">],</span>
+<span class="w">          </span><span class="nt">&quot;programs&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;RU2024612807ПрЭВМ_20240205&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Программа для ЭВМ&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integral&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;document_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024612807&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;kind&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ПрЭВМ&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;publication_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024.02.05&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;application_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024611972&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;title&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Программа для интеграции «Яндекс»&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;patentees&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «ИСХОДНЫЙ КОД» (RU)&quot;</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;public_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&amp;DocNumber=2024612807&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">],</span>
+<span class="w">          </span><span class="nt">&quot;trademarks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;TM_1233122&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Товарный знак&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;trademark&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;regNum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1233122&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;regDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20260615&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;ApplicNum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2025807932&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;ExpirDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20351002&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;PublicUR&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www1.fips.ru/fips_servl/fips_servlet?DB=RUTM&amp;DocNumber=1233122&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;public_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www1.fips.ru/fips_servl/fips_servlet?DB=RUTM&amp;DocNumber=1233122&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЯНДЕКС-01&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;applicant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Общество с ограниченной ответственностью ЯНДЕКС&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;trademarkType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Регистрация&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Действует&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://searchplatform.rospatent.gov.ru/datamart/...&quot;</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">],</span>
+<span class="w">          </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">            </span><span class="cm">/* Объединенный плоский массив всех найденных объектов с полями category и type */</span>
+<span class="w">          </span><span class="p">]</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Яндекс&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;search_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;patents_total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">606</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;programs_total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">289</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;trademarks_total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;offset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;transport&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;source_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://searchplatform.rospatent.gov.ru&quot;</span>
+<span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
