@@ -35,3 +35,4 @@ meta:
 - [fns_mass_founders](16-fns_mass_founders.md) — проверка в реестре массовых учредителей ФНС
 - [fns_mass_leaders](17-fns_mass_leaders.md) — проверка в реестре массовых руководителей ФНС
 - [intellectual_property](18-intellectual_property.md) — поиск патентов и интеллектуальной собственности (Роспатент / ФИПС)
+- [disqual](19-disqual.md) — онлайн-поиск в реестре дисквалифицированных лиц ФНС

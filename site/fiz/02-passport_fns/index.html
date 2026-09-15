@@ -573,7 +573,16 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример ответа (ИНН найден)
+      Пример ответа (ИНН найден и проверен)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data0" class="md-nav__link">
+    <span class="md-ellipsis">
+      Описание полей в data[0]
     </span>
   </a>
   
@@ -933,6 +942,48 @@
   
   <span class="md-ellipsis">
     Интеллектуальная собственность (Роспатент)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../19-disqual/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр дисквалифицированных лиц (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../20-region_inn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Определение региона выдачи ИНН
   </span>
   
 
@@ -1934,7 +1985,16 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример ответа (ИНН найден)
+      Пример ответа (ИНН найден и проверен)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data0" class="md-nav__link">
+    <span class="md-ellipsis">
+      Описание полей в data[0]
     </span>
   </a>
   
@@ -1998,6 +2058,10 @@
 X-API-KEY: &lt;your_token&gt;
 </code></pre></div>
 <h2 id="request">Входная схема (request)<a class="headerlink" href="#request" title="Permanent link">&para;</a></h2>
+<p>Поддерживается два варианта вызова:</p>
+<ol>
+<li>
+<p><strong>Поиск ИНН по паспорту и ФИО</strong> (классический режим):
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;seria&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
@@ -2005,51 +2069,151 @@ X-API-KEY: &lt;your_token&gt;
 <span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;secondname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;dob&quot;</span><span class="p">:</span><span class="w"> </span><span class="nt">&quot;string&quot;</span><span class="w"> </span><span class="c1">//yyyy-mm-dd,</span>
+<span class="w">    </span><span class="nt">&quot;dob&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span><span class="w"> </span><span class="c1">// yyyy-mm-dd</span>
 <span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passport_fns&quot;</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://webhook_url/&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19342f89-2916-4779-b59d-43c012f1a781&quot;</span>
 <span class="p">}</span>
-</code></pre></div>
+</code></pre></div></p>
+</li>
+<li>
+<p><strong>Прямая проверка ИНН</strong> (проверка действительности в реестре недействительных ИНН + определение региона + поиск аффилированных компаний):
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7703245603&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passport_fns&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19342f89-2916-4779-b59d-43c012f1a781&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+</li>
+</ol>
 <h2 id="_5">Пример запроса<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/v2</span>  <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<div class="highlight"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/v2</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="o">:</span> <span class="l">api.newdb.net</span>
 <span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
 <span class="na">X-API-KEY</span><span class="o">:</span> <span class="l">YOUR_TOKEN</span>
 
 <span class="p">{</span>
-<span class="nt">&quot;params&quot;</span><span class="p">:{</span>
-<span class="nt">&quot;seria&quot;</span><span class="p">:</span><span class="s2">&quot;4015&quot;</span><span class="p">,</span>
-<span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="s2">&quot;350278&quot;</span><span class="p">,</span>
-<span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Александр&quot;</span><span class="p">,</span><span class="w"> </span>
-<span class="nt">&quot;secondname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Сергеевич&quot;</span><span class="p">,</span>
-<span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Малина&quot;</span><span class="p">,</span><span class="w"> </span>
-
-<span class="nt">&quot;dob&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1990-12-17&quot;</span><span class="p">,</span>
-<span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="s2">&quot;passport_fns&quot;</span>
-<span class="p">},</span>
-<span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="s2">&quot;https://webhook_url/&quot;</span><span class="p">,</span>
-<span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="s2">&quot;19342f89-2916-4779-b59d-43c012f1a781&quot;</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;seria&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;4015&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;350278&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Александр&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">&quot;secondname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Сергеевич&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Малина&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">&quot;dob&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1990-12-17&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passport_fns&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19342f89-2916-4779-b59d-43c012f1a781&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_6">Пример ответа (ИНН найден)<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_6">Пример ответа (ИНН найден и проверен)<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;19342f89-2916-4779-b59d-43c012f1a781&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;passport_fns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-<span class="w">          </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;innfiz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7703245603&quot;</span><span class="w">  </span><span class="p">}</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;innfiz&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7703245603&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;region_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;region_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;г. Москва&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;is_invalid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;invalid_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;invalid_inn_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Действителен&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;invalid_inn_check&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;checked&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;VALID&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ИНН действителен&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;registry_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://service.nalog.ru/invalid-inn-fl.html&quot;</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;founder_companies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7701234567&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ogrn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1157746123456&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО \&quot;ПРИМЕР ТЕХНОЛОДЖИ\&quot;&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Действующее&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Учредитель&quot;</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;leader_companies&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7701234567&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;ogrn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1157746123456&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО \&quot;ПРИМЕР ТЕХНОЛОДЖИ\&quot;&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Действующее&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Генеральный директор&quot;</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">]</span>
+<span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">]</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
+<h2 id="data0">Описание полей в <code>data[0]</code><a class="headerlink" href="#data0" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Поле</th>
+<th>Тип</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>innfiz</code></td>
+<td>string</td>
+<td>Найденный или переданный ИНН физического лица.</td>
+</tr>
+<tr>
+<td><code>region_code</code></td>
+<td>string</td>
+<td>Код региона РФ выдачи ИНН (первые 2 цифры ИНН).</td>
+</tr>
+<tr>
+<td><code>region_name</code></td>
+<td>string</td>
+<td>Наименование субъекта РФ выдачи ИНН (по справочнику субъектов РФ).</td>
+</tr>
+<tr>
+<td><code>is_invalid</code></td>
+<td>boolean</td>
+<td><code>true</code>, если ИНН признан недействительным по реестру ФНС. <code>false</code>, если действителен.</td>
+</tr>
+<tr>
+<td><code>invalid_date</code></td>
+<td>string / null</td>
+<td>Дата признания ИНН недействительным (если недействителен).</td>
+</tr>
+<tr>
+<td><code>invalid_inn_status</code></td>
+<td>string</td>
+<td>Текстовый статус проверки (<code>"Действителен"</code>, <code>"Недействителен"</code> и т.д.).</td>
+</tr>
+<tr>
+<td><code>invalid_inn_check</code></td>
+<td>object</td>
+<td>Детали проверки по официальному реестру недействительных ИНН ФНС (<code>https://service.nalog.ru/invalid-inn-fl.html</code>).</td>
+</tr>
+<tr>
+<td><code>founder_companies</code></td>
+<td>array</td>
+<td>Список организаций из ЕГРЮЛ («Прозрачный бизнес»), в которых физлицо является учредителем/участником.</td>
+</tr>
+<tr>
+<td><code>leader_companies</code></td>
+<td>array</td>
+<td>Список организаций из ЕГРЮЛ («Прозрачный бизнес»), в которых физлицо является руководителем (директором).</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_7">Пример ответа (ИНН не найден)<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
