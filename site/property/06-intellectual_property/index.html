@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Метод NEWDB intellectual_property осуществляет поиск зарегистрированных патентов, полезных моделей и изобретений в базе Роспатента по ФИО автора, патентообладателя или наименованию организации.">
+        <meta name="description" content="Метод NEWDB intellectual_property осуществляет поиск зарегистрированных патентов, изобретений, полезных моделей и товарных знаков в базах Роспатента (ФИПС) по ФИО, наименованию правообладателя, названию бренда или номеру свидетельства.">
       
       
       
@@ -22,7 +22,7 @@
     
     
       
-        <title>intellectual_property — поиск патентов и интеллектуальной собственности (Роспатент) - Документация по API NewDB.net</title>
+        <title>intellectual_property — поиск патентов и товарных знаков (Роспатент / ФИПС) - Документация по API NewDB.net</title>
       
     
     
@@ -54,11 +54,11 @@
     
     
       
-        <meta  name="keywords"  content="NEWDB API, intellectual_property, Роспатент, патенты, изобретения, полезные модели, интеллектуальная собственность, патентный поиск" >
+        <meta  name="keywords"  content="NEWDB API, intellectual_property, Роспатент, ФИПС, товарные знаки, патенты, изобретения, полезные модели, правообладатель, бренд, патентный поиск" >
       
-        <meta  property="og:title"  content="Поиск патентов и интеллектуальной собственности — метод intellectual_property" >
+        <meta  property="og:title"  content="Поиск патентов и товарных знаков — метод intellectual_property" >
       
-        <meta  property="og:description"  content="Поиск по реестрам Роспатента по физическим и юридическим лицам через API NEWDB." >
+        <meta  property="og:description"  content="Поиск зарегистрированных товарных знаков, патентов и объектов интеллектуальной собственности по базам Роспатента (ФИПС) через API NEWDB." >
       
     
     
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              intellectual_property — поиск патентов и интеллектуальной собственности (Роспатент)
+              intellectual_property — поиск патентов и товарных знаков (Роспатент / ФИПС)
             
           </span>
         </div>
@@ -1780,15 +1780,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#request" class="md-nav__link">
-    <span class="md-ellipsis">
-      Входная схема (request)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       Параметры запроса
@@ -1800,26 +1791,35 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      Примеры запросов
+      Примеры вызова
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Примеры запросов">
+    <nav class="md-nav" aria-label="Примеры вызова">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
-      Поиск патентов по ФИО физического лица
+      1. Поиск товарных знаков по названию бренда
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      Поиск с пагинацией и указанием лимита
+      2. Поиск товарного знака по номеру свидетельства
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Поиск патентов и изобретений по ФИО автора или компании
     </span>
   </a>
   
@@ -1831,20 +1831,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример ответа
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       Интерпретация полей ответа
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Интерпретация полей ответа">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#search_type-trademarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Товарные знаки (search_type: "trademarks"):
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search_type-patents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Патенты (search_type: "patents"):
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1927,15 +1942,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#request" class="md-nav__link">
-    <span class="md-ellipsis">
-      Входная схема (request)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       Параметры запроса
@@ -1947,26 +1953,35 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      Примеры запросов
+      Примеры вызова
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Примеры запросов">
+    <nav class="md-nav" aria-label="Примеры вызова">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
+  <a href="#1" class="md-nav__link">
     <span class="md-ellipsis">
-      Поиск патентов по ФИО физического лица
+      1. Поиск товарных знаков по названию бренда
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
+  <a href="#2" class="md-nav__link">
     <span class="md-ellipsis">
-      Поиск с пагинацией и указанием лимита
+      2. Поиск товарного знака по номеру свидетельства
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Поиск патентов и изобретений по ФИО автора или компании
     </span>
   </a>
   
@@ -1978,20 +1993,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример ответа
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       Интерпретация полей ответа
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Интерпретация полей ответа">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#search_type-trademarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      Товарные знаки (search_type: "trademarks"):
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#search_type-patents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Патенты (search_type: "patents"):
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2019,42 +2049,35 @@
                   
 
 
-<h1 id="intellectual_property">intellectual_property — Поиск патентов и интеллектуальной собственности<a class="headerlink" href="#intellectual_property" title="Permanent link">&para;</a></h1>
+<h1 id="intellectual_property">intellectual_property — Патенты и товарные знаки (Роспатент / ФИПС)<a class="headerlink" href="#intellectual_property" title="Permanent link">&para;</a></h1>
 <p>POST <code>https://api.newdb.net/v2</code></p>
-<p>Метод выполняет поиск объектов патентных прав и интеллектуальной собственности в официальной поисковой платформе Роспатента (Федеральная служба по интеллектуальной собственности). Поиск осуществляется по ФИО физического лица (автора или патентообладателя) либо по наименованию юридического лица.</p>
+<p>Метод <strong><code>intellectual_property</code></strong> выполняет оперативный поиск в официальных государственных реестрах Федеральной службы по интеллектуальной собственности (<strong>Роспатент / ФИПС</strong>). Метод поддерживает два основных направления проверки:</p>
+<ol>
+<li><strong>Патенты и полезные модели</strong> (<code>search_type: "patents"</code>): поиск по ФИО автора или наименованию патентообладателя/организации.</li>
+<li><strong>Товарные знаки и знаки обслуживания</strong> (<code>search_type: "trademarks"</code>): поиск по словесному обозначению (названию бренда), заявителю/правообладателю, номеру свидетельства или номеру заявки.</li>
+</ol>
 <p><strong>Раздел:</strong> <a href="../">Имущество</a></p>
 <h2 id="_1">Связанные страницы<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../">Обзор раздела имущество</a></li>
+<li><a href="../../fiz/18-intellectual_property/">intellectual_property в разделе физических лиц</a></li>
 <li><a href="../01-rosreestr/">rosreestr — Проверка объекта недвижимости</a></li>
 <li><a href="../02-pledge_property/">pledge_property — Проверка залога и обременений по ID</a></li>
-<li><a href="../03-pledge_vin/">pledge_vin — Проверка залога и обременений по VIN</a></li>
-<li><a href="../04-nspd_cadastr/">nspd_cadastr — Геоданные по кадастровому номеру</a></li>
+<li><a href="../../legal/04-egrul/">egrul — Сведения ЕГРЮЛ по организации</a></li>
+<li><a href="../../fiz/11-egrul_ip/">egrul_ip — Сведения ЕГРИП по индивидуальному предпринимателю</a></li>
 </ul>
 <h2 id="_2">Когда использовать<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Комплексная проверка активов (Due Diligence) физических лиц, основателей бизнеса, ученых и ключевых сотрудников</li>
-<li>Анализ нематериальных активов юридического лица перед сделкой M&amp;A или инвестициями</li>
-<li>Проверка наличия патентов, полезных моделей и промышленных образцов у подрядчиков или конкурентов</li>
-<li>Выявление инновационного потенциала и научно-технических разработок компании</li>
+<li><strong>Проверка прав на бренды и товарные знаки:</strong> проверка уникальности названия перед запуском бренда, регистрацией или заключением франчайзингового договора.</li>
+<li><strong>Оценка нематериальных активов (Due Diligence):</strong> аудит портфеля брендов, товарных знаков и патентов компании перед инвестициями или сделками M&amp;A.</li>
+<li><strong>Проверка контрагентов и партнеров:</strong> подтверждение реального владения заявленными технологиями, изобретениями и товарными знаками.</li>
+<li><strong>Проверка квалификации специалистов:</strong> поиск патентов и научных разработок по авторам и ключевым разработчикам.</li>
 </ul>
 <h2 id="_3">Заголовки<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="err">Content-Type: application/json</span>
 <span class="err">X-API-KEY: &lt;your_token&gt;</span>
 </code></pre></div>
-<h2 id="request">Входная схема (request)<a class="headerlink" href="#request" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intellectual_property&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов Иван Иванович&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;offset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;transport&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;auto&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/webhook&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
+<hr />
 <h2 id="_4">Параметры запроса<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -2077,9 +2100,44 @@
 <tr>
 <td><code>query</code></td>
 <td><code>string</code></td>
-<td><strong>Да</strong></td>
+<td>Нет*</td>
 <td>—</td>
-<td>ФИО физического лица или наименование организации (от 1 до 1000 символов). Ищется по полю патентообладателей и авторов (<code>PE</code>).</td>
+<td>Поисковый запрос: ФИО автора/правообладателя, наименование компании или название бренда (от 1 до 1000 символов).</td>
+</tr>
+<tr>
+<td><code>search_type</code></td>
+<td><code>string</code></td>
+<td>Нет</td>
+<td><code>"patents"</code></td>
+<td>Режим поиска: <code>"patents"</code> (патенты и полезные модели) или <code>"trademarks"</code> (товарные знаки). Автоматически переключается в <code>"trademarks"</code> при указании параметров товарного знака.</td>
+</tr>
+<tr>
+<td><code>trademark_name</code></td>
+<td><code>string</code></td>
+<td>Нет</td>
+<td>—</td>
+<td>Словесное обозначение товарного знака (бренд, название марки).</td>
+</tr>
+<tr>
+<td><code>applicant</code></td>
+<td><code>string</code></td>
+<td>Нет</td>
+<td>—</td>
+<td>Наименование заявителя / правообладателя (юридическое лицо, ИП или физлицо).</td>
+</tr>
+<tr>
+<td><code>reg_num</code></td>
+<td><code>string</code></td>
+<td>Нет</td>
+<td>—</td>
+<td>Номер государственной регистрации (свидетельства) товарного знака в РФ (например, <code>833077</code>).</td>
+</tr>
+<tr>
+<td><code>appl_num</code></td>
+<td><code>string</code></td>
+<td>Нет</td>
+<td>—</td>
+<td>Входящий номер заявки на регистрацию в Роспатент (например, <code>2021720972</code>).</td>
 </tr>
 <tr>
 <td><code>limit</code></td>
@@ -2095,31 +2153,12 @@
 <td><code>0</code></td>
 <td>Смещение для пагинации (целое число &gt;= 0).</td>
 </tr>
-<tr>
-<td><code>transport</code></td>
-<td><code>string</code></td>
-<td>Нет</td>
-<td><code>"auto"</code></td>
-<td>Режим сетевого взаимодействия: <code>"auto"</code> (быстрый HTTP с fallback на CDP), <code>"http"</code> (только прямой API-запрос), <code>"cdp"</code> (запрос через браузер Playwright).</td>
-</tr>
-<tr>
-<td><code>datasets</code></td>
-<td><code>array</code></td>
-<td>Нет</td>
-<td>—</td>
-<td>Список идентификаторов баз данных/датасетов Роспатента для выборки.</td>
-</tr>
-<tr>
-<td><code>include_raw</code></td>
-<td><code>boolean</code></td>
-<td>Нет</td>
-<td><code>false</code></td>
-<td>Если <code>true</code>, в ответе возвращается исходный сырой JSON от Роспатента в поле <code>raw_response</code>.</td>
-</tr>
 </tbody>
 </table>
-<h2 id="_5">Примеры запросов<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<h3 id="_6">Поиск патентов по ФИО физического лица<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><em>* В запросе должен быть передан параметр <code>query</code> либо хотя бы один из специализированных параметров товарного знака (<code>trademark_name</code>, <code>reg_num</code>, <code>appl_num</code>, <code>applicant</code>).</em></p>
+<hr />
+<h2 id="_5">Примеры вызова<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="1">1. Поиск товарных знаков по названию бренда<a class="headerlink" href="#1" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/v2</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="o">:</span> <span class="l">api.newdb.net</span>
 <span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
@@ -2128,12 +2167,53 @@
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intellectual_property&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов Иван Иванович&quot;</span>
+<span class="w">    </span><span class="nt">&quot;search_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;trademarks&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;trademark_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЯНДЕКС&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h3 id="_7">Поиск с пагинацией и указанием лимита<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p><strong>Пример ответа по товарным знакам:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;intellectual_property&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;task-ip-001&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 10:00:00&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;regNum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;833077&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;regDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20211019&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;ApplicNum&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2021720972&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;ExpirDate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20310408&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;PublicUR&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://www1.fips.ru/fips_servl/fips_servlet?DB=RUTM&amp;DocNumber=833077&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЯНДЕКС&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;applicant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Общество с ограниченной ответственностью \&quot;ЯНДЕКС\&quot;, 119021, Москва, ул. Льва Толстого, 16 (RU)&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;trademarkType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Регистрация&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Действует&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://searchplatform.rospatent.gov.ru/images/trademarks/833077.png&quot;</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;search_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;trademarks&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;trademark_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЯНДЕКС&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;reg_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;appl_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;applicant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;source_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://searchplatform.rospatent.gov.ru/trademarks&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h3 id="2">2. Поиск товарного знака по номеру свидетельства<a class="headerlink" href="#2" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/v2</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="o">:</span> <span class="l">api.newdb.net</span>
 <span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
@@ -2142,27 +2222,36 @@
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intellectual_property&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО ПРИМЕР&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;offset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="nt">&quot;reg_num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;833077&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000002&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_8">Пример ответа<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<hr />
+<h3 id="3">3. Поиск патентов и изобретений по ФИО автора или компании<a class="headerlink" href="#3" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/v2</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">api.newdb.net</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<span class="na">X-API-KEY</span><span class="o">:</span> <span class="l">YOUR_API_TOKEN</span>
+
+<span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intellectual_property&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов Иван Иванович&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;task-ip-001&quot;</span>
+<span class="w">    </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;offset&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000003&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Пример ответа по патентам:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000003&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;intellectual_property&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;task-ip-001&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-08 14:42:00&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;task-ip-002&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 10:00:00&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
@@ -2201,7 +2290,6 @@
 <span class="w">          </span><span class="nt">&quot;limit&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;has_more&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;next_offset&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;transport&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http&quot;</span><span class="p">,</span>
 <span class="w">          </span><span class="nt">&quot;source_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://searchplatform.rospatent.gov.ru/patents_advanced&quot;</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">      </span><span class="p">}</span>
@@ -2209,35 +2297,55 @@
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_9">Интерпретация полей ответа<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<hr />
+<h2 id="_6">Интерпретация полей ответа<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="search_type-trademarks">Товарные знаки (<code>search_type: "trademarks"</code>):<a class="headerlink" href="#search_type-trademarks" title="Permanent link">&para;</a></h3>
 <ul>
-<li><code>status</code> (<code>integer</code>): <code>200</code> при успешном поиске, <code>400</code> при недопустимом запросе.</li>
-<li><code>found</code> (<code>boolean</code>): <code>true</code>, если найден хотя бы один патент.</li>
-<li><code>data</code> (<code>array</code>): список найденных патентов и свидетельств:</li>
-<li><code>document_number</code> (<code>string</code>): регистрационный номер патента / свидетельства;</li>
-<li><code>kind</code> (<code>string</code>): код вида документа (например, <code>A</code>, <code>C1</code>, <code>C2</code> — изобретения; <code>U1</code> — полезные модели);</li>
-<li><code>publication_date</code> (<code>string</code>): дата официальной публикации патента;</li>
-<li><code>application_number</code> (<code>string</code>): номер заявки на патент;</li>
-<li><code>filing_date</code> (<code>string</code>): дата подачи заявки (приоритет);</li>
-<li><code>title</code> (<code>string</code>): название изобретения или полезной модели;</li>
-<li><code>patentees</code> (<code>array of strings</code>): список патентообладателей (правообладателей);</li>
-<li><code>inventors</code> (<code>array of strings</code>): список авторов разработки;</li>
-<li><code>classification</code> (<code>object</code>): индексы Международной патентной классификации (МПК / IPC);</li>
-<li><code>description_snippet</code> (<code>string</code>): фрагмент реферата или описания;</li>
-<li><code>drawings</code> (<code>array</code>): ссылки на графические чертежи и схемы патента.</li>
-<li><code>meta</code> (<code>object</code>): метаданные выдачи (<code>total</code> — всего найдено в реестре, <code>has_more</code> — есть ли следующие страницы, <code>transport</code> — использованный транспорт).</li>
+<li><code>regNum</code> (<code>string</code>): номер свидетельства государственной регистрации в РФ.</li>
+<li><code>regDate</code> (<code>string</code>): дата государственной регистрации в формате <code>YYYYMMDD</code>.</li>
+<li><code>ApplicNum</code> (<code>string</code>): входящий номер заявки в Роспатенте.</li>
+<li><code>ExpirDate</code> (<code>string</code>): срок действия исключительного права (10 лет с даты подачи заявки с возможностью продления).</li>
+<li><code>PublicUR</code> (<code>string</code>): прямая ссылка на официальную карточку товарного знака в открытом реестре ФИПС.</li>
+<li><code>name</code> (<code>string</code>): словесное обозначение / наименование товарного знака.</li>
+<li><code>applicant</code> (<code>string</code>): правообладатель и заявитель, включая адрес регистрации.</li>
+<li><code>trademarkType</code> (<code>string</code>): тип записи (например, <code>Регистрация</code>).</li>
+<li><code>state</code> (<code>string</code>): текущее правовое состояние (<code>Действует</code>, <code>Истек срок действия</code>, <code>Аннулирован</code>).</li>
+<li><code>image</code> (<code>string</code>): ссылка на официальное графическое изображение товарного знака.</li>
 </ul>
+<h3 id="search_type-patents">Патенты (<code>search_type: "patents"</code>):<a class="headerlink" href="#search_type-patents" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>document_number</code> (<code>string</code>): номер патента на изобретение или свидетельства на полезную модель.</li>
+<li><code>kind</code> (<code>string</code>): код вида патентного документа (<code>C1</code>, <code>C2</code> — изобретения; <code>U1</code> — полезные модели).</li>
+<li><code>title</code> (<code>string</code>): официальное название изобретения или модели.</li>
+<li><code>patentees</code> (<code>array of strings</code>): список патентообладателей (юридических или физических лиц).</li>
+<li><code>inventors</code> (<code>array of strings</code>): список авторов разработки.</li>
+<li><code>publication_date</code> (<code>string</code>): дата официальной публикации патента.</li>
+<li><code>filing_date</code> (<code>string</code>): дата приоритета (подачи первоначальной заявки).</li>
+<li><code>classification</code> (<code>object</code>): индексы Международной патентной классификации (МПК / IPC).</li>
+<li><code>description_snippet</code> (<code>string</code>): фрагмент описания / реферата изобретения.</li>
+<li><code>drawings</code> (<code>array</code>): ссылки на чертежи и схемы патента.</li>
+</ul>
+<hr />
 <h2 id="ai-summary">AI Summary<a class="headerlink" href="#ai-summary" title="Permanent link">&para;</a></h2>
 <details>
 <summary>Компактные метаданные для AI и агентных систем</summary>
 
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;intellectual_property&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Поиск патентов и объектов интеллектуальной собственности в Роспатенте&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Поиск зарегистрированных патентов, изобретений и товарных знаков в Роспатенте (ФИПС)&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST https://api.newdb.net/v2&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;required_headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;X-API-KEY&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;required_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;query&quot;</span><span class="p">],</span>
-<span class="w">  </span><span class="nt">&quot;optional_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;limit&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;offset&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;transport&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;datasets&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;include_raw&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;required_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;method&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;optional_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;query&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;search_type&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;trademark_name&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;applicant&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;reg_num&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;appl_num&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;limit&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;offset&quot;</span>
+<span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;returns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="s2">&quot;results.intellectual_property.result.status&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="s2">&quot;results.intellectual_property.result.found&quot;</span><span class="p">,</span>

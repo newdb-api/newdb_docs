@@ -5197,8 +5197,8 @@ paths:
     post:
       tags:
       - Property
-      summary: intellectual_property — Поиск патентов и интеллектуальной собственности (Роспатент)
-      description: Метод NEWDB intellectual_property осуществляет поиск зарегистрированных патентов, полезных моделей и изобретений в базе Роспатента по ФИО автора, патентообладателя или наименованию организации.
+      summary: intellectual_property — Поиск патентов и товарных знаков (Роспатент / ФИПС)
+      description: Метод NEWDB intellectual_property осуществляет поиск зарегистрированных патентов, полезных моделей, изобретений и товарных знаков в базах Роспатента (ФИПС) по ФИО автора, наименованию правообладателя, названию бренда или номеру свидетельства.
       operationId: newdb_intellectual_property
       requestBody:
         required: true
@@ -8177,14 +8177,29 @@ components:
               description: Смещение для пагинации.
               default: 0
               example: 0
-            transport:
+            search_type:
               type: string
               enum:
-              - auto
-              - http
-              - cdp
-              default: auto
-              example: auto
+              - patents
+              - trademarks
+              default: patents
+              description: Режим поиска (patents или trademarks).
+            trademark_name:
+              type: string
+              description: Словесное обозначение товарного знака.
+              example: ЯНДЕКС
+            applicant:
+              type: string
+              description: Наименование правообладателя или заявителя.
+              example: ООО ЯНДЕКС
+            reg_num:
+              type: string
+              description: Номер государственной регистрации (свидетельства) товарного знака.
+              example: "833077"
+            appl_num:
+              type: string
+              description: Номер заявки на товарный знак.
+              example: "2021720972"
             country:
               type: string
               example: ru
@@ -8194,7 +8209,6 @@ components:
               - intellectual_property
               example: intellectual_property
           required:
-          - query
           - country
           - method
           additionalProperties: true
