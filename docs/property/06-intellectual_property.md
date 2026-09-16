@@ -100,66 +100,66 @@ X-API-KEY: YOUR_API_TOKEN
       "result": {
         "status": 200,
         "found": true,
-        "data": {
-          "summary": {
-            "total": 30,
-            "patents_count": 10,
-            "programs_count": 10,
-            "trademarks_count": 10
+        "data": [
+          {
+            "id": "RU2853751C1_20251226",
+            "category": "Изобретение",
+            "type": "patent",
+            "document_number": "2853751",
+            "kind": "C1",
+            "publication_date": "2025.12.26",
+            "application_number": "2025106327",
+            "filing_date": "2025.03.18",
+            "title": "СПОСОБ И СИСТЕМА ДЛЯ ИНИЦИИРОВАНИЯ КОРРЕКТИРУЮЩЕГО ДЕЙСТВИЯ НА КЛИЕНТСКОМ УСТРОЙСТВЕ",
+            "language": "ru",
+            "inventors": ["Кальченко Виталий Викторович (RU)"],
+            "patentees": ["ООО \"ЯНДЕКС\" (RU)"],
+            "public_url": "http://www1.fips.ru/fips_servl/fips_servlet?DB=RUPAT&DocNumber=2853751"
           },
-          "patents": [
-            {
-              "id": "RU2853751C1_20251226",
-              "category": "Изобретение",
-              "type": "patent",
-              "document_number": "2853751",
-              "kind": "C1",
-              "publication_date": "2025.12.26",
-              "application_number": "2025106327",
-              "filing_date": "2025.03.18",
-              "title": "СПОСОБ И СИСТЕМА ДЛЯ ИНИЦИИРОВАНИЯ КОРРЕКТИРУЮЩЕГО ДЕЙСТВИЯ НА КЛИЕНТСКОМ УСТРОЙСТВЕ",
-              "language": "ru",
-              "inventors": ["Кальченко Виталий Викторович (RU)"],
-              "patentees": ["ООО \"ЯНДЕКС\" (RU)"],
-              "public_url": "http://www1.fips.ru/fips_servl/fips_servlet?DB=RUPAT&DocNumber=2853751"
-            }
-          ],
-          "programs": [
-            {
-              "id": "RU2024612807ПрЭВМ_20240205",
-              "category": "Программа для ЭВМ",
-              "type": "integral",
-              "document_number": "2024612807",
-              "kind": "ПрЭВМ",
-              "publication_date": "2024.02.05",
-              "application_number": "2024611972",
-              "title": "Программа для интеграции «Яндекс»",
-              "patentees": ["ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «ИСХОДНЫЙ КОД» (RU)"],
-              "public_url": "http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&DocNumber=2024612807"
-            }
-          ],
-          "trademarks": [
-            {
-              "id": "TM_1233122",
-              "category": "Товарный знак",
-              "type": "trademark",
-              "regNum": "1233122",
-              "regDate": "20260615",
-              "ApplicNum": "2025807932",
-              "ExpirDate": "20351002",
-              "PublicUR": "http://www1.fips.ru/fips_servl/fips_servlet?DB=RUTM&DocNumber=1233122",
-              "public_url": "http://www1.fips.ru/fips_servl/fips_servlet?DB=RUTM&DocNumber=1233122",
-              "name": "ЯНДЕКС-01",
-              "applicant": "Общество с ограниченной ответственностью ЯНДЕКС",
-              "trademarkType": "Регистрация",
-              "state": "Действует",
-              "image": "https://searchplatform.rospatent.gov.ru/datamart/..."
-            }
-          ],
-          "items": [
-            /* Объединенный массив всех найденных объектов с полями category и type */
-          ]
+          {
+            "id": "RU2024612807ПрЭВМ_20240205",
+            "category": "Программа для ЭВМ",
+            "type": "integral",
+            "document_number": "2024612807",
+            "kind": "ПрЭВМ",
+            "publication_date": "2024.02.05",
+            "application_number": "2024611972",
+            "title": "Программа для интеграции «Яндекс»",
+            "patentees": ["ОБЩЕСТВО С ОГРАНИЧЕННОЙ ОТВЕТСТВЕННОСТЬЮ «ИСХОДНЫЙ КОД» (RU)"],
+            "public_url": "http://www1.fips.ru/fips_servl/fips_servlet?DB=EVM&DocNumber=2024612807"
+          },
+          {
+            "id": "TM_1233122",
+            "category": "Товарный знак",
+            "type": "trademark",
+            "regNum": "1233122",
+            "regDate": "20260615",
+            "ApplicNum": "2025807932",
+            "ExpirDate": "20351002",
+            "PublicUR": "http://www1.fips.ru/fips_servl/fips_servlet?DB=RUTM&DocNumber=1233122",
+            "public_url": "http://www1.fips.ru/fips_servl/fips_servlet?DB=RUTM&DocNumber=1233122",
+            "name": "ЯНДЕКС-01",
+            "applicant": "Общество с ограниченной ответственностью ЯНДЕКС",
+            "trademarkType": "Регистрация",
+            "state": "Действует",
+            "image": "https://searchplatform.rospatent.gov.ru/datamart/..."
+          }
+        ],
+        "summary": {
+          "total": 30,
+          "patents_count": 10,
+          "programs_count": 10,
+          "trademarks_count": 10
         },
+        "patents": [
+          /* Массив патентов и полезных моделей */
+        ],
+        "programs": [
+          /* Массив программ для ЭВМ и баз данных */
+        ],
+        "trademarks": [
+          /* Массив товарных знаков */
+        ],
         "meta": {
           "query": "Яндекс",
           "search_type": "all",

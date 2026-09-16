@@ -104,6 +104,36 @@ curl -X POST "https://api.newdb.net/v2" \
     "fssp_company": {
       "result": {
         "status": 200,
+        "data": [
+          {
+            "inn": "7707083893",
+            "ogrn": "1027700132195",
+            "name": "ООО ТОРГОВЫЙ ДОМ",
+            "role": "director",
+            "status": "ACTIVE",
+            "proceedings_count": 2,
+            "total_debt": 420500.00,
+            "fssp_status": "found",
+            "proceedings": [
+              {
+                "exe_production": "12345/24/77001-ИП от 15.02.2024",
+                "details": "Исполнительный лист от 10.01.2024",
+                "subject": "Взыскание задолженности по налогам и сборам",
+                "debt_amount": 420500.00,
+                "bailiff": "Иванов И.И."
+              }
+            ]
+          },
+          {
+            "inn": "7701234567",
+            "name": "ООО СЕРВИС",
+            "role": "founder",
+            "status": "ACTIVE",
+            "proceedings_count": 0,
+            "total_debt": 0.00,
+            "fssp_status": "not_found"
+          }
+        ],
         "person_inn": "771234567890",
         "affiliated_companies_total": 2,
         "affiliated_companies_checked": 2,
@@ -159,10 +189,11 @@ curl -X POST "https://api.newdb.net/v2" \
 
 | Поле | Тип | Описание |
 | :--- | :--- | :--- |
+| `data` | array | **Основной массив проверенных организаций** (соответствует общей концепции `data: []`). Содержит объекты проверенных компаний с их долгами и производствами. |
 | `person_inn` | string | ИНН проверяемого физического лица. |
 | `affiliated_companies_total` | integer | Всего найдено аффилированных организаций по ЕГРЮЛ. |
 | `affiliated_companies_checked` | integer | Количество фактически проверенных компаний в базе ФССП. |
 | `companies_with_debts` | integer | Количество компаний, по которым найдены активные долги в ФССП. |
 | `total_debt_amount` | number | Суммарная задолженность всех подконтрольных компаний (в рублях). |
-| `summary` | array | Список проверенных компаний с разбивкой по ролям, долгам и производствам. |
+| `summary` | array | Алиас на `data` — список проверенных компаний с разбивкой по ролям, долгам и производствам (для обратной совместимости). |
 | `all_proceedings` | array | Плоский список всех выявленных производств по всем компаниям. |
