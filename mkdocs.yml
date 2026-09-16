@@ -48,6 +48,10 @@ nav:
       - Интеллектуальная собственность (Роспатент): fiz/18-intellectual_property.md
       - Реестр дисквалифицированных лиц (ФНС): fiz/19-disqual.md
       - Определение региона выдачи ИНН: fiz/20-region_inn.md
+      - Арбитраж по компаниям физлица: fiz/21-court_arbitration.md
+      - Сумма арбитражных задолженностей: fiz/22-arbitr_debt_sum.md
+      - Недостоверные сведения ЕГРЮЛ: fiz/23-egrul_untrusted.md
+      - Долги ФССП связанных компаний: fiz/24-fssp_company.md
   - Иностранные граждане:
       - Обзор: foreign/index.md
       - Вид на жительство (ВНЖ): foreign/01-foreign_vng.md
@@ -72,6 +76,8 @@ nav:
       - Комплексная проверка компании по ИНН: legal/06-complex_by_inn.md
       - Процессуальный контроль дела (КАД): legal/08-kad_event_monitor.md
       - Бухгалтерская отчетность (ГИР БО): legal/09-fns_bo.md
+      - Реестр недобросовестных поставщиков (РНП): legal/10-rnp.md
+      - Реестр субъектов МСП и мер поддержки: legal/11-fns_msp.md
   - ГАС Правосудие:
       - Обзор: gas/index.md
       - Детали судебного дела по NewdbID: gas/01-pravo_cases_details.md
@@ -87,6 +93,7 @@ nav:
       - Геоданные по кадастровому номеру: property/04-nspd_cadastr.md
       - Оценка стоимости недвижимости: property/05-realty_price.md
       - Интеллектуальная собственность (Роспатент): property/06-intellectual_property.md
+      - Договоры лизинга (Федресурс): property/08-leasing_fedresurs.md
 
 plugins:
   - search

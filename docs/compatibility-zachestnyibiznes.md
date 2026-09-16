@@ -503,10 +503,90 @@ curl -X GET "https://api.newdb.net/v2/run?method=vin_check&vin=X4XWY39460L583993
 
 ---
 
+## Эндпоинты проверки физлиц в стиле ЗЧБ (`/flcheck/data/*`)
+
+Для бесшовной миграции интеграций (включая фронтенды и бэкенды на базе API «ЗаЧестныйБизнес» / `flcheck`) NewDB предоставляет прямые эндпоинты совместимости:
+
+### 1. Создание проверки (`/flcheck/data/create`)
+```bash
+curl -X GET "https://api.newdb.net/flcheck/data/create?lastname=Иванов&firstname=Иван&secondname=Иванович&birthdate=1990-01-01&series_passport=4510&number_passport=123456&api_key=YOUR_KEY"
+```
+**Ответ:**
+```json
+{
+  "status": "200",
+  "message": "Запрос выполнен успешно",
+  "idRequest": "900000001",
+  "rem_request": 999999
+}
+```
+
+### 2. Журнал и статус проверок (`/flcheck/data/list`)
+```bash
+curl -X GET "https://api.newdb.net/flcheck/data/list?page=1&api_key=YOUR_KEY"
+```
+**Ответ:**
+```json
+{
+  "status": "200",
+  "message": "Запрос выполнен успешно",
+  "total": 1,
+  "currentPage": 1,
+  "data": [
+    {
+      "id": "900000001",
+      "status": "Готово",
+      "ФИО": "ИВАНОВ ИВАН ИВАНОВИЧ",
+      "birthdate": "1990-01-01",
+      "inn": "771234567890",
+      "паспорт": "4510 123456",
+      "ВУ": null,
+      "create_at": "2026-09-14 12:00:00"
+    }
+  ]
+}
+```
+
+### 3. Полный 39-блочный отчет (`/flcheck/data/report`)
+```bash
+curl -X GET "https://api.newdb.net/flcheck/data/report?fl_request_id=900000001&api_key=YOUR_KEY"
+```
+Возвращает точный массив из 39 блоков ЗЧБ:
+`invalid_passport`, `inn_from_passport`, `mvd`, `terror`, `foreign_agent`, `fssp`, `general_jurisdiction`, `bankrupt`, `self_employed`, `bank_restrict`, `mass_leaders`, `mass_founders`, `court_arbitration`, `tax_deb`, `egrip`, `invalid_inn`, `signs`, `leasing`, `s_facts`, `region_inn`, `fsin`, `gibdd`, `gibdd_tax`, `cbr_rating`, `dirty_register`, `first_buisness`, `partners`, `contacts`, `msp`, `zakupki`, `unfair_supplier`, `measures_for_violation`, `disqual`, `no_corr_boss`, `no_corr_founder`, `region_buisness`, `egrul`, `fssp_company`, `pledge_person`.
+
+Каждый блок содержит канонический вид:
+```json
+{
+  "id": "bankrupt",
+  "source": "Проверка на Банкротство",
+  "sourceCode": 9,
+  "status": "Готово",
+  "statusCode": 2,
+  "response": [
+    {
+      "id": "15978111",
+      "category": "Сообщение о судебном акте",
+      "date": "15.02.2025"
+    }
+  ],
+  "create_at": "2026-09-15 12:00:00",
+  "update_at": "2026-09-15 12:00:05"
+}
+```
+
+### 4. Карточки по клику (детализация)
+- `/flcheck/data/bankrupt-message?fl_request_id=...&id=...` — детали сообщения о банкротстве
+- `/flcheck/data/sfact-message?fl_request_id=...&id=...` — существенный факт / залог
+- `/flcheck/data/court-arbitration-card?fl_request_id=...&id=...` — карточка арбитражного дела
+- `/flcheck/data/general-jurisdiction-list?fl_request_id=...` — список дел судов общей юрисдикции
+- `/flcheck/data/court-general-jurisdiction-card?id=...&court_id=...` — карточка дела СОЮ
+
+---
+
 ## Тестирование в Sandbox (без расхода баланса)
 
-Конвертер полностью поддержан в тестовом контуре NewDB API:
+Конвертер и эндпоинты `/flcheck/data/*` полностью поддержаны в тестовом контуре NewDB API:
 ```bash
-curl -X GET "https://api.newdb.net/test/v2/run?method=egrul&inn=7707083893&format=zb"
+curl -X GET "https://api.newdb.net/test/v2/flcheck/data/report?fl_request_id=900000001"
 ```
-Запрос мгновенно вернет тестовую карточку компании в формате ZB без списания реального баланса.
+Запрос мгновенно вернет тестовый 39-блочный отчет физлица в формате ЗБ без списания реального баланса.

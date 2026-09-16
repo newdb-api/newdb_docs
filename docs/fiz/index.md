@@ -36,3 +36,6 @@ meta:
 - [fns_mass_leaders](17-fns_mass_leaders.md) — проверка в реестре массовых руководителей ФНС
 - [intellectual_property](18-intellectual_property.md) — поиск патентов и интеллектуальной собственности (Роспатент / ФИПС)
 - [disqual](19-disqual.md) — онлайн-поиск в реестре дисквалифицированных лиц ФНС
+- [court_arbitration](21-court_arbitration.md) — арбитраж по компаниям физлица (ЕГРЮЛ-связи + КАД, скоринг субсидиарного риска)
+- [arbitr_debt_sum](22-arbitr_debt_sum.md) — сумма задолженностей физлица по арбитражным делам КАД
+- [egrul_untrusted](23-egrul_untrusted.md) — недостоверные сведения ЕГРЮЛ (руководитель no_corr_boss, учредитель no_corr_founder, адрес)

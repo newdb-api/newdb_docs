@@ -67,6 +67,8 @@ X-API-KEY: <your_token>
 - [bankrot_person](fiz/05-fedresurs_bankrot.md) — проверка банкротства физлица или ИП через Федресурс
 - [pledge_person](fiz/06-pledge_person.md) — проверка залогов и обременений по физлицу
 - [arbitr_person](fiz/07-arbitr_person.md) — арбитражные дела физлица в КАД
+- [court_arbitration](fiz/21-court_arbitration.md) — арбитраж по компаниям физлица (ЕГРЮЛ + КАД)
+- [arbitr_debt_sum](fiz/22-arbitr_debt_sum.md) — сумма арбитражных задолженностей физлица
 - [nalog_debt](fiz/08-nalog_debt.md) — налоговая задолженность физлица по ИНН
 - [elmk_registry](fiz/09-elmk_registry.md) — статус электронной медицинской книжки
 - [fns_block_person](fiz/10-fns_block_person.md) — блокировки счетов физлица по данным ФНС
