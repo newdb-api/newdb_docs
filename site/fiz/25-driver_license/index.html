@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Определение региона и субъекта РФ выдачи ИНН физического лица или организации по справочнику субъектов РФ через API NEWDB.">
+        <meta name="description" content="Метод NEWDB driver_license проверяет действительность водительского удостоверения, категории ТС, срок действия и сведения о лишении прав через Госуслуги и ГИБДД.">
       
       
       
-        <link rel="canonical" href="https://newdb.net/docs/fiz/20-region_inn/">
+        <link rel="canonical" href="https://newdb.net/docs/fiz/25-driver_license/">
       
       
-        <link rel="prev" href="../19-disqual/">
+        <link rel="prev" href="../24-fssp_company/">
       
       
-        <link rel="next" href="../21-court_arbitration/">
+        <link rel="next" href="../../foreign/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>region_inn — Определение региона выдачи ИНН - Документация по API NewDB.net</title>
+        <title>driver_license — проверка водительского удостоверения (Госуслуги / ГИБДД) - Документация по API NewDB.net</title>
       
     
     
@@ -56,7 +56,11 @@
     
     
       
-        <meta  name="keywords"  content="NEWDB API, region_inn, регион ИНН, субъект РФ, определение региона ИНН, справочник регионов ФНС" >
+        <meta  name="keywords"  content="NEWDB API, driver_license, проверка водительских прав, ГИБДД, Госуслуги, проверка ВУ, категории прав, лишение прав" >
+      
+        <meta  property="og:title"  content="Проверка водительского удостоверения — метод driver_license" >
+      
+        <meta  property="og:description"  content="Спецификация запроса, заголовков и ответов метода driver_license для проверки водительских прав через базы ГИБДД." >
       
     
     
@@ -72,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#region_inn" class="md-skip">
+        <a href="#driver_license" class="md-skip">
           Перейти к содержанию
         </a>
       
@@ -108,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              region_inn — Определение региона выдачи ИНН
+              driver_license — проверка водительского удостоверения (Госуслуги / ГИБДД)
             
           </span>
         </div>
@@ -842,30 +846,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Определение региона выдачи ИНН
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../20-region_inn/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -874,89 +858,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Содержание">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Содержание
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Когда использовать
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Заголовки
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#post" class="md-nav__link">
-    <span class="md-ellipsis">
-      Входная схема (POST)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример ответа (Успешное определение)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data0" class="md-nav__link">
-    <span class="md-ellipsis">
-      Поля ответа в data[0]
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#formatzb" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример ответа в формате ЗаЧестныйБизнес (format=zb)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Интеграция в комплексные методы
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1050,10 +951,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../25-driver_license/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Проверка водительских прав (Госуслуги)
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1062,6 +983,116 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Связанные страницы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Когда использовать
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заголовки
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Параметры запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Входная схема (request)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример ответа (удостоверение найдено)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример ответа (удостоверение не найдено)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля объекта записи в data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2068,7 +2099,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Когда использовать
+      Связанные страницы
     </span>
   </a>
   
@@ -2077,16 +2108,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      Заголовки
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#post" class="md-nav__link">
-    <span class="md-ellipsis">
-      Входная схема (POST)
+      Когда использовать
     </span>
   </a>
   
@@ -2095,25 +2117,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример ответа (Успешное определение)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#data0" class="md-nav__link">
-    <span class="md-ellipsis">
-      Поля ответа в data[0]
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#formatzb" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример ответа в формате ЗаЧестныйБизнес (format=zb)
+      Заголовки
     </span>
   </a>
   
@@ -2122,7 +2126,61 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Интеграция в комплексные методы
+      Параметры запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Входная схема (request)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример ответа (удостоверение найдено)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример ответа (удостоверение не найдено)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля объекта записи в data
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Summary
     </span>
   </a>
   
@@ -2143,117 +2201,279 @@
                   
 
 
-<h1 id="region_inn">region_inn — Определение региона выдачи ИНН<a class="headerlink" href="#region_inn" title="Permanent link">&para;</a></h1>
+<h1 id="driver_license">driver_license — Проверка водительского удостоверения<a class="headerlink" href="#driver_license" title="Permanent link">&para;</a></h1>
 <p>POST <code>https://api.newdb.net/v2</code></p>
-<p>Синхронный метод для мгновенного вычисления региона и субъекта РФ, в налоговом органе которого был поставлен на учёт налогоплательщик и присвоен ИНН (10 или 12 знаков). Метод сопоставляет первые две цифры ИНН со справочником субъектов Российской Федерации (включая Байконур и новые субъекты РФ).</p>
-<p>Метод работает без обращения к сторонним ресурсам и выполняется мгновенно (задержка &lt; 10 мс).</p>
+<p>Проверяет водительское удостоверение (ВУ) РФ по номеру, серии, ФИО и дате рождения через официальный сервис Госуслуг и базу данных ГИБДД МВД РФ.</p>
 <p><strong>Раздел:</strong> <a href="../">Физические лица</a></p>
-<h2 id="_1">Когда использовать<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h2 id="_1">Связанные страницы<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Автоматическое определение региона налогового учёта физического лица, ИП или организации.</li>
-<li>Валидация корректности структуры ИНН.</li>
-<li>Обогащение анкеты клиента и скоринговых профилей.</li>
-<li>Мгновенная проверка в связке с форматом ЗаЧестныйБизнес (<code>format=zb</code>), где поле транслируется в <code>РегионПолучИНН</code> и <code>КодРегиона</code>.</li>
+<li><a href="../">Обзор раздела физические лица</a></li>
+<li><a href="../03-passport_mvd/">passport_mvd — Проверка паспорта РФ на действительность</a></li>
+<li><a href="../../property/07-vin_check/">vin_check — Проверка автомобиля по VIN (Госуслуги)</a></li>
+<li><a href="../04-complex_by_passport/">complex_by_passport — Комплексная проверка по данным паспорта</a></li>
 </ul>
-<h2 id="_2">Заголовки<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="err">Content-Type: application/json</span>
-<span class="err">X-API-KEY: &lt;your_token&gt;</span>
+<h2 id="_2">Когда использовать<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Проверка подлинности и действительности водительского удостоверения соискателя при найме водителей, курьеров, экспедиторов.</li>
+<li>Скоринг и комплаенс-проверка клиентов в сервисах каршеринга, автопроката и таксопарках.</li>
+<li>Проверка наличия судебных решений о лишении права управления транспортными средствами.</li>
+<li>Определение категорий транспортных средств (<code>B</code>, <code>C</code>, <code>D</code>, <code>CE</code> и др.) и водительского стажа.</li>
+</ul>
+<h2 id="_3">Заголовки<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Content-Type: application/json
+X-API-KEY: &lt;your_token&gt;
 </code></pre></div>
-<h2 id="post">Входная схема (POST)<a class="headerlink" href="#post" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;region_inn&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;771234567890&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000020&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
+<h2 id="_4">Параметры запроса<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Параметр в <code>params</code></th>
-<th>Тип</th>
-<th>Обязательный</th>
-<th>Описание</th>
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Тип</th>
+<th style="text-align: left;">Обязательный</th>
+<th style="text-align: left;">Описание</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>method</code></td>
-<td>string</td>
-<td>Да</td>
-<td><code>region_inn</code></td>
+<td style="text-align: left;"><code>num</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;"><strong>Да</strong></td>
+<td style="text-align: left;">Серия и номер водительского удостоверения (10 символов, например <code>9901123456</code> или <code>99 01 123456</code>). Поддерживается также алиас <code>driver_license</code>.</td>
 </tr>
 <tr>
-<td><code>inn</code></td>
-<td>string</td>
-<td>Да</td>
-<td>ИНН физического лица (12 цифр) или организации (10 цифр).</td>
+<td style="text-align: left;"><code>lastname</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;"><strong>Да</strong></td>
+<td style="text-align: left;">Фамилия владельца ВУ (на русском языке, например <code>Иванов</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>firstname</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;"><strong>Да</strong></td>
+<td style="text-align: left;">Имя владельца ВУ (на русском языке, например <code>Иван</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>birthdate</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;"><strong>Да</strong></td>
+<td style="text-align: left;">Дата рождения водителя в формате <code>YYYY-MM-DD</code> (<code>1990-01-01</code>) или <code>DD.MM.YYYY</code> (<code>01.01.1990</code>). Поддерживается также алиас <code>dob</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>secondname</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Отчество владельца ВУ (при наличии). Опционально.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>method</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;"><strong>Да</strong></td>
+<td style="text-align: left;">Значение <code>driver_license</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>country</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Код страны, по умолчанию <code>ru</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>get_screen</code></td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;"><code>1</code> — сохранить скриншот страницы с результатом проверки, <code>0</code> — без скриншота (по умолчанию).</td>
 </tr>
 </tbody>
 </table>
-<p>Также поддерживается вызов через быстрый синхронный endpoint:
-<code>GET https://api.newdb.net/v2/run?method=region_inn&amp;inn=771234567890</code></p>
-<h2 id="_3">Пример ответа (Успешное определение)<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="request">Входная схема (request)<a class="headerlink" href="#request" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;99 01 123456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иван&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;secondname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванович&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;birthdate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1990-01-01&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;driver_license&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/whook&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="_5">Пример запроса<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/v2</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="o">:</span> <span class="l">api.newdb.net</span>
+<span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
+<span class="na">X-API-KEY</span><span class="o">:</span> <span class="l">YOUR_TOKEN</span>
+
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;99 01 123456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иван&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;secondname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванович&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;birthdate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;01.01.1990&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;driver_license&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;get_screen&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/whook&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="_6">Пример ответа (удостоверение найдено)<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;99 01 123456&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иван&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;secondname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванович&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;birthdate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1990-01-01&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;driver_license&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000020&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;region_inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;driver_license&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000002&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-17 12:00:00&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">          </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;region_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;region_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;г. Москва&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;region_desc&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;г. Москва&quot;</span>
+<span class="w">            </span><span class="nt">&quot;num&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;99 01 123456&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Действует&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;is_valid&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;is_deprived&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;issue_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;15.05.2020&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;expire_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;15.05.2030&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;categories&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">              </span><span class="s2">&quot;B&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="s2">&quot;B1&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="s2">&quot;M&quot;</span>
+<span class="w">            </span><span class="p">],</span>
+<span class="w">            </span><span class="nt">&quot;experience_from&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2008&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;birth_place&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Г. МОСКВА&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;deprivation&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;special_notes&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;applicant&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;lastname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;firstname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иван&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;secondname&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванович&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;birthdate&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;01.01.1990&quot;</span>
+<span class="w">            </span><span class="p">}</span>
 <span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">]</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Сведения о водительском удостоверении успешно получены&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="data0">Поля ответа в <code>data[0]</code><a class="headerlink" href="#data0" title="Permanent link">&para;</a></h2>
+<h2 id="_7">Пример ответа (удостоверение не найдено)<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>Если в базе данных ГИБДД отсутствуют записи с переданными параметрами, возвращается HTTP 200 со статусом <code>found: false</code> и пустым массивом <code>data</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;driver_license&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">        </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Водительское удостоверение с указанными входными параметрами не найдено&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="data">Поля объекта записи в <code>data</code><a class="headerlink" href="#data" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Поле</th>
-<th>Тип</th>
-<th>Описание</th>
+<th style="text-align: left;">Поле</th>
+<th style="text-align: left;">Тип</th>
+<th style="text-align: left;">Описание</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>region_code</code></td>
-<td>string</td>
-<td>Двузначный код субъекта РФ (например, <code>"77"</code>, <code>"78"</code>, <code>"50"</code>).</td>
+<td style="text-align: left;"><code>num</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Серия и номер удостоверения в читаемом формате (<code>99 01 123456</code>).</td>
 </tr>
 <tr>
-<td><code>region_name</code></td>
-<td>string</td>
-<td>Официальное наименование субъекта РФ (например, <code>"г. Москва"</code>).</td>
+<td style="text-align: left;"><code>status</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Текущий статус документа («Действует», «Лишен права управления», «Недействительно»).</td>
 </tr>
 <tr>
-<td><code>region_desc</code></td>
-<td>string</td>
-<td>Дополнительное описание / статус региона.</td>
+<td style="text-align: left;"><code>is_valid</code></td>
+<td style="text-align: left;">boolean</td>
+<td style="text-align: left;">Флаг действительности удостоверения (<code>true</code> — действительно и нет лишения).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>is_deprived</code></td>
+<td style="text-align: left;">boolean</td>
+<td style="text-align: left;">Флаг лишения права управления (<code>true</code> — водитель лишен прав).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>issue_date</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Дата выдачи удостоверения.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>expire_date</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Дата окончания срока действия документа.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>categories</code></td>
+<td style="text-align: left;">array</td>
+<td style="text-align: left;">Список открытых категорий транспортных средств (<code>["B", "B1", "M"]</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>experience_from</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Год начала водительского стажа (например <code>"2008"</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>birth_place</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Место рождения водителя по данным ГИБДД.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>deprivation</code></td>
+<td style="text-align: left;">object | null</td>
+<td style="text-align: left;">Детали судебного постановления о лишении прав (дата, срок, состояние исполнения) при наличии.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>special_notes</code></td>
+<td style="text-align: left;">string | null</td>
+<td style="text-align: left;">Особые отметки водителя (ограничения по зрению, автоматическая трансмиссия <code>AT</code> и др.).</td>
 </tr>
 </tbody>
 </table>
-<h2 id="formatzb">Пример ответа в формате ЗаЧестныйБизнес (<code>format=zb</code>)<a class="headerlink" href="#formatzb" title="Permanent link">&para;</a></h2>
-<p>При передаче параметра <code>format=zb</code> или заголовка <code>X-Response-Format: zb</code>:</p>
+<h2 id="ai-summary">AI Summary<a class="headerlink" href="#ai-summary" title="Permanent link">&para;</a></h2>
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;200&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Запрос выполнен успешно&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;КодРегиона&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;РегионПолучИНН&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;г. Москва&quot;</span>
-<span class="w">  </span><span class="p">}</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;driver_license&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Проверка водительского удостоверения РФ через сервис Госуслуг и ГИБДД&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST https://api.newdb.net/v2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;required_headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;X-API-KEY&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;required_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;num&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;lastname&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;firstname&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;birthdate&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;method&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;aliases&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;num&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;driver_license&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;vu_number&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;number&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="nt">&quot;birthdate&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;dob&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;returns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;results.driver_license.result.status&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;results.driver_license.result.found&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;results.driver_license.result.data&quot;</span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_4">Интеграция в комплексные методы<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>В методе комплексной проверки <a href="../04-complex_by_passport/">complex_by_passport</a> определение региона выдачи ИНН (<code>region_inn</code>) выполняется автоматически сразу после получения ИНН из ФНС и включается в итоговый результат проверки.</p>
+
+</details>
 
 
 

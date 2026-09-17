@@ -39,3 +39,4 @@ meta:
 - [court_arbitration](21-court_arbitration.md) — арбитраж по компаниям физлица (ЕГРЮЛ-связи + КАД, скоринг субсидиарного риска)
 - [arbitr_debt_sum](22-arbitr_debt_sum.md) — сумма задолженностей физлица по арбитражным делам КАД
 - [egrul_untrusted](23-egrul_untrusted.md) — недостоверные сведения ЕГРЮЛ (руководитель no_corr_boss, учредитель no_corr_founder, адрес)
+- [driver_license](25-driver_license.md) — проверка водительского удостоверения (Госуслуги / ГИБДД): статус, категории, срок действия, лишение прав
