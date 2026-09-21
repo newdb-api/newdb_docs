@@ -966,6 +966,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/26-fsin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Розыск ФСИН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/27-opensanctions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Санкции и PEP (OpenSanctions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1534,6 +1576,27 @@
   
   <span class="md-ellipsis">
     Реестр субъектов МСП и мер поддержки
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/12-proverki_knm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр проверок (ФГИС ЕРП / ЕРКНМ)
   </span>
   
 
@@ -2561,6 +2624,10 @@ X-API-KEY: YOUR_TOKEN</p>
 <td>Количество найденных объектов.</td>
 </tr>
 <tr>
+<td><code>results.nspd_cadastr.result.data[].items</code></td>
+<td>Массив найденных объектов. Первым элементом (<code>items[0]</code>) всегда является целевой запрошенный объект, а последующие элементы содержат связанные объекты (ОКС, здания, сооружения) из <code>objects_list</code> с расширенными характеристиками.</td>
+</tr>
+<tr>
 <td><code>results.nspd_cadastr.result.data[].items[].object</code></td>
 <td>Основные сведения об объекте: тип, адрес, площадь, этажность, назначение, форма собственности и кадастровая стоимость.</td>
 </tr>
@@ -2623,6 +2690,10 @@ X-API-KEY: YOUR_TOKEN</p>
 <tr>
 <td><code>results.nspd_cadastr.result.data[].url</code></td>
 <td>Ссылка на НСПД с выбранной карточкой, активными слоями ЗОУИТ и координатами объекта.</td>
+</tr>
+<tr>
+<td><code>results.nspd_cadastr.result.data[].object_urls</code></td>
+<td>Массив прямых ссылок на карты НСПД для целевого объекта и связанных объектов из <code>objects_list</code>.</td>
 </tr>
 </tbody>
 </table>

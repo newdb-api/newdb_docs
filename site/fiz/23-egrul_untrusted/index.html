@@ -24,7 +24,7 @@
     
     
       
-        <title>egrul_untrusted — Недостоверные сведения ЕГРЮЛ - Документация по API NewDB.net</title>
+        <title>corporate_restrictions_person — Корпоративные ограничения физлица - Документация по API NewDB.net</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#egrul_untrusted" class="md-skip">
+        <a href="#corporate_restrictions_person" class="md-skip">
           Перейти к содержанию
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              egrul_untrusted — Недостоверные сведения ЕГРЮЛ
+              corporate_restrictions_person — Корпоративные ограничения физлица
             
           </span>
         </div>
@@ -1080,6 +1080,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../26-fsin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Розыск ФСИН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27-opensanctions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Санкции и PEP (OpenSanctions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1657,6 +1699,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/12-proverki_knm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр проверок (ФГИС ЕРП / ЕРКНМ)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2165,7 +2228,7 @@
                   
 
 
-<h1 id="egrul_untrusted">egrul_untrusted — Недостоверные сведения ЕГРЮЛ (руководитель, учредитель, адрес)<a class="headerlink" href="#egrul_untrusted" title="Permanent link">&para;</a></h1>
+<h1 id="corporate_restrictions_person">corporate_restrictions_person — Корпоративные ограничения физлица<a class="headerlink" href="#corporate_restrictions_person" title="Permanent link">&para;</a></h1>
 <p>POST <code>https://api.newdb.net/v2</code></p>
 <p>Метод осуществляет глубокую комплаенс-проверку наличия отметок о недостоверности сведений в ЕГРЮЛ в отношении физических лиц (руководителей <code>no_corr_boss</code>, учредителей/участников <code>no_corr_founder</code>), юридических адресов (<code>no_corr_address</code>), а также выявляет решения регистрирующего органа о предстоящем исключении из реестра и риски 3-летнего запрета на создание и руководство новыми юридическими лицами (в соответствии с пп. «ф» п. 1 ст. 23 Федерального закона № 129-ФЗ).</p>
 <hr />
@@ -2195,7 +2258,7 @@ X-API-KEY: <code>&lt;your_token&gt;</code></p>
 <span class="w">    </span><span class="nt">&quot;fio&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional, ФИО физлица для поиска связей&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;ogrn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional, ОГРН организации&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;egrul_untrusted&quot;</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;corporate_restrictions_person&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/webhook&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional-string&quot;</span>
@@ -2216,18 +2279,45 @@ X-API-KEY: <code>&lt;your_token&gt;</code></p>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7723071768&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;egrul_untrusted&quot;</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;corporate_restrictions_person&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000301&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <hr />
 <h2 id="_6">Пример ответа<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>Публичный метод <code>corporate_restrictions_person</code> возвращает компактный контракт:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;person_restrictions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ogrfl&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ограничение участия физлица в ЮЛ&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;details&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;basis&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;пп. ф п. 1 ст. 23 129-ФЗ&quot;</span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;risk_3_year_ban_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;evidence_records&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pb.nalog.ru&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;record_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ogrfl&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ограничение участия физлица в ЮЛ&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;record&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;basis&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;пп. ф п. 1 ст. 23 129-ФЗ&quot;</span><span class="p">}</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Расширенный ответ ниже относится к сохранённому legacy-методу <code>egrul_untrusted</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7723071768&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;egrul_untrusted&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;corporate_restrictions_person&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;newdb_qid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;EL0LILzjmqi4MygC&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000301&quot;</span><span class="p">,</span>
@@ -2304,6 +2394,13 @@ X-API-KEY: <code>&lt;your_token&gt;</code></p>
 </code></pre></div>
 <hr />
 <h2 id="_7">Структура полей ответа<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>Для <code>corporate_restrictions_person</code> публичны только:</p>
+<ul>
+<li><code>person_restrictions[]</code> — найденные запреты и ограничения участия/руководства;</li>
+<li><code>risk_3_year_ban_active</code> — активен ли риск трёхлетнего запрета;</li>
+<li><code>evidence_records[]</code> — подтверждающие записи ФНС/ЕГРЮЛ с источником и исходными реквизитами.</li>
+</ul>
+<p>Следующие поля возвращаются только расширенным методом <code>egrul_untrusted</code>:</p>
 <ul>
 <li><code>has_untrusted_records</code> (boolean) — флаг наличия хотя бы одной записи о недостоверности сведений в ЕГРЮЛ.</li>
 <li><code>no_corr_boss</code> (boolean) — запись о недостоверности сведений о руководителе организации (генеральном директоре / лице с правом действовать без доверенности).</li>

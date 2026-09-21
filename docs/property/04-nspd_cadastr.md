@@ -322,6 +322,7 @@ X-API-KEY: YOUR_TOKEN
 | `state` | Статус обработки запроса. |
 | `results.nspd_cadastr.result.status` | HTTP-статус результата обработки. |
 | `results.nspd_cadastr.result.data[].count` | Количество найденных объектов. |
+| `results.nspd_cadastr.result.data[].items` | Массив найденных объектов. Первым элементом (`items[0]`) всегда является целевой запрошенный объект, а последующие элементы содержат связанные объекты (ОКС, здания, сооружения) из `objects_list` с расширенными характеристиками. |
 | `results.nspd_cadastr.result.data[].items[].object` | Основные сведения об объекте: тип, адрес, площадь, этажность, назначение, форма собственности и кадастровая стоимость. |
 | `results.nspd_cadastr.result.data[].items[].geo.center` | Центральная точка объекта в координатах WGS84. |
 | `results.nspd_cadastr.result.data[].items[].geo.points` | Точки контура объекта в координатах WGS84. |
@@ -338,6 +339,7 @@ X-API-KEY: YOUR_TOKEN
 | `results.nspd_cadastr.result.data[].has_zouit_by_selected_objects` | `true`, если после клика по объекту НСПД вернул хотя бы одну ЗОУИТ во вкладке «Выделенные объекты». |
 | `results.nspd_cadastr.result.data[].special_conditions_zones` | ЗОУИТ, найденные непосредственно среди объектов поисковой выдачи. Может быть пустым, даже если `selected_special_conditions_zones` содержит зоны после клика по карте. |
 | `results.nspd_cadastr.result.data[].url` | Ссылка на НСПД с выбранной карточкой, активными слоями ЗОУИТ и координатами объекта. |
+| `results.nspd_cadastr.result.data[].object_urls` | Массив прямых ссылок на карты НСПД для целевого объекта и связанных объектов из `objects_list`. |
 
 ## Разделы ЗОУИТ
 

@@ -24,7 +24,7 @@
     
     
       
-        <title>disqual — Реестр дисквалифицированных лиц ФНС - Документация по API NewDB.net</title>
+        <title>disqualified_person — Реестр дисквалифицированных лиц ФНС - Документация по API NewDB.net</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#disqual" class="md-skip">
+        <a href="#disqualified_person" class="md-skip">
           Перейти к содержанию
         </a>
       
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              disqual — Реестр дисквалифицированных лиц ФНС
+              disqualified_person — Реестр дисквалифицированных лиц ФНС
             
           </span>
         </div>
@@ -1054,6 +1054,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../26-fsin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Розыск ФСИН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../27-opensanctions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Санкции и PEP (OpenSanctions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1631,6 +1673,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/12-proverki_knm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр проверок (ФГИС ЕРП / ЕРКНМ)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2121,23 +2184,22 @@
                   
 
 
-<h1 id="disqual">disqual — Реестр дисквалифицированных лиц<a class="headerlink" href="#disqual" title="Permanent link">&para;</a></h1>
+<h1 id="disqualified_person">disqualified_person — Реестр дисквалифицированных лиц<a class="headerlink" href="#disqualified_person" title="Permanent link">&para;</a></h1>
 <p>POST <code>https://api.newdb.net/v2</code></p>
-<p>Метод получает сведения из <a href="https://service.nalog.ru/disqualified.do">открытого реестра ФНС</a> онлайн при выполнении запроса. Поиск выполняется через браузер с перехватом JSON-ответа ФНС. Метод полезен для проверки кандидатов на руководящие должности и руководителей контрагентов.</p>
-<p>Все ФИО, даты, номера записей, организации и места в примерах вымышлены. Примеры показывают формат ответа и не являются сведениями о реальных лицах.</p>
+<p>Метод получает сведения из <a href="https://service.nalog.ru/disqualified.do">открытого реестра ФНС</a> онлайн при выполнении запроса. Поиск выполняется через быстрый асинхронный JSON API ФНС (<code>disqualified-proc.json</code>, время ответа &lt; 500 мс) с автоматическим резервным переключением на headless браузер (CDP) при необходимости. Метод полезен для проверки кандидатов на руководящие должности и действующих руководителей контрагентов.</p>
 <h2 id="_1">Запрос<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="err">Content-Type: application/json</span>
 <span class="err">X-API-KEY: &lt;your_token&gt;</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;disqual&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Примеров Тест Тестович&quot;</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;disqualified_person&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ёлкина Мария Викторовна&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000019&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<p>Для уточнения результата можно дополнительно передать <code>"dob": "12.02.1980"</code>.</p>
+<p>Для уточнения результата можно дополнительно передать <code>"dob": "06.03.1992"</code>.</p>
 <table>
 <thead>
 <tr>
@@ -2150,17 +2212,17 @@
 <tr>
 <td><code>method</code></td>
 <td>Да</td>
-<td><code>disqual</code></td>
+<td><code>disqualified_person</code> (устаревший алиас <code>disqual</code> также поддерживается)</td>
 </tr>
 <tr>
 <td><code>query</code></td>
 <td>Да</td>
-<td>Непустая поисковая строка, до 1000 символов. ФИО, название или ИНН организации — строка передаётся в поиск ФНС.</td>
+<td>Непустая поисковая строка, до 1000 символов. ФИО, название или ИНН организации — строка передаётся в поиск ФНС. Поддерживается также передача в <code>fio</code> или раздельно <code>lastname</code>, <code>firstname</code>, <code>secondname</code>.</td>
 </tr>
 <tr>
 <td><code>dob</code></td>
 <td>Нет</td>
-<td>Дата рождения: <code>ДД.ММ.ГГГГ</code> или <code>ГГГГ-ММ-ДД</code>. Дополнительный фильтр полученных записей, а не параметр поиска ФНС.</td>
+<td>Дата рождения: <code>ДД.ММ.ГГГГ</code> или <code>ГГГГ-ММ-ДД</code>. Дополнительный фильтр полученных записей.</td>
 </tr>
 <tr>
 <td><code>max_pages</code></td>
@@ -2169,34 +2231,33 @@
 </tr>
 </tbody>
 </table>
-<p>Используйте <code>query</code> в публичных API-запросах: он обязателен в зарегистрированной схеме метода. Внутри spider также поддерживаются <code>fio</code> и составление ФИО из <code>lastname</code>, <code>firstname</code>, <code>secondname</code>, но они не заменяют обязательный <code>query</code> в публичной схеме.</p>
 <h2 id="_2">Пример результата<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>Ниже — содержимое <code>results.disqual.result</code>, а не транспортная оболочка всего API-ответа.</p>
+<p>Ниже — содержимое <code>results.disqualified_person.result</code>, а не транспортная оболочка всего API-ответа.</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">    </span><span class="p">{</span>
-<span class="w">      </span><span class="nt">&quot;record_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;000000000019&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;full_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ПРИМЕРОВ ТЕСТ ТЕСТОВИЧ&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;birth_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;12.02.1980&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;birth_place&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Г. ПРИМЕРНЫЙ&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;organization&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО УЧЕБНЫЙ ПРИМЕР&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;РУКОВОДИТЕЛЬ&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;offence&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ПРИМЕР КВАЛИФИКАЦИИ ПРАВОНАРУШЕНИЯ&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;protocol_authority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ТЕСТОВЫЙ ОРГАН&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;judge_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ОБРАЗЦОВА ТЕСТА ПРИМЕРОВНА&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;judge_position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;СУДЬЯ&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0 г 6 м 0 д&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;01.01.2026&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;30.06.2026&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;source_updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;01.07.2026 12:00:00&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;record_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;266700065251&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;full_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЁЛКИНА МАРИЯ ВИКТОРОВНА&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;birth_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;06.03.1992&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;birth_place&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;СМОЛЕНСКАЯ ОБЛАСТЬ, ПОЧИНКОВСКИЙ Р-Н, Д.МУРЫГИНО&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;organization&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО \&quot;СГ\&quot;&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ДИРЕКТОР&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;offence&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ч.5 СТ. 14.25 КОАП РФ&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;protocol_authority&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;УФНС РОССИИ ПО СМОЛЕНСКОЙ ОБЛАСТИ&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;judge_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;КОНОПЕЛЬКИНА Н. С.&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;judge_position&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;МИРОВОЙ СУДЬЯ&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;duration&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1 г 0 м 0 д&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;start_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;26.12.2025&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;end_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;25.12.2026&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;source_updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;16.09.2026 22:26:01&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;source_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://service.nalog.ru/disqualified.do&quot;</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">],</span>
 <span class="w">  </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;registry_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;found&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Примеров Тест Тестович&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ЁЛКИНА МАРИЯ ВИКТОРОВНА&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;dob&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;row_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;page_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>

@@ -4907,6 +4907,8 @@ paths:
                             special_conditions_zones_count: 0
                             special_conditions_zones: []
                             url: https://nspd.gov.ru/map?thematic=PKK&zoom=20&coordinate_x=4100000&coordinate_y=7500000&baseLayerId=235&theme_id=1&is_copy_url=true&active_layers=37577%2C37579%2C37581%2C37580%2C37578&selectedCard=157240605%2C36368%2C77%3A01%3A0000000%3A1000
+                            object_urls:
+                            - https://nspd.gov.ru/map?thematic=PKK&zoom=20&coordinate_x=4100000&coordinate_y=7500000&baseLayerId=235&theme_id=1&is_copy_url=true&active_layers=37577%2C37579%2C37581%2C37580%2C37578&selectedCard=157240605%2C36368%2C77%3A01%3A0000000%3A1000
         '400':
           description: 'Некорректный запрос: ошибка в параметрах или отсутствует обязательное поле.'
           content:

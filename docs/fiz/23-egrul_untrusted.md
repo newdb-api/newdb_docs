@@ -1,5 +1,5 @@
 ---
-title: "egrul_untrusted — Недостоверные сведения ЕГРЮЛ"
+title: "corporate_restrictions_person — Корпоративные ограничения физлица"
 description: "Метод egrul_untrusted извлекает метки о недостоверности сведений о физлице (руководитель no_corr_boss, учредитель no_corr_founder), недостоверности адреса, рассчитывает риск 3-летнего запрета на руководство и предстоящего исключения из ЕГРЮЛ."
 canonical_url: https://newdb.net/docs/fiz/23-egrul_untrusted/
 meta:
@@ -11,7 +11,7 @@ meta:
     content: "Проверка меток недостоверности сведений в ЕГРЮЛ о руководителе, учредителях и адресе через API NEWDB."
 ---
 
-# egrul_untrusted — Недостоверные сведения ЕГРЮЛ (руководитель, учредитель, адрес)
+# corporate_restrictions_person — Корпоративные ограничения физлица
 
 POST `https://api.newdb.net/v2`
 
@@ -51,7 +51,7 @@ X-API-KEY: `<your_token>`
     "fio": "string, optional, ФИО физлица для поиска связей",
     "ogrn": "string, optional, ОГРН организации",
     "country": "ru",
-    "method": "egrul_untrusted"
+    "method": "corporate_restrictions_person"
   },
   "webhook": "https://your.host/webhook",
   "requestId": "optional-string"
@@ -75,7 +75,7 @@ X-API-KEY: YOUR_TOKEN
   "params": {
     "inn": "7723071768",
     "country": "ru",
-    "method": "egrul_untrusted"
+    "method": "corporate_restrictions_person"
   },
   "requestId": "00000000-0000-4000-8000-000000000301"
 }
@@ -85,12 +85,43 @@ X-API-KEY: YOUR_TOKEN
 
 ## Пример ответа
 
+Публичный метод `corporate_restrictions_person` возвращает компактный контракт:
+
+```json
+{
+  "status": 200,
+  "found": true,
+  "data": [
+    {
+      "person_restrictions": [
+        {
+          "type": "ogrfl",
+          "description": "Ограничение участия физлица в ЮЛ",
+          "details": {"basis": "пп. ф п. 1 ст. 23 129-ФЗ"}
+        }
+      ],
+      "risk_3_year_ban_active": true,
+      "evidence_records": [
+        {
+          "source": "pb.nalog.ru",
+          "record_type": "ogrfl",
+          "description": "Ограничение участия физлица в ЮЛ",
+          "record": {"basis": "пп. ф п. 1 ст. 23 129-ФЗ"}
+        }
+      ]
+    }
+  ]
+}
+```
+
+Расширенный ответ ниже относится к сохранённому legacy-методу `egrul_untrusted`:
+
 ```json
 {
   "params": {
     "inn": "7723071768",
     "country": "ru",
-    "method": "egrul_untrusted",
+    "method": "corporate_restrictions_person",
     "newdb_qid": "EL0LILzjmqi4MygC"
   },
   "requestId": "00000000-0000-4000-8000-000000000301",
@@ -169,6 +200,14 @@ X-API-KEY: YOUR_TOKEN
 ---
 
 ## Структура полей ответа
+
+Для `corporate_restrictions_person` публичны только:
+
+- `person_restrictions[]` — найденные запреты и ограничения участия/руководства;
+- `risk_3_year_ban_active` — активен ли риск трёхлетнего запрета;
+- `evidence_records[]` — подтверждающие записи ФНС/ЕГРЮЛ с источником и исходными реквизитами.
+
+Следующие поля возвращаются только расширенным методом `egrul_untrusted`:
 
 - `has_untrusted_records` (boolean) — флаг наличия хотя бы одной записи о недостоверности сведений в ЕГРЮЛ.
 - `no_corr_boss` (boolean) — запись о недостоверности сведений о руководителе организации (генеральном директоре / лице с правом действовать без доверенности).

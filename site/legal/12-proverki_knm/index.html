@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Метод rnp выполняет поиск в Реестре недобросовестных поставщиков ЕИС Закупки (zakupki.gov.ru) по ИНН или наименованию поставщика, включая размещенные и исключенные записи (44-ФЗ, 223-ФЗ, ПП РФ 615).">
+        <meta name="description" content="Метод proverki_knm выполняет поиск плановых проверок и контрольно-надзорных мероприятий (КНМ) в отношении юридических лиц и ИП по ИНН в Едином реестре проверок Генеральной прокуратуры РФ (proverki.gov.ru).">
       
       
       
-        <link rel="canonical" href="https://newdb.net/docs/legal/10-rnp/">
+        <link rel="canonical" href="https://newdb.net/docs/legal/12-proverki_knm/">
       
       
-        <link rel="prev" href="../09-fns_bo/">
+        <link rel="prev" href="../11-fns_msp/">
       
       
-        <link rel="next" href="../11-fns_msp/">
+        <link rel="next" href="../../gas/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>rnp — Реестр недобросовестных поставщиков - Документация по API NewDB.net</title>
+        <title>proverki_knm — Единый реестр проверок (ФГИС ЕРП / ЕРКНМ) - Документация по API NewDB.net</title>
       
     
     
@@ -56,11 +56,11 @@
     
     
       
-        <meta  name="keywords"  content="NEWDB API, rnp, РНП, Реестр недобросовестных поставщиков, ЕИС Закупки, 44-ФЗ, 223-ФЗ, ПП РФ 615, госзакупки" >
+        <meta  name="keywords"  content="NEWDB API, proverki_knm, proverki_gov, проверки по ИНН, план проверок, ЕРКНМ, ЕРП, Генеральная прокуратура, 248-ФЗ, 294-ФЗ, надзорные органы, МЧС, Роспотребнадзор" >
       
-        <meta  property="og:title"  content="Реестр недобросовестных поставщиков — method rnp" >
+        <meta  property="og:title"  content="Единый реестр проверок — method proverki_knm" >
       
-        <meta  property="og:description"  content="Проверка поставщиков в Реестре недобросовестных поставщиков (РНП) ЕИС Закупки через API NEWDB." >
+        <meta  property="og:description"  content="Поиск плановых проверок юридических лиц и предпринимателей по ИНН через официальный реестр proverki.gov.ru в API NEWDB." >
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#rnp" class="md-skip">
+        <a href="#proverki_knm" class="md-skip">
           Перейти к содержанию
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              rnp — Реестр недобросовестных поставщиков
+              proverki_knm — Единый реестр проверок (ФГИС ЕРП / ЕРКНМ)
             
           </span>
         </div>
@@ -1549,6 +1549,48 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../10-rnp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр недобросовестных поставщиков (РНП)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../11-fns_msp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр субъектов МСП и мер поддержки
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1565,7 +1607,7 @@
           
   
   <span class="md-ellipsis">
-    Реестр недобросовестных поставщиков (РНП)
+    Реестр проверок (ФГИС ЕРП / ЕРКНМ)
   </span>
   
 
@@ -1576,7 +1618,7 @@
         
   
   <span class="md-ellipsis">
-    Реестр недобросовестных поставщиков (РНП)
+    Реестр проверок (ФГИС ЕРП / ЕРКНМ)
   </span>
   
 
@@ -1636,7 +1678,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример запроса
+      Параметры запроса
     </span>
   </a>
   
@@ -1645,7 +1687,7 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример ответа (записи найдены)
+      Пример запроса
     </span>
   </a>
   
@@ -1654,7 +1696,7 @@
         <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      Структура полей ответа
+      Пример успешного ответа
     </span>
   </a>
   
@@ -1663,7 +1705,16 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      Коды ответов
+      Пример ответа при отсутствии проверок
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Описание полей ответа
     </span>
   </a>
   
@@ -1673,48 +1724,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../11-fns_msp/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Реестр субъектов МСП и мер поддержки
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../12-proverki_knm/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Реестр проверок (ФГИС ЕРП / ЕРКНМ)
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -2180,7 +2189,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример запроса
+      Параметры запроса
     </span>
   </a>
   
@@ -2189,7 +2198,7 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример ответа (записи найдены)
+      Пример запроса
     </span>
   </a>
   
@@ -2198,7 +2207,7 @@
         <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      Структура полей ответа
+      Пример успешного ответа
     </span>
   </a>
   
@@ -2207,7 +2216,16 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      Коды ответов
+      Пример ответа при отсутствии проверок
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Описание полей ответа
     </span>
   </a>
   
@@ -2228,37 +2246,33 @@
                   
 
 
-<h1 id="rnp">rnp — Реестр недобросовестных поставщиков (ЕИС Закупки)<a class="headerlink" href="#rnp" title="Permanent link">&para;</a></h1>
+<h1 id="proverki_knm">proverki_knm — Единый реестр проверок (ФГИС ЕРП / ЕРКНМ)<a class="headerlink" href="#proverki_knm" title="Permanent link">&para;</a></h1>
 <p>POST <code>https://api.newdb.net/v2</code></p>
-<p>Метод осуществляет поиск сведений в официальном <strong>Реестре недобросовестных поставщиков (РНП)</strong> Единой информационной системы в сфере закупок (<a href="https://zakupki.gov.ru">zakupki.gov.ru</a>). Поддерживается поиск как по ИНН (10 или 12 знаков), так и по текстовому запросу / наименованию поставщика (ФИО индивидуального предпринимателя или учредителя).</p>
-<p>Метод проверяет все реестры и законы:
-- <strong>44-ФЗ</strong> (Федеральный закон «О контрактной системе в сфере закупок товаров, работ, услуг для обеспечения государственных и муниципальных нужд»);
-- <strong>223-ФЗ</strong> (Федеральный закон «О закупках товаров, работ, услуг отдельными видами юридических лиц»);
-- <strong>ПП РФ 615</strong> (Постановление Правительства РФ № 615 по капитальному ремонту МКД);
-- <strong>94-ФЗ</strong> (архивный реестр).</p>
+<p>Метод осуществляет поиск сведений в официальной системе <strong>ФГИС «Единый реестр контрольных (надзорных) мероприятий» / «Единый реестр проверок»</strong> Генеральной прокуратуры РФ (<a href="https://proverki.gov.ru/portal/public-search">proverki.gov.ru/portal/public-search</a>).</p>
+<p>Поддерживается поиск по <strong>ИНН юридического лица (10 цифр)</strong>, <strong>ИНН индивидуального предпринимателя (12 цифр)</strong> или общему поисковому запросу.</p>
+<p>Метод проверяет проверки по:
+- <strong>248-ФЗ</strong> (Федеральный закон «О государственном контроле (надзоре) и муниципальном контроле в РФ»);
+- <strong>294-ФЗ</strong> (Федеральный закон «О защите прав юридических лиц и индивидуальных предпринимателей при осуществлении государственного контроля (надзора) и муниципального контроля»).</p>
 <hr />
 <p><strong>Раздел:</strong> <a href="../">Юридические лица</a></p>
 <blockquote>
 <p>[!IMPORTANT]
-Метод предназначен для проверки участников закупок и контрагентов: <strong>юридических лиц (ИНН 10 знаков)</strong> и <strong>индивидуальных предпринимателей (ИНН 12 знаков)</strong>, а также по наименованию компании или ФИО поставщика.</p>
-<p>Метод выполняется:
-1. <strong>Отдельно</strong> по ИНН (10 или 12 цифр) или по названию/ФИО (<code>method: "rnp"</code>).
-2. <strong>Автоматически</strong> в рамках комплексной проверки компании по ИНН (<a href="../06-complex_by_inn/">complex_by_inn</a>).</p>
-<p>При бытовых проверках граждан по паспорту (<code>complex_by_passport</code>) метод не запускается, чтобы не перегружать проверку непрофильными реестрами.</p>
+Метод предназначен для анализа регуляторных рисков компаний и ИП: плановых и внеплановых проверок МЧС, Роспотребнадзора, Роструда, Ростехнадзора, Росприроднадзора, налоговых и прокурорских органов.</p>
+<p>Автоматически решает графические капчи провайдера, агрегирует постраничную пагинацию и возвращает структурированный список мероприятий со ссылками на карточки проверок.</p>
 </blockquote>
 <h2 id="_1">Связанные страницы<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../">Обзор раздела юридические лица</a></li>
-<li><a href="../01-arbitr_legal/">arbitr_legal — Арбитражные дела юрлица в КАД</a></li>
 <li><a href="../02-fns_block/">fns_block — Блокировка счетов юрлица по данным ФНС</a></li>
-<li><a href="../03-bankrot_legal/">bankrot_legal — Банкротство юрлица (Федресурс)</a></li>
-<li><a href="../../fiz/23-egrul_untrusted/">egrul_untrusted — Недостоверные сведения ЕГРЮЛ</a></li>
+<li><a href="../10-rnp/">rnp — Реестр недобросовестных поставщиков</a></li>
+<li><a href="../11-fns_msp/">fns_msp — Реестр субъектов МСП и мер поддержки</a></li>
+<li><a href="../01-arbitr_legal/">arbitr_legal — Арбитражные дела юрлица в КАД</a></li>
 </ul>
 <h2 id="_2">Когда использовать<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Проверка благонадежности контрагента</strong> перед заключением контракта, соглашения или участием в тендерах.</li>
-<li><strong>Комплаенс-скоринг</strong>: нахождение в РНП блокирует участие поставщика в государственных и корпоративных закупках на 2 года.</li>
-<li><strong>Раздельный анализ статусов</strong>: учет как действующих («Размещено»), так и архивных («Исключено») записей для оценки ретроспективных рисков.</li>
+<li><strong>Проверка контрагентов перед сделками</strong>: выявление предстоящих выездных и документарных проверок надзорных органов.</li>
+<li><strong>Мониторинг собственного бизнеса</strong>: своевременное обнаружение включения организации в ежегодный сводный план проверок прокуратуры.</li>
+<li><strong>Оценка административной нагрузки и рисков</strong>: ретроспектива и статистика проведенных проверок, предписаний и выявленных нарушений.</li>
 </ul>
 <h2 id="_3">Заголовки<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>Content-Type: application/json<br />
@@ -2267,11 +2281,11 @@ X-API-KEY: <code>&lt;your_token&gt;</code></p>
 <h2 id="_4">Входная схема<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional, ИНН юрлица (10 цифр) или физлица/ИП (12 цифр)&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional, Поисковый запрос / наименование поставщика / ФИО&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;max_pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer, optional, Максимальное число страниц пагинации (1-100, по умолчанию 20)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional, ИНН организации (10 цифр) или ИП (12 цифр)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional, Поисковый запрос / номер КНМ / наименование&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer, optional, Максимальное число страниц для скачивания (1-20, по умолчанию 5, 50 записей на страницу)&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rnp&quot;</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;proverki_knm&quot;</span>
 <span class="w">  </span><span class="p">},</span>
 <span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/webhook&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional-string&quot;</span>
@@ -2279,10 +2293,62 @@ X-API-KEY: <code>&lt;your_token&gt;</code></p>
 </code></pre></div>
 <blockquote>
 <p>[!NOTE]
-В запросе необходимо передать хотя бы один параметр: <code>inn</code> либо <code>query</code>. При указании <code>inn</code> результаты дополнительно строго фильтруются по точному совпадению ИНН поставщика.</p>
+В параметрах допустимо указывать <code>method: "proverki_knm"</code> или <code>method: "proverki_gov"</code> (псевдонимы).
+Обязательно указание <code>inn</code> или <code>query</code>.</p>
 </blockquote>
 <hr />
-<h2 id="_5">Пример запроса<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">Параметры запроса<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Тип</th>
+<th style="text-align: left;">Обязательный</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>inn</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Да*</td>
+<td style="text-align: left;">ИНН проверяемого лица (10 цифр для юрлиц, 12 для ИП). Допускаются алиасы <code>innfiz</code>, <code>innyur</code>, <code>searchString</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>query</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Да*</td>
+<td style="text-align: left;">Произвольная поисковая строка (если <code>inn</code> не указан).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>max_pages</code></td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Лимит загружаемых страниц результатов (от 1 до 20, по умолчанию 5). На каждой странице до 50 записей.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>timeout_ms</code></td>
+<td style="text-align: left;">integer</td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Таймаут ожидания загрузки страницы и решения капчи (по умолчанию 45000 мс).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>country</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Код страны, по умолчанию <code>"ru"</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>method</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Да</td>
+<td style="text-align: left;">Имя метода: <code>"proverki_knm"</code> или <code>"proverki_gov"</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><em>* Требуется передать хотя бы <code>inn</code> или <code>query</code>.</em></p>
+<hr />
+<h2 id="_6">Пример запроса<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="err">POST</span><span class="w"> </span><span class="err">/v</span><span class="mi">2</span><span class="w"> </span><span class="err">HTTP/</span><span class="mf">1.1</span>
 <span class="err">Hos</span><span class="kc">t</span><span class="p">:</span><span class="w"> </span><span class="err">api.</span><span class="kc">ne</span><span class="err">wdb.</span><span class="kc">net</span>
 <span class="err">Co</span><span class="kc">ntent</span><span class="mi">-</span><span class="err">Type</span><span class="p">:</span><span class="w"> </span><span class="err">applica</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/jso</span><span class="kc">n</span>
@@ -2290,110 +2356,191 @@ X-API-KEY: <code>&lt;your_token&gt;</code></p>
 
 <span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7707083893&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rnp&quot;</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;proverki_knm&quot;</span>
 <span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000401&quot;</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000501&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
 <hr />
-<h2 id="_6">Пример ответа (записи найдены)<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_7">Пример успешного ответа<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rnp&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;newdb_qid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;M3nL7YqR9x&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000401&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;datecreated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 21:30:00&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;balance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9870</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;tasks&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;is_repeat&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000501&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000501&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;proverki_knm&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-21 17:15:00&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;rnp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;proverki_knm&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000501&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-21 17:15:00&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;has_active_records&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;registry_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;found&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;active_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;excluded_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;unknown_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;source_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;scanned_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;complete&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;pages_fetched&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;source_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://zakupki.gov.ru/epz/dishonestsupplier/search/results.html&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;matching&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;supplier_inn_exact&quot;</span>
-<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">          </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;registry_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;24001234&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;law&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FZ44&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;supplier_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО СТРОЙ-ТРЕЙД&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;29032018&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77260061000218959930&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;federal_law&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;248&quot;</span><span class="p">,</span>
 <span class="w">            </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;eruz_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20012345&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Размещено&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;status_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;published&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;included_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.02.2025&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;updated_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.02.2025&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;excluded_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;planned_exclusion_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.02.2027&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://zakupki.gov.ru/epz/dishonestsupplier/view/info.html?reestrNumber=24001234&amp;law=FZ44&quot;</span>
+<span class="w">            </span><span class="nt">&quot;ogrn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1037700000000&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;company_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО \&quot;ПРИМЕР\&quot;&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;month_start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ноябрь 2026 года.&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;control_org_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ГЛАВНОЕ УПРАВЛЕНИЕ МИНИСТЕРСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ ПО ДЕЛАМ ГРАЖДАНСКОЙ ОБОРОНЫ, ЧРЕЗВЫЧАЙНЫМ СИТУАЦИЯМ И ЛИКВИДАЦИИ ПОСЛЕДСТВИЙ СТИХИЙНЫХ БЕДСТВИЙ&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;prosecutor_org_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Прокуратура г. Москвы&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;details_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://proverki.gov.ru/portal/public-knm/29032018&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;knm_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Плановое КНМ&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;term&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10 дней 80.0 часов&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;address&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;г Москва, ул Тверская, д 1&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;carryout_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Выездная проверка&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;decision&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;raw&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;29032018&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77260061000218959930&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;knmType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Плановое КНМ&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;federalLaw&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;248&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;ogrn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1037700000000&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;faceName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО \&quot;ПРИМЕР\&quot;&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;startMonth&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Ноябрь 2026 года.&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;term&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10 дней 80.0 часов&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;objectAddress&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;г Москва, ул Тверская, д 1&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;frguOrgName&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;frguOrgFullName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ГЛАВНОЕ УПРАВЛЕНИЕ МИНИСТЕРСТВА РОССИЙСКОЙ ФЕДЕРАЦИИ ПО ДЕЛАМ ГРАЖДАНСКОЙ ОБОРОНЫ...&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;carryoutName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Выездная проверка&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;prosecName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Прокуратура г. Москвы&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ERKNM&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;decision&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">            </span><span class="p">}</span>
 <span class="w">          </span><span class="p">}</span>
 <span class="w">        </span><span class="p">]</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000402&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 21:30:03&quot;</span>
+<span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
 <hr />
-<h2 id="_7">Структура полей ответа<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<ul>
-<li><code>found</code> (boolean) — признак наличия записей в РНП по заданному запросу (<code>true</code>, <code>false</code>, или <code>null</code> при неполных данных).</li>
-<li><code>has_active_records</code> (boolean) — флаг наличия <strong>действующих</strong> записей со статусом «Размещено» (<code>true</code>, <code>false</code>, или <code>null</code>).</li>
-<li><code>registry_status</code> (string):</li>
-<li><code>found</code> — записи найдены;</li>
-<li><code>not_found</code> — проверено, записей в реестре нет;</li>
-<li><code>incomplete</code> — достигнут лимит страниц пагинации без полного охвата.</li>
-<li><code>meta</code>:</li>
-<li><code>active_count</code> (integer) — количество активных записей («Размещено»);</li>
-<li><code>excluded_count</code> (integer) — количество исключенных архивных записей («Исключено»);</li>
-<li><code>source_count</code> (integer) — общее количество записей по счетчику ЕИС;</li>
-<li><code>pages_fetched</code> (integer) — количество обработанных страниц пагинации;</li>
-<li><code>matching</code> (string) — тип сопоставления (<code>supplier_inn_exact</code> или <code>source_search</code>).</li>
-<li><code>data[]</code>:</li>
-<li><code>registry_number</code> (string) — номер реестровой записи в РНП.</li>
-<li><code>law</code> (string) — закон/основание (<code>FZ44</code>, <code>FZ223</code>, <code>PPRF615</code>, <code>FZ94</code>).</li>
-<li><code>supplier_name</code> (string) — наименование поставщика (подрядчика, исполнителя) или ФИО ИП.</li>
-<li><code>inn</code> (string) — ИНН недобросовестного поставщика.</li>
-<li><code>eruz_number</code> (string) — номер реестровой записи в ЕРУЗ (при наличии).</li>
-<li><code>status</code> (string) — текстовый статус («Размещено», «Исключено»).</li>
-<li><code>status_code</code> (string) — нормализованный код статуса (<code>published</code>, <code>excluded</code>, <code>unknown</code>).</li>
-<li><code>is_active</code> (boolean) — признак активности записи (<code>true</code> для «Размещено», <code>false</code> для «Исключено»).</li>
-<li><code>included_date</code> (string) — дата включения в РНП (<code>DD.MM.YYYY</code>).</li>
-<li><code>updated_date</code> (string) — дата обновления сведений.</li>
-<li><code>excluded_date</code> (string) — фактическая дата исключения из реестра.</li>
-<li><code>planned_exclusion_date</code> (string) — плановая дата исключения (обычно 2 года с момента включения).</li>
-<li><code>url</code> (string) — прямая ссылка на карточку реестровой записи в ЕИС Закупки.</li>
-</ul>
+<h2 id="_8">Пример ответа при отсутствии проверок<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000502&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000502&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;proverki_knm&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;success&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-21 17:15:00&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;proverki_knm&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000502&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-21 17:15:00&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
 <hr />
-<h2 id="_8">Коды ответов<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<ul>
-<li><code>200</code> — запрос успешно выполнен.</li>
-<li><code>400</code> — некорректные параметры (не указан <code>inn</code>/<code>query</code> либо некорректный формат ИНН).</li>
-<li><code>500</code> — ошибка внешнего сервиса или превышение времени ожидания.</li>
-</ul>
+<h2 id="_9">Описание полей ответа<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Поле в <code>data[]</code></th>
+<th style="text-align: left;">Тип</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>id</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Уникальный системный идентификатор мероприятия в ФГИС ЕРП / ЕРКНМ.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>number</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Учетный номер КНМ (контрольного надзорного мероприятия).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>federal_law</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Федеральный закон, в рамках которого проводится проверка (<code>"248"</code>, <code>"294"</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>inn</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">ИНН проверяемого лица.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>ogrn</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">ОГРН проверяемого лица.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>company_name</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Наименование юридического лица или ФИО индивидуального предпринимателя.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>month_start</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Плановый месяц и год начала проведения проверки (например, <code>"Ноябрь 2026 года."</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>control_org_name</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Полное наименование контрольного (надзорного) органа.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>prosecutor_org_name</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Наименование органа прокуратуры, согласующего проверку.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>details_url</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Прямая ссылка на карточку мероприятия на портале <code>proverki.gov.ru</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>knm_type</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Тип мероприятия (например, <code>"Плановое КНМ"</code> или <code>"Внеплановое КНМ"</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>term</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Срок проведения мероприятия (например, <code>"10 дней 80.0 часов"</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>address</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Адрес места нахождения объекта контроля.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>carryout_name</code></td>
+<td style="text-align: left;">string</td>
+<td style="text-align: left;">Форма проведения проверки (например, <code>"Выездная проверка"</code>, <code>"Документарная проверка"</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>decision</code></td>
+<td style="text-align: left;">boolean</td>
+<td style="text-align: left;">Признак наличия решения по результатам КНМ.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>raw</code></td>
+<td style="text-align: left;">object</td>
+<td style="text-align: left;">Исходный структурированный объект ответа провайдера.</td>
+</tr>
+</tbody>
+</table>
 
 
 

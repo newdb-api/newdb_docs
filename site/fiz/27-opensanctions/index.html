@@ -6,17 +6,17 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Метод rnp выполняет поиск в Реестре недобросовестных поставщиков ЕИС Закупки (zakupki.gov.ru) по ИНН или наименованию поставщика, включая размещенные и исключенные записи (44-ФЗ, 223-ФЗ, ПП РФ 615).">
+        <meta name="description" content="Метод NEWDB ищет физлиц и организации на сайте OpenSanctions и возвращает только карточки, точно совпавшие по указанным ИНН и дате рождения.">
       
       
       
-        <link rel="canonical" href="https://newdb.net/docs/legal/10-rnp/">
+        <link rel="canonical" href="https://newdb.net/docs/fiz/27-opensanctions/">
       
       
-        <link rel="prev" href="../09-fns_bo/">
+        <link rel="prev" href="../26-fsin/">
       
       
-        <link rel="next" href="../11-fns_msp/">
+        <link rel="next" href="../../foreign/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -24,7 +24,7 @@
     
     
       
-        <title>rnp — Реестр недобросовестных поставщиков - Документация по API NewDB.net</title>
+        <title>opensanctions — поиск санкций, PEP и связанных рисков - Документация по API NewDB.net</title>
       
     
     
@@ -56,11 +56,7 @@
     
     
       
-        <meta  name="keywords"  content="NEWDB API, rnp, РНП, Реестр недобросовестных поставщиков, ЕИС Закупки, 44-ФЗ, 223-ФЗ, ПП РФ 615, госзакупки" >
-      
-        <meta  property="og:title"  content="Реестр недобросовестных поставщиков — method rnp" >
-      
-        <meta  property="og:description"  content="Проверка поставщиков в Реестре недобросовестных поставщиков (РНП) ЕИС Закупки через API NEWDB." >
+        <meta  name="keywords"  content="NEWDB API, OpenSanctions, санкции, PEP, комплаенс, санкционный скрининг, ИНН" >
       
     
     
@@ -76,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#rnp" class="md-skip">
+        <a href="#opensanctions-pep" class="md-skip">
           Перейти к содержанию
         </a>
       
@@ -112,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              rnp — Реестр недобросовестных поставщиков
+              opensanctions — поиск санкций, PEP и связанных рисков
             
           </span>
         </div>
@@ -384,8 +380,10 @@
       
   
   
+    
   
   
+  
     
     
     
@@ -395,11 +393,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
         
           
           <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
@@ -413,7 +411,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             Физические лица
@@ -427,7 +425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -448,7 +446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/01-fssp_person/" class="md-nav__link">
+      <a href="../01-fssp_person/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -469,7 +467,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/02-passport_fns/" class="md-nav__link">
+      <a href="../02-passport_fns/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -490,7 +488,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/03-passport_mvd/" class="md-nav__link">
+      <a href="../03-passport_mvd/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -511,7 +509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/04-complex_by_passport/" class="md-nav__link">
+      <a href="../04-complex_by_passport/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -532,7 +530,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/05-fedresurs_bankrot/" class="md-nav__link">
+      <a href="../05-fedresurs_bankrot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -553,7 +551,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/10-fns_block_person/" class="md-nav__link">
+      <a href="../10-fns_block_person/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -574,7 +572,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/11-egrul_ip/" class="md-nav__link">
+      <a href="../11-egrul_ip/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -595,7 +593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/12-terrorist/" class="md-nav__link">
+      <a href="../12-terrorist/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -616,7 +614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/13-mvd_wanted/" class="md-nav__link">
+      <a href="../13-mvd_wanted/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -637,7 +635,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/14-inoagent/" class="md-nav__link">
+      <a href="../14-inoagent/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -658,7 +656,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/08-nalog_debt/" class="md-nav__link">
+      <a href="../08-nalog_debt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -679,7 +677,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/09-elmk_registry/" class="md-nav__link">
+      <a href="../09-elmk_registry/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -700,7 +698,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/06-pledge_person/" class="md-nav__link">
+      <a href="../06-pledge_person/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -721,7 +719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/07-arbitr_person/" class="md-nav__link">
+      <a href="../07-arbitr_person/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -742,7 +740,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/15-self_employed/" class="md-nav__link">
+      <a href="../15-self_employed/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -763,7 +761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/16-fns_mass_founders/" class="md-nav__link">
+      <a href="../16-fns_mass_founders/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -784,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/17-fns_mass_leaders/" class="md-nav__link">
+      <a href="../17-fns_mass_leaders/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -805,7 +803,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/18-intellectual_property/" class="md-nav__link">
+      <a href="../18-intellectual_property/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -826,7 +824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/19-disqual/" class="md-nav__link">
+      <a href="../19-disqual/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -847,7 +845,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/20-region_inn/" class="md-nav__link">
+      <a href="../20-region_inn/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -868,7 +866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/21-court_arbitration/" class="md-nav__link">
+      <a href="../21-court_arbitration/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -889,7 +887,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/22-arbitr_debt_sum/" class="md-nav__link">
+      <a href="../22-arbitr_debt_sum/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -910,7 +908,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/23-egrul_untrusted/" class="md-nav__link">
+      <a href="../23-egrul_untrusted/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -931,7 +929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/24-fssp_company/" class="md-nav__link">
+      <a href="../24-fssp_company/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -952,7 +950,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/25-driver_license/" class="md-nav__link">
+      <a href="../25-driver_license/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -973,7 +971,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fiz/26-fsin/" class="md-nav__link">
+      <a href="../26-fsin/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -991,10 +989,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../fiz/27-opensanctions/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Санкции и PEP (OpenSanctions)
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1003,6 +1021,125 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Когда использовать
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заголовки
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Параметры запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса физического лица
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса организации
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример успешного ответа
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ответ без точных совпадений
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля объекта data[]
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#captcha" class="md-nav__link">
+    <span class="md-ellipsis">
+      Статусы и CAPTCHA
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      Ограничения
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Связанные методы
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1276,8 +1413,6 @@
       
   
   
-    
-  
   
   
     
@@ -1289,11 +1424,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
         
           
           <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
@@ -1307,7 +1442,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             Юридические лица
@@ -1321,7 +1456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../legal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1342,7 +1477,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../01-arbitr_legal/" class="md-nav__link">
+      <a href="../../legal/01-arbitr_legal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1363,7 +1498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../02-fns_block/" class="md-nav__link">
+      <a href="../../legal/02-fns_block/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1384,7 +1519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../03-bankrot_legal/" class="md-nav__link">
+      <a href="../../legal/03-bankrot_legal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1405,7 +1540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../04-egrul/" class="md-nav__link">
+      <a href="../../legal/04-egrul/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1426,7 +1561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../05-fssp_legal/" class="md-nav__link">
+      <a href="../../legal/05-fssp_legal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1447,7 +1582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-ods_case_search/" class="md-nav__link">
+      <a href="../../legal/06-ods_case_search/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1468,7 +1603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../07-pledge_legal/" class="md-nav__link">
+      <a href="../../legal/07-pledge_legal/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1489,7 +1624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../06-complex_by_inn/" class="md-nav__link">
+      <a href="../../legal/06-complex_by_inn/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1510,7 +1645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../08-kad_event_monitor/" class="md-nav__link">
+      <a href="../../legal/08-kad_event_monitor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1531,7 +1666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../09-fns_bo/" class="md-nav__link">
+      <a href="../../legal/09-fns_bo/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1549,30 +1684,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Реестр недобросовестных поставщиков (РНП)
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../legal/10-rnp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1581,98 +1696,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Содержание">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Содержание
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      Связанные страницы
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      Когда использовать
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      Заголовки
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      Входная схема
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример запроса
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      Пример ответа (записи найдены)
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      Структура полей ответа
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      Коды ответов
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1685,7 +1708,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../11-fns_msp/" class="md-nav__link">
+      <a href="../../legal/11-fns_msp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1706,7 +1729,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../12-proverki_knm/" class="md-nav__link">
+      <a href="../../legal/12-proverki_knm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2144,7 +2167,7 @@
         <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      Связанные страницы
+      Когда использовать
     </span>
   </a>
   
@@ -2153,7 +2176,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      Когда использовать
+      Заголовки
     </span>
   </a>
   
@@ -2162,7 +2185,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      Заголовки
+      Параметры запроса
     </span>
   </a>
   
@@ -2171,7 +2194,7 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      Входная схема
+      Пример запроса физического лица
     </span>
   </a>
   
@@ -2180,7 +2203,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример запроса
+      Пример запроса организации
     </span>
   </a>
   
@@ -2189,7 +2212,7 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример ответа (записи найдены)
+      Пример успешного ответа
     </span>
   </a>
   
@@ -2198,7 +2221,25 @@
         <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      Структура полей ответа
+      Ответ без точных совпадений
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#data" class="md-nav__link">
+    <span class="md-ellipsis">
+      Поля объекта data[]
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#captcha" class="md-nav__link">
+    <span class="md-ellipsis">
+      Статусы и CAPTCHA
     </span>
   </a>
   
@@ -2207,7 +2248,16 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      Коды ответов
+      Ограничения
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      Связанные методы
     </span>
   </a>
   
@@ -2228,171 +2278,220 @@
                   
 
 
-<h1 id="rnp">rnp — Реестр недобросовестных поставщиков (ЕИС Закупки)<a class="headerlink" href="#rnp" title="Permanent link">&para;</a></h1>
+<h1 id="opensanctions-pep">opensanctions — поиск санкций, PEP и связанных рисков<a class="headerlink" href="#opensanctions-pep" title="Permanent link">&para;</a></h1>
 <p>POST <code>https://api.newdb.net/v2</code></p>
-<p>Метод осуществляет поиск сведений в официальном <strong>Реестре недобросовестных поставщиков (РНП)</strong> Единой информационной системы в сфере закупок (<a href="https://zakupki.gov.ru">zakupki.gov.ru</a>). Поддерживается поиск как по ИНН (10 или 12 знаков), так и по текстовому запросу / наименованию поставщика (ФИО индивидуального предпринимателя или учредителя).</p>
-<p>Метод проверяет все реестры и законы:
-- <strong>44-ФЗ</strong> (Федеральный закон «О контрактной системе в сфере закупок товаров, работ, услуг для обеспечения государственных и муниципальных нужд»);
-- <strong>223-ФЗ</strong> (Федеральный закон «О закупках товаров, работ, услуг отдельными видами юридических лиц»);
-- <strong>ПП РФ 615</strong> (Постановление Правительства РФ № 615 по капитальному ремонту МКД);
-- <strong>94-ФЗ</strong> (архивный реестр).</p>
-<hr />
-<p><strong>Раздел:</strong> <a href="../">Юридические лица</a></p>
-<blockquote>
-<p>[!IMPORTANT]
-Метод предназначен для проверки участников закупок и контрагентов: <strong>юридических лиц (ИНН 10 знаков)</strong> и <strong>индивидуальных предпринимателей (ИНН 12 знаков)</strong>, а также по наименованию компании или ФИО поставщика.</p>
-<p>Метод выполняется:
-1. <strong>Отдельно</strong> по ИНН (10 или 12 цифр) или по названию/ФИО (<code>method: "rnp"</code>).
-2. <strong>Автоматически</strong> в рамках комплексной проверки компании по ИНН (<a href="../06-complex_by_inn/">complex_by_inn</a>).</p>
-<p>При бытовых проверках граждан по паспорту (<code>complex_by_passport</code>) метод не запускается, чтобы не перегружать проверку непрофильными реестрами.</p>
-</blockquote>
-<h2 id="_1">Связанные страницы<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>Метод выполняет поиск по публичному сайту OpenSanctions через браузерный CDP-сеанс, открывает найденные карточки и возвращает только объекты, прошедшие все заданные уточняющие фильтры. OpenSanctions API при этом не используется.</p>
+<p>Метод подходит для проверки физического лица по ФИО, организации по названию, а также для уточнения совпадения по ИНН и дате рождения.</p>
+<p><strong>Раздел:</strong> <a href="../">Физические лица</a></p>
+<h2 id="_1">Когда использовать<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../">Обзор раздела юридические лица</a></li>
-<li><a href="../01-arbitr_legal/">arbitr_legal — Арбитражные дела юрлица в КАД</a></li>
-<li><a href="../02-fns_block/">fns_block — Блокировка счетов юрлица по данным ФНС</a></li>
-<li><a href="../03-bankrot_legal/">bankrot_legal — Банкротство юрлица (Федресурс)</a></li>
-<li><a href="../../fiz/23-egrul_untrusted/">egrul_untrusted — Недостоверные сведения ЕГРЮЛ</a></li>
+<li>санкционный и PEP-скрининг физического лица;</li>
+<li>проверка организации по названию и ИНН;</li>
+<li>уточнение однофамильцев по дате рождения;</li>
+<li>получение структурированной карточки OpenSanctions для дальнейшего комплаенс-анализа.</li>
 </ul>
-<h2 id="_2">Когда использовать<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Проверка благонадежности контрагента</strong> перед заключением контракта, соглашения или участием в тендерах.</li>
-<li><strong>Комплаенс-скоринг</strong>: нахождение в РНП блокирует участие поставщика в государственных и корпоративных закупках на 2 года.</li>
-<li><strong>Раздельный анализ статусов</strong>: учет как действующих («Размещено»), так и архивных («Исключено») записей для оценки ретроспективных рисков.</li>
-</ul>
-<h2 id="_3">Заголовки<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>Content-Type: application/json<br />
-X-API-KEY: <code>&lt;your_token&gt;</code></p>
-<hr />
-<h2 id="_4">Входная схема<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_2">Заголовки<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Content-Type: application/json
+X-API-KEY: &lt;your_token&gt;
+</code></pre></div>
+<h2 id="_3">Параметры запроса<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Поле</th>
+<th>Тип</th>
+<th>Обязательное</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>params.method</code></td>
+<td><code>string</code></td>
+<td>Да</td>
+<td>Идентификатор метода: <code>opensanctions</code>.</td>
+</tr>
+<tr>
+<td><code>params.query</code></td>
+<td><code>string</code></td>
+<td>Да*</td>
+<td>ФИО или название организации, до 500 символов.</td>
+</tr>
+<tr>
+<td><code>params.fio</code></td>
+<td><code>string</code></td>
+<td>Да*</td>
+<td>Алиас <code>query</code> для ФИО.</td>
+</tr>
+<tr>
+<td><code>params.name</code></td>
+<td><code>string</code></td>
+<td>Да*</td>
+<td>Алиас <code>query</code> для имени или названия.</td>
+</tr>
+<tr>
+<td><code>params.company_name</code></td>
+<td><code>string</code></td>
+<td>Да*</td>
+<td>Алиас <code>query</code> для названия организации.</td>
+</tr>
+<tr>
+<td><code>params.inn</code></td>
+<td><code>string</code></td>
+<td>Нет</td>
+<td>ИНН из 10 или 12 цифр. Карточка проходит только при точном совпадении с полем <code>INN</code> или <code>Tax Number</code>.</td>
+</tr>
+<tr>
+<td><code>params.birth_date</code></td>
+<td><code>string</code></td>
+<td>Нет</td>
+<td>Дата рождения в формате <code>YYYY-MM-DD</code> или <code>DD.MM.YYYY</code>. Поддерживаются алиасы <code>birthdate</code>, <code>date_of_birth</code>, <code>birthday</code>.</td>
+</tr>
+<tr>
+<td><code>params.max_results</code></td>
+<td><code>integer</code></td>
+<td>Нет</td>
+<td>Максимальное число карточек для открытия и проверки: от 1 до 100, по умолчанию 25.</td>
+</tr>
+<tr>
+<td><code>params.country</code></td>
+<td><code>string</code></td>
+<td>Нет</td>
+<td>Для общего контракта NEWDB обычно передается <code>ru</code>; на поиск OpenSanctions не влияет.</td>
+</tr>
+</tbody>
+</table>
+<p>* Необходимо передать одно из полей <code>query</code>, <code>fio</code>, <code>name</code> или <code>company_name</code>.</p>
+<p>Если одновременно переданы <code>inn</code> и <code>birth_date</code>, карточка включается в <code>data</code> только при совпадении <strong>обоих</strong> значений. Отсутствие запрошенного поля в карточке считается несовпадением.</p>
+<h2 id="_4">Пример запроса физического лица<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional, ИНН юрлица (10 цифр) или физлица/ИП (12 цифр)&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional, Поисковый запрос / наименование поставщика / ФИО&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;max_pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer, optional, Максимальное число страниц пагинации (1-100, по умолчанию 20)&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rnp&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/webhook&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional-string&quot;</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;opensanctions&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ИВАНОВ ИВАН ИВАНОВИЧ&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;500100732259&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;birth_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1980-01-01&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;max_results&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
+<span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<blockquote>
-<p>[!NOTE]
-В запросе необходимо передать хотя бы один параметр: <code>inn</code> либо <code>query</code>. При указании <code>inn</code> результаты дополнительно строго фильтруются по точному совпадению ИНН поставщика.</p>
-</blockquote>
-<hr />
-<h2 id="_5">Пример запроса<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="err">POST</span><span class="w"> </span><span class="err">/v</span><span class="mi">2</span><span class="w"> </span><span class="err">HTTP/</span><span class="mf">1.1</span>
-<span class="err">Hos</span><span class="kc">t</span><span class="p">:</span><span class="w"> </span><span class="err">api.</span><span class="kc">ne</span><span class="err">wdb.</span><span class="kc">net</span>
-<span class="err">Co</span><span class="kc">ntent</span><span class="mi">-</span><span class="err">Type</span><span class="p">:</span><span class="w"> </span><span class="err">applica</span><span class="kc">t</span><span class="err">io</span><span class="kc">n</span><span class="err">/jso</span><span class="kc">n</span>
-<span class="err">X</span><span class="mi">-</span><span class="err">API</span><span class="mi">-</span><span class="err">KEY</span><span class="p">:</span><span class="w"> </span><span class="err">YOUR_TOKEN</span>
-
-<span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7707083893&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rnp&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000401&quot;</span>
-<span class="p">}</span>
-</code></pre></div>
-<hr />
-<h2 id="_6">Пример ответа (записи найдены)<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_5">Пример запроса организации<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000002&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;opensanctions&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;company_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО ПРИМЕР&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;rnp&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;newdb_qid&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;M3nL7YqR9x&quot;</span>
-<span class="w">  </span><span class="p">},</span>
-<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000401&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;datecreated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 21:30:00&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="_6">Пример успешного ответа<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000001&quot;</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;balance&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">9870</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;tasks&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;is_repeat&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
 <span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nt">&quot;rnp&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;opensanctions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000101&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-18 12:00:00&quot;</span><span class="p">,</span>
 <span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;has_active_records&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;registry_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;found&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
-<span class="w">          </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;active_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;excluded_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;unknown_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;source_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;scanned_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;complete&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;pages_fetched&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;source_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://zakupki.gov.ru/epz/dishonestsupplier/search/results.html&quot;</span><span class="p">,</span>
-<span class="w">          </span><span class="nt">&quot;matching&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;supplier_inn_exact&quot;</span>
-<span class="w">        </span><span class="p">},</span>
 <span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
 <span class="w">          </span><span class="p">{</span>
-<span class="w">            </span><span class="nt">&quot;registry_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;24001234&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;law&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;FZ44&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;supplier_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ООО СТРОЙ-ТРЕЙД&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;7712345678&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;eruz_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;20012345&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Размещено&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;status_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;published&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;is_active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;included_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.02.2025&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;updated_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.02.2025&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;excluded_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;planned_exclusion_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.02.2027&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://zakupki.gov.ru/epz/dishonestsupplier/view/info.html?reestrNumber=24001234&amp;law=FZ44&quot;</span>
+<span class="w">            </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;example-entity-id&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;IVAN IVANOV&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://www.opensanctions.org/entities/example-entity-id/&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;search_details&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Person · Sanctioned&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;Topics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;Sanctioned&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;1 source&quot;</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;Name&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;IVAN IVANOV&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;1 source&quot;</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;Birth date&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;1980-01-01&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;1 source&quot;</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;INN&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;500100732259&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;1 source&quot;</span><span class="p">]</span>
+<span class="w">            </span><span class="p">}</span>
 <span class="w">          </span><span class="p">}</span>
-<span class="w">        </span><span class="p">]</span>
-<span class="w">      </span><span class="p">},</span>
-<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;00000000-0000-4000-8000-000000000402&quot;</span><span class="p">,</span>
-<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-15 21:30:03&quot;</span>
+<span class="w">        </span><span class="p">],</span>
+<span class="w">        </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;query&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ИВАНОВ ИВАН ИВАНОВИЧ&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;filters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;inn&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;500100732259&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;birth_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1980-01-01&quot;</span><span class="p">},</span>
+<span class="w">          </span><span class="nt">&quot;matching&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;all_provided_filters_exact&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;search_result_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;cards_scanned&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;matched_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">}</span>
 <span class="w">  </span><span class="p">}</span>
 <span class="p">}</span>
 </code></pre></div>
-<hr />
-<h2 id="_7">Структура полей ответа<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="_7">Ответ без точных совпадений<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>Завершенный поиск без карточек, прошедших фильтры, не является системной ошибкой:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;registry_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;not_found&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="data">Поля объекта <code>data[]</code><a class="headerlink" href="#data" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Поле</th>
+<th>Тип</th>
+<th>Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td><code>string</code></td>
+<td>Идентификатор сущности OpenSanctions.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Основное имя физлица или организации.</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td><code>string</code></td>
+<td>Публичная ссылка на карточку.</td>
+</tr>
+<tr>
+<td><code>search_details</code></td>
+<td><code>string</code></td>
+<td>Краткие признаки из поисковой выдачи.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>object</code></td>
+<td>Поля карточки. Ключи соответствуют подписям OpenSanctions, значения представлены массивами строк.</td>
+</tr>
+</tbody>
+</table>
+<p>Обычно в <code>fields</code> могут присутствовать <code>Topics</code>, <code>Name</code>, <code>Alias</code>, <code>Birth date</code>, <code>Country</code>, <code>INN</code>, <code>Tax Number</code>, <code>Address</code>, <code>Position</code>, <code>Description</code>, <code>Source link</code> и другие доступные поля карточки.</p>
+<h2 id="captcha">Статусы и CAPTCHA<a class="headerlink" href="#captcha" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>found</code> (boolean) — признак наличия записей в РНП по заданному запросу (<code>true</code>, <code>false</code>, или <code>null</code> при неполных данных).</li>
-<li><code>has_active_records</code> (boolean) — флаг наличия <strong>действующих</strong> записей со статусом «Размещено» (<code>true</code>, <code>false</code>, или <code>null</code>).</li>
-<li><code>registry_status</code> (string):</li>
-<li><code>found</code> — записи найдены;</li>
-<li><code>not_found</code> — проверено, записей в реестре нет;</li>
-<li><code>incomplete</code> — достигнут лимит страниц пагинации без полного охвата.</li>
-<li><code>meta</code>:</li>
-<li><code>active_count</code> (integer) — количество активных записей («Размещено»);</li>
-<li><code>excluded_count</code> (integer) — количество исключенных архивных записей («Исключено»);</li>
-<li><code>source_count</code> (integer) — общее количество записей по счетчику ЕИС;</li>
-<li><code>pages_fetched</code> (integer) — количество обработанных страниц пагинации;</li>
-<li><code>matching</code> (string) — тип сопоставления (<code>supplier_inn_exact</code> или <code>source_search</code>).</li>
-<li><code>data[]</code>:</li>
-<li><code>registry_number</code> (string) — номер реестровой записи в РНП.</li>
-<li><code>law</code> (string) — закон/основание (<code>FZ44</code>, <code>FZ223</code>, <code>PPRF615</code>, <code>FZ94</code>).</li>
-<li><code>supplier_name</code> (string) — наименование поставщика (подрядчика, исполнителя) или ФИО ИП.</li>
-<li><code>inn</code> (string) — ИНН недобросовестного поставщика.</li>
-<li><code>eruz_number</code> (string) — номер реестровой записи в ЕРУЗ (при наличии).</li>
-<li><code>status</code> (string) — текстовый статус («Размещено», «Исключено»).</li>
-<li><code>status_code</code> (string) — нормализованный код статуса (<code>published</code>, <code>excluded</code>, <code>unknown</code>).</li>
-<li><code>is_active</code> (boolean) — признак активности записи (<code>true</code> для «Размещено», <code>false</code> для «Исключено»).</li>
-<li><code>included_date</code> (string) — дата включения в РНП (<code>DD.MM.YYYY</code>).</li>
-<li><code>updated_date</code> (string) — дата обновления сведений.</li>
-<li><code>excluded_date</code> (string) — фактическая дата исключения из реестра.</li>
-<li><code>planned_exclusion_date</code> (string) — плановая дата исключения (обычно 2 года с момента включения).</li>
-<li><code>url</code> (string) — прямая ссылка на карточку реестровой записи в ЕИС Закупки.</li>
+<li><code>result.status: 200</code> — поиск завершен; <code>data</code> содержит только точные совпадения.</li>
+<li><code>result.status: 400</code> — некорректные параметры запроса.</li>
+<li><code>result.status: 500</code>, верхнеуровневый <code>status: "error"</code> — источник или CDP недоступен, либо обнаружена Cloudflare/reCAPTCHA/hCaptcha-проверка; запрос допускает повторный запуск.</li>
 </ul>
-<hr />
-<h2 id="_8">Коды ответов<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>Защитная страница не трактуется как отсутствие совпадений и не приводит к ложному <code>data: []</code> со статусом успешного поиска.</p>
+<h2 id="_8">Ограничения<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>200</code> — запрос успешно выполнен.</li>
-<li><code>400</code> — некорректные параметры (не указан <code>inn</code>/<code>query</code> либо некорректный формат ИНН).</li>
-<li><code>500</code> — ошибка внешнего сервиса или превышение времени ожидания.</li>
+<li>Результат зависит от текущего содержимого публичного сайта OpenSanctions.</li>
+<li>Метод открывает каждую найденную карточку, поэтому увеличение <code>max_results</code> повышает время выполнения.</li>
+<li>Использование данных должно соответствовать условиям и лицензии OpenSanctions.</li>
+</ul>
+<h2 id="_9">Связанные методы<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../12-terrorist/">terrorist — перечень Росфинмониторинга</a></li>
+<li><a href="../13-mvd_wanted/">mvd_wanted — розыск МВД</a></li>
+<li><a href="../19-disqual/">disqualified_person — дисквалифицированные лица ФНС</a></li>
+<li><a href="../26-fsin/">fsin_wanted — розыск ФСИН</a></li>
 </ul>
 
 
