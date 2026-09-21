@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет проверку вида на жительство иностранного гражданина по данным документа и ФИО.
 
+**Раздел:** [Иностранные граждане](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела иностранные граждане](index.md)
+- [foreign_patent — Патент](02-foreign_patent.md)
+- [foreign_rvp_stamp — РВП (штамп в паспорте)](03-foreign_rvp_stamp.md)
+- [foreign_rvp_blank — РВП (бланк)](04-foreign_rvp_blank.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить статус документа или разрешительного основания иностранного гражданина.
+
+## Типовые кейсы
+
+- Проверка ВНЖ, патента, РВП или разрешения на работу перед оформлением
+- Контроль миграционных документов в HR или compliance-процессе
+- Подтверждение статуса документа по данным анкеты и реквизитам
+
 ## Заголовки
 ```
 Content-Type: application/json
@@ -117,85 +136,21 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 ```json
 {
-  "tools": [
-    {
-      "name": "foreign_vng",
-      "description": "Проверка вида на жительство (ВНЖ) иностранного гражданина по данным документа и ФИО.",
-      "input_schema": {
-        "method": "string (foreign_vng)",
-        "doctype": "string (vng)",
-        "firstname": "string",
-        "lastname": "string",
-        "doc_seria": "string",
-        "doc_number": "string",
-        "id_doc_seria": "string",
-        "id_doc_number": "string",
-        "blank_seria": "string",
-        "blank_number": "string",
-        "dob": "string (YYYY-MM-DD)",
-        "country": "string (ru)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "foreign_vng": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "doc_status": "string"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "method": "foreign_vng",
-            "doctype": "vng",
-            "firstname": "Хаджиакбар",
-            "lastname": "Юлдошев",
-            "doc_seria": "82",
-            "doc_number": "2205693712",
-            "id_doc_seria": "FA",
-            "id_doc_number": "4678821",
-            "blank_seria": "РР",
-            "blank_number": "8118448",
-            "dob": "1985-12-01",
-            "country": "ru"
-          },
-          "requestId": "b4c63a7b-45cc-031e-bbeb-a6518014bca4"
-        },
-        "response": {
-          "requestId": "b4c63a7b-45cc-031e-bbeb-a6518014bca4",
-          "state": "complete",
-          "results": {
-            "foreign_vng": {
-              "result": {
-                "status": 200,
-                "data": [
-                  {
-                    "doc_status": "Данные не найдены"
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь просит проверить ВНЖ иностранного гражданина — используйте метод foreign_vng и верните статус по документу."
+  "method": "foreign_vng",
+  "intent": "Проверка вида на жительство иностранного гражданина",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["method", "doctype", "firstname", "lastname", "doc_seria", "doc_number", "id_doc_seria", "id_doc_number", "blank_seria", "blank_number", "dob", "country", "requestId"],
+  "returns": ["state", "results.foreign_vng.result.status", "results.foreign_vng.result.data"]
 }
 ```
+
+</details>
+

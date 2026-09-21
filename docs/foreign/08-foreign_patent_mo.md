@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет проверку патента для Московской области по ИНН физического лица и дате рождения.
 
+**Раздел:** [Иностранные граждане](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела иностранные граждане](index.md)
+- [patent_msk — Патент (Москва)](07-foreign_patent_msk.md)
+- [rkl — Проверка по реестру контролируемых лиц](06-foreign_rkl.md)
+- [foreign_rnr — Разрешение на работу (РНР)](05-foreign_rnr.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить статус документа или разрешительного основания иностранного гражданина.
+
+## Типовые кейсы
+
+- Проверка ВНЖ, патента, РВП или разрешения на работу перед оформлением
+- Контроль миграционных документов в HR или compliance-процессе
+- Подтверждение статуса документа по данным анкеты и реквизитам
+
 ## Заголовки
 ```http
 Content-Type: application/json
@@ -92,44 +111,22 @@ X-API-KEY: <your_token>
 ## Статус в ответе
 - `status: "not_found"` — данные по патенту не найдены.
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 ```json
 {
-  "tools": [
-    {
-      "name": "patent_mo",
-      "description": "Проверка патента иностранного гражданина в Московской области по ИНН и дате рождения.",
-      "input_schema": {
-        "method": "string (patent_mo)",
-        "innfiz": "string",
-        "dob": "string (YYYY-MM-DD)",
-        "country": "string (ru)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "patent_mo": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "message": "string",
-                  "details": "string",
-                  "status": "string (not_found|valid|expired)"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь просит проверить патент в Московской области — используйте метод patent_mo и верните результат проверки."
+  "method": "patent_mo",
+  "intent": "Проверка патента иностранного гражданина по Московской области",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["method", "innfiz", "dob", "country", "requestId"],
+  "returns": ["state", "results.patent_mo.result.status", "results.patent_mo.result.data"]
 }
 ```
+
+</details>
+
+

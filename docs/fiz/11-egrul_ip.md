@@ -19,6 +19,25 @@ POST `https://api.newdb.net/v2`
 
 Для запроса нужно передавать `innfiz` из 12 цифр.
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [fns_block_person — Проверка блокировок счетов физлица (ФНС)](10-fns_block_person.md)
+- [terrorist — Проверка на причастность к терроризму и распространению ОМУ](12-terrorist.md)
+- [elmk_registry — Проверка статуса электронной медицинской книжки](09-elmk_registry.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 
 ```text
@@ -92,37 +111,22 @@ X-API-KEY: YOUR_TOKEN
 
 В блоке `search.matches[]` обычно возвращаются ИНН, ОГРНИП, краткое и полное имя, статус, дата регистрации, коды ОКВЭД и ссылки на карточку в "Прозрачном бизнесе".
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "egrul_ip",
-      "description": "Получение сведений об ИП и статуса ЕГРИП по ИНН физического лица через Прозрачный бизнес.",
-      "input_schema": {
-        "innfiz": "string — ИНН физического лица, 12 цифр",
-        "country": "string (ru)",
-        "method": "string (egrul_ip)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "egrul_ip": {
-            "taskId": "string",
-            "dateupdated": "string",
-            "result": {
-              "status": "number",
-              "data": "array — сведения ЕГРИП / ИП"
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить статус ИП или сведения ЕГРИП по ИНН физлица, используй метод egrul_ip."
+  "method": "egrul_ip",
+  "intent": "Проверка статуса ИП и сведений из ЕГРИП",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["innfiz", "method", "country"],
+  "returns": ["state", "results.egrul_ip.result.status", "results.egrul_ip.result.data"]
 }
 ```
+
+</details>
+
+

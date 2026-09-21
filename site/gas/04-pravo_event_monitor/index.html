@@ -1,0 +1,2809 @@
+
+<!doctype html>
+<html lang="ru" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Метод NEWDB pravo_event_monitor для онлайн-мониторинга судебного дела в судах общей юрисдикции: прямой сбор карточки через CDP, формирование базового снимка (snapshot) и вычисление дельты (delta) новых событий и документов.">
+      
+      
+      
+        <link rel="canonical" href="https://newdb.net/docs/gas/04-pravo_event_monitor/">
+      
+      
+        <link rel="prev" href="../03-act_text_search/">
+      
+      
+        <link rel="next" href="../../property/">
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.29">
+    
+    
+      
+        <title>pravo_event_monitor — онлайн-мониторинг судебного дела (ГАС Правосудие / Мосгорсуд) - Документация по API NewDB.net</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.76a95c52.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/custom_theme.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  name="keywords"  content="NEWDB API, pravo_event_monitor, ГАС Правосудие, Мосгорсуд, СОЮ, мониторинг дела, процессуальный контроль, snapshot, delta, ods_id" >
+      
+        <meta  property="og:title"  content="Онлайн-мониторинг дела СОЮ — метод pravo_event_monitor" >
+      
+        <meta  property="og:description"  content="Описание метода pravo_event_monitor: онлайн-сбор данных дела СОЮ через CDP браузер, вычисление дельты изменений и триггеры уведомлений." >
+      
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#pravo_event_monitor-" class="md-skip">
+          Перейти к содержанию
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Верхний колонтитул">
+    <a href="../.." title="Документация по API NewDB.net" class="md-header__button md-logo" aria-label="Документация по API NewDB.net" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Документация по API NewDB.net
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              pravo_event_monitor — онлайн-мониторинг судебного дела (ГАС Правосудие / Мосгорсуд)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Поиск" placeholder="Поиск" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Поиск">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Очистить" aria-label="Очистить" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Инициализация поиска
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Навигация" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Документация по API NewDB.net" class="md-nav__button md-logo" aria-label="Документация по API NewDB.net" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Документация по API NewDB.net
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Главная
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-example/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Пример вызова API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../requests/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    История запросов (Журнал)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compatibility-zachestnyibiznes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Совместимость с ЗАПРАВИЛЬНЫЙБИЗНЕС (ZB)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../compatibility-kontur/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Совместимость с Контур.Покус (Pokus)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sdk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Официальные SDK
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reports/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Отчеты по комплексным проверкам
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../test-api/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Тестовый контур (Sandbox)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ai_prompts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AI-промпты для LLM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Физические лица
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            Физические лица
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/01-fssp_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка ФЛ (ФССП)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/02-passport_fns/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка паспорта и ИНН через ФНС
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/03-passport_mvd/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка паспорта РФ на действительность
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/04-complex_by_passport/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Комплексная проверка по паспорту
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/05-fedresurs_bankrot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Банкротство физлица (Федресурс)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/10-fns_block_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Блокировка счета физлица (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/11-egrul_ip/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ЕГРИП / статус ИП
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/12-terrorist/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Терроризм / ОМУ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/13-mvd_wanted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Розыск МВД
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/14-inoagent/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Иноагенты Минюст
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/08-nalog_debt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Налоговая задолженность по ИНН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/09-elmk_registry/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статус электронной медкнижки (ЭЛМК)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/06-pledge_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залоги
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/07-arbitr_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Арбитражные дела физлиц (КАД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/15-self_employed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Статус самозанятого (НПД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/16-fns_mass_founders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Массовые учредители (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/17-fns_mass_leaders/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Массовые руководители (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/18-intellectual_property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Интеллектуальная собственность (Роспатент)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/19-disqual/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр дисквалифицированных лиц (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/20-region_inn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Определение региона выдачи ИНН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/21-court_arbitration/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Арбитраж по компаниям физлица
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/22-arbitr_debt_sum/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Сумма арбитражных задолженностей
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/23-egrul_untrusted/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Недостоверные сведения ЕГРЮЛ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/24-fssp_company/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Долги ФССП связанных компаний
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/25-driver_license/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка водительских прав (Госуслуги)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/26-fsin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Розыск ФСИН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/27-opensanctions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Санкции и PEP (OpenSanctions)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Иностранные граждане
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11">
+            <span class="md-nav__icon md-icon"></span>
+            Иностранные граждане
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/01-foreign_vng/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Вид на жительство (ВНЖ)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/02-foreign_patent/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/07-foreign_patent_msk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент (Москва)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/08-foreign_patent_mo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Патент (Московская область)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/03-foreign_rvp_stamp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    РВП (штамп)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/04-foreign_rvp_blank/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    РВП (бланк)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/05-foreign_rnr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Разрешение на работу
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/06-foreign_rkl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр контролируемых лиц (RKL)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foreign/09-complex-report/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Комплексный отчет
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Юридические лица
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            Юридические лица
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/01-arbitr_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Арбитражные дела юрлиц (КАД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/02-fns_block/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Блокировка счета ФНС
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/03-bankrot_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Банкротство юрлица (Федресурс)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/04-egrul/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ЕГРЮЛ / Прозрачный бизнес
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/05-fssp_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ФССП по ИНН юрлица
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/06-ods_case_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск судебных дел
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/07-pledge_legal/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залоги юрлица
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/06-complex_by_inn/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Комплексная проверка компании по ИНН
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/08-kad_event_monitor/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Процессуальный контроль дела (КАД)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/09-fns_bo/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Бухгалтерская отчетность (ГИР БО)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/10-rnp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр недобросовестных поставщиков (РНП)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/11-fns_msp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр субъектов МСП и мер поддержки
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/12-proverki_knm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Реестр проверок (ФГИС ЕРП / ЕРКНМ)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_13" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_13" id="__nav_13_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    ГАС Правосудие
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_13_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_13">
+            <span class="md-nav__icon md-icon"></span>
+            ГАС Правосудие
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../01-pravo_cases_details/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Детали судебного дела по NewdbID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../02-pravo_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск судебных дел
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../03-act_text_search/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск по текстам актов
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Онлайн-мониторинг дела СОЮ
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Онлайн-мониторинг дела СОЮ
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Связанные страницы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Специфика адресации и мэтчинга дел в судах общей юрисдикции
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Когда использовать
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заголовки
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Входная схема (request)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Входная схема (request)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пояснения к параметрам
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса по case_id
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unique_case_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса по УИД (unique_case_id)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса по case_url с вычислением дельты
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример ответа
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Структура ключевых блоков
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Структура ключевых блоков">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. snapshot (Актуальный снимок дела)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. delta (Расчет изменений)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-notification_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. notification_event (Маршрутизация и доставка уведомлений)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Имущество
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            Имущество
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Обзор
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/01-rosreestr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Росреестр
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/02-pledge_property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залог по ID
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/03-pledge_vin/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Залог по VIN
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/07-vin_check/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Проверка авто по VIN (Госуслуги)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/04-nspd_cadastr/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Геоданные по кадастровому номеру
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/05-realty_price/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Оценка стоимости недвижимости
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/06-intellectual_property/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Интеллектуальная собственность (Роспатент)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../property/08-leasing_fedresurs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Договоры лизинга (Федресурс)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Содержание">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Содержание
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Связанные страницы
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Специфика адресации и мэтчинга дел в судах общей юрисдикции
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Когда использовать
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Заголовки
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#request" class="md-nav__link">
+    <span class="md-ellipsis">
+      Входная схема (request)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Входная схема (request)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пояснения к параметрам
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса по case_id
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#unique_case_id" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса по УИД (unique_case_id)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#case_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса по case_url с вычислением дельты
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример ответа
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Структура ключевых блоков
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Структура ключевых блоков">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. snapshot (Актуальный снимок дела)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-delta" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. delta (Расчет изменений)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-notification_event" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. notification_event (Маршрутизация и доставка уведомлений)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      AI Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="pravo_event_monitor-">pravo_event_monitor — Онлайн-мониторинг дела (ГАС Правосудие / Мосгорсуд)<a class="headerlink" href="#pravo_event_monitor-" title="Permanent link">&para;</a></h1>
+<p>POST <code>https://api.newdb.net/v2</code></p>
+<p>Метод <strong>pravo_event_monitor</strong> предназначен для онлайн-мониторинга судебных дел в судах общей юрисдикции РФ (ГАС «Правосудие» и портал судов г. Москвы «Мосгорсуд»).</p>
+<p>В отличие от исторического поиска по реестру, метод подключается через управляемый CDP-браузер напрямую к сайту соответствующего суда в режиме реального времени, считывает актуальные вкладки карточки дела, формирует нормализованный <strong>снимок состояния дела (snapshot)</strong> с криптографическими сигнатурами событий и рассчитывает <strong>дельту изменений (delta)</strong> относительно предыдущего состояния.</p>
+<hr />
+<p><strong>Раздел:</strong> <a href="../">ГАС Правосудие</a></p>
+<h2 id="_1">Связанные страницы<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../">Обзор раздела ГАС Правосудие</a></li>
+<li><a href="../01-pravo_cases_details/">pravo_cases_details — Детали дела по case_id</a></li>
+<li><a href="../02-pravo_search/">pravo_search — Поиск судебных дел</a></li>
+<li><a href="../../legal/08-kad_event_monitor/">kad_event_monitor — Процессуальный контроль арбитражных дел (КАД)</a></li>
+</ul>
+<h2 id="_2">Специфика адресации и мэтчинга дел в судах общей юрисдикции<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>Номер дела в СОЮ (например, <code>2-1234/2025</code> или <code>02-17913/2025</code>) <strong>не является уникальным по РФ</strong> — одинаковые номера могут использоваться в сотнях различных районных и мировых судов.</p>
+<p>Для точечного поиска и онлайн-мониторинга метод поддерживает <strong>4 гибких способа мэтчинга дел</strong>:</p>
+<ol>
+<li><strong><code>case_id</code></strong> (рекомендуется) — прямой внутренний идентификатор дела в базе NewDB (<code>ods.cases.case_id</code>). Спайдер мгновенно определяет суд и официальную карточку дела. (Для обратной совместимости также принимаются алиасы <code>ods_id</code> и <code>id</code>).</li>
+<li><strong><code>unique_case_id</code> (УИД дела)</strong> — федеральный уникальный идентификатор дела (например, <code>77RS0014-01-2025-000067-45</code>). Передаётся в параметре <code>unique_case_id</code> или <code>case_number</code>. Так как УИД уникален по всей России, система однозначно находит соответствующий суд и карточку дела.</li>
+<li><strong><code>case_url</code></strong> — прямая официальная ссылка на карточку дела на порталах <code>*.sudrf.ru</code> или <code>*.mos-gorsud.ru</code>.</li>
+<li><strong><code>court_url</code> + <code>case_number</code></strong> — официальный URL сайта суда (например, <code>http://kgvs.klg.sudrf.ru</code> или <code>https://mos-gorsud.ru</code>) вместе с локальным номером дела. Спайдер сам производит поиск по судебному делопроизводству суда.</li>
+</ol>
+<blockquote>
+<p>[!TIP]
+<strong>Автоматическое хранение снимков (Internal Snapshot Storage):</strong><br />
+Метод автоматически сохраняет полученный снимок дела в таблицу <code>ods.case_monitoring_snapshots</code>. При последующих вызовах метода клиенту <strong>не обязательно передавать <code>previous_snapshot</code></strong> — спайдер сам извлечет предыдущий снимок из базы NewDB и рассчитает дельту изменений (<code>delta</code>), если она возникла. Передача <code>previous_snapshot</code> в теле запроса сохраняется как дополнительная возможность для клиентов, хранящих снимки в своей CRM.</p>
+</blockquote>
+<hr />
+<h2 id="_3">Когда использовать<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Постановка дел общей юрисдикции на регулярный мониторинг изменений (новые заседания, определения, решения).</li>
+<li>Автоматический контроль движения споров в районных, городских и военных судах, а также в Мосгорсуде.</li>
+<li>Отслеживание появления новых документов и судебных актов без ручной проверки сайтов судов.</li>
+<li>Интеграция в юридические CRM, боты и системы нотификаций без необходимости локально хранить массивные снимки состояния.</li>
+</ul>
+<hr />
+<h2 id="_4">Заголовки<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="err">Content-Type: application/json</span>
+<span class="err">X-API-KEY: &lt;your_token&gt;</span>
+</code></pre></div>
+<hr />
+<h2 id="request">Входная схема (request)<a class="headerlink" href="#request" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo_event_monitor&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;case_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer, optional (рекомендуется): внутренний ID дела в NewDB&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;case_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional: номер дела в суде или УИД дела&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;unique_case_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional: федеральный уникальный идентификатор дела (УИД)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;case_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional: прямая официальная ссылка на карточку дела&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;court_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional: официальный URL сайта суда (используется вместе с case_number)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;previous_snapshot&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;object, optional: предыдущий снимок (если не передан, берется из БД NewDB)&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;telegram_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;integer | string, optional: Telegram ID пользователя или чата для мгновенного уведомления&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional: Email-адрес для отправки отчета об изменениях&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;webhook_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string, optional: URL для отправки HTTP POST вебхука с дельтой изменений&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;notify_on_unchanged&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean, optional: отправлять уведомление даже если изменений нет, default false&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;sync_ods&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean, optional: точечное обновление базы ODS, default true&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/webhook&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional-string&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="_5">Пояснения к параметрам<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Параметр</th>
+<th style="text-align: left;">Тип</th>
+<th style="text-align: left;">Обязательный</th>
+<th style="text-align: left;">Описание</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>method</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;"><strong>Да</strong></td>
+<td style="text-align: left;">Должен быть равен <code>"pravo_event_monitor"</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>case_id</code></td>
+<td style="text-align: left;"><code>integer</code></td>
+<td style="text-align: left;">Нет*</td>
+<td style="text-align: left;">Идентификатор дела в NewDB (<code>ods.cases.case_id</code>). Алиасы: <code>ods_id</code>, <code>id</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>unique_case_id</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Нет*</td>
+<td style="text-align: left;">Федеральный уникальный идентификатор дела (УИД, например <code>77RS0014-01-2025-000067-45</code>).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>case_url</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Нет*</td>
+<td style="text-align: left;">Прямая ссылка на карточку дела на домене <code>*.sudrf.ru</code> или <code>*.mos-gorsud.ru</code>. Алиас: <code>url</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>court_url</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Нет*</td>
+<td style="text-align: left;">Официальный URL суда. Требуется, если передается обычный <code>case_number</code> без <code>case_url</code>, <code>case_id</code> или <code>unique_case_id</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>case_number</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Нет*</td>
+<td style="text-align: left;">Номер дела в суде либо УИД. Алиасы: <code>delo_case_number</code>, <code>case</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>previous_snapshot</code></td>
+<td style="text-align: left;"><code>object</code></td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Объект предыдущего снимка дела (<code>snapshot</code>). Если не передан — автоматически загружается сохраненный снимок из NewDB.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>telegram_id</code></td>
+<td style="text-align: left;"><code>integer</code> | <code>string</code></td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Telegram ID получателя или чата/канала (например <code>123456789</code> или <code>"@channel"</code>). При обнаружении изменений спайдер отправляет форматированное Markdown-сообщение через Telegram-шлюз NewDB. Алиасы: <code>tg_id</code>, <code>notification_telegram_id</code>, <code>chat_id</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>email</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Email-адрес для доставки сводки изменений по делу. Алиасы: <code>notification_email</code>, <code>email_to</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>webhook_url</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">HTTP/HTTPS URL клиентского сервиса. При фиксации дельты спайдер отправляет POST-запрос с JSON-пейлоадом изменений. Алиасы: <code>webhook</code>, <code>callback_url</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>notify_on_unchanged</code></td>
+<td style="text-align: left;"><code>boolean</code></td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Принудительно отправлять нотификацию в указанные каналы, даже если дельта не содержит изменений. По умолчанию <code>false</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>sync_ods</code></td>
+<td style="text-align: left;"><code>boolean</code></td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Точечная синхронизация полученных онлайн-данных в ODS базу NewDB (<code>ods.cases</code>, <code>ods.case_events</code>, <code>ods.case_documents</code>, <code>ods.case_fields</code>, <code>ods.case_parties</code>, <code>ods.case_acts</code>, <code>ods.case_monitoring_snapshots</code>). По умолчанию <code>true</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>country</code></td>
+<td style="text-align: left;"><code>string</code></td>
+<td style="text-align: left;">Нет</td>
+<td style="text-align: left;">Код страны, по умолчанию <code>"ru"</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><em>*Обязательно указание хотя бы одного из вариантов адресации: <code>case_id</code>, <code>unique_case_id</code>, <code>case_url</code> или пары <code>court_url</code> + <code>case_number</code>.</em></p>
+<hr />
+<h2 id="case_id">Пример запроса по <code>case_id</code><a class="headerlink" href="#case_id" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo_event_monitor&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;case_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">250719904</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo-mon-req-001&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="unique_case_id">Пример запроса по УИД (<code>unique_case_id</code>)<a class="headerlink" href="#unique_case_id" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo_event_monitor&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;unique_case_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;77RS0014-01-2025-000067-45&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo-mon-req-uid&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="case_url">Пример запроса по <code>case_url</code> с вычислением дельты<a class="headerlink" href="#case_url" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo_event_monitor&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;case_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://kgvs.klg.sudrf.ru/modules.php?name=sud_delo&amp;srv_num=1&amp;name_op=case&amp;case_id=158355598&amp;case_uid=802df7c7-0a6d-4e41-a6bc-c35812de1e25&amp;delo_id=1540005&amp;new=&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;previous_snapshot&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;case_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2-33/2025 ~ М-18/2025&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;Наименование события&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Регистрация иска (заявления, жалобы) в суде&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;Дата&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;06.02.2025&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b3a54992f711ea0aebaf45f244e1e31343f8c329a3b1147eea69c3725ddef64a&quot;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">      </span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;documents&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo-mon-req-002&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="_6">Пример ответа<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo_event_monitor&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;ods_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">250719904</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo-mon-req-001&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;datecreated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-04 13:40:50&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;state&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;complete&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;tasks&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pravo_event_monitor&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;taskId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;task-pravo-mon-123&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;dateupdated&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2026-09-04 13:40:55&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">          </span><span class="nt">&quot;source_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;online&quot;</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;candidates_checked&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+<span class="w">          </span><span class="nt">&quot;matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nt">&quot;data&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">          </span><span class="p">{</span>
+<span class="w">            </span><span class="nt">&quot;found&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;resolution&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ods_id&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">&quot;snapshot&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;source_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;online&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;court_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://kgvs.klg.sudrf.ru&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;case_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://kgvs.klg.sudrf.ru/modules.php?name=sud_delo&amp;srv_num=1&amp;name_op=case&amp;case_id=158355598...&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;case_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ДЕЛО № 2-33/2025 ~ М-18/2025&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Судья&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Иванов И.И.&quot;</span><span class="p">},</span>
+<span class="w">                </span><span class="p">{</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Категория дела&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;О взыскании сумм по договору займа&quot;</span><span class="p">}</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;events&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;Наименование события&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Судебное заседание&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;Дата&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;04.09.2026&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;Время&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10:00&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;Результат события&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Вынесено решение&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c92b8344e18d...&quot;</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;Наименование события&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Регистрация иска (заявления, жалобы) в суде&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;Дата&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;06.02.2025&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;Время&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;11:35&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b3a54992f711ea0aebaf45f244e1e31343f8c329a3b1147eea69c3725ddef64a&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;documents&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;Наименование документа&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Решение суда&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;Дата&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;04.09.2026&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;81f1807d...&quot;</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">              </span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;metrics&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;events_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;documents_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;delta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;has_previous_snapshot&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;changed&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;summary&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Новые события: 1, новые документы: 1.&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;changes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;events&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;added&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                      </span><span class="nt">&quot;Наименование события&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Судебное заседание&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="nt">&quot;Дата&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;04.09.2026&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="nt">&quot;Время&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10:00&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="nt">&quot;Результат события&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Вынесено решение&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c92b8344e18d...&quot;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                  </span><span class="p">]</span>
+<span class="w">                </span><span class="p">},</span>
+<span class="w">                </span><span class="p">{</span>
+<span class="w">                  </span><span class="nt">&quot;field&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;documents&quot;</span><span class="p">,</span>
+<span class="w">                  </span><span class="nt">&quot;added&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">                    </span><span class="p">{</span>
+<span class="w">                      </span><span class="nt">&quot;Наименование документа&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Решение суда&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="nt">&quot;Дата&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;04.09.2026&quot;</span><span class="p">,</span>
+<span class="w">                      </span><span class="nt">&quot;signature&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;81f1807d...&quot;</span>
+<span class="w">                    </span><span class="p">}</span>
+<span class="w">                  </span><span class="p">]</span>
+<span class="w">                </span><span class="p">}</span>
+<span class="w">              </span><span class="p">]</span>
+<span class="w">            </span><span class="p">},</span>
+<span class="w">            </span><span class="nt">&quot;notification_event&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="nt">&quot;event_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;court_case_changed&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;should_notify&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;summary&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Новые события: 1, новые документы: 1.&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;channels_supported&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;telegram&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;webhook&quot;</span><span class="p">],</span>
+<span class="w">              </span><span class="nt">&quot;configured_destinations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;telegram_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;987654321&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;lawyer@example.com&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="nt">&quot;webhook_url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://your.host/webhook&quot;</span>
+<span class="w">              </span><span class="p">},</span>
+<span class="w">              </span><span class="nt">&quot;dispatch_status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sent&quot;</span><span class="p">,</span>
+<span class="w">              </span><span class="nt">&quot;dispatch_results&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">                </span><span class="nt">&quot;telegram&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sent&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;http_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;webhook&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sent&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;http_code&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">},</span>
+<span class="w">                </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;sent&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;info&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Email delivered&quot;</span><span class="p">}</span>
+<span class="w">              </span><span class="p">}</span>
+<span class="w">            </span><span class="p">}</span>
+<span class="w">          </span><span class="p">}</span>
+<span class="w">        </span><span class="p">]</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<hr />
+<h2 id="_7">Структура ключевых блоков<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="1-snapshot">1. <code>snapshot</code> (Актуальный снимок дела)<a class="headerlink" href="#1-snapshot" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Содержит точные реквизиты (<code>court_url</code>, <code>case_url</code>, <code>case_number</code>), набор извлеченных полей (<code>fields</code>), список всех событий движения дела (<code>events</code>) и список документов (<code>documents</code>).</li>
+<li>Каждое событие и документ снабжены детерминированной SHA-256 сигнатурой (<code>signature</code>), исключающей влияние порядка сериализации или служебных временных меток.</li>
+</ul>
+<h3 id="2-delta">2. <code>delta</code> (Расчет изменений)<a class="headerlink" href="#2-delta" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>has_previous_snapshot</code>: <code>true</code> если в запросе был передан <code>previous_snapshot</code> или найден в базе NewDB.</li>
+<li><code>changed</code>: флаг наличия изменений (<code>true</code> / <code>false</code>).</li>
+<li><code>summary</code>: краткая текстовая сводка изменений (например, <code>"Новые события: 2, новые документы: 1."</code>).</li>
+<li><code>changes</code>: детальный список добавленных объектов (<code>added</code>) или измененных реквизитов.</li>
+</ul>
+<h3 id="3-notification_event">3. <code>notification_event</code> (Маршрутизация и доставка уведомлений)<a class="headerlink" href="#3-notification_event" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>should_notify</code>: флаг необходимости отправки уведомления клиенту (<code>true</code> если в <code>delta</code> есть фактические изменения или задан <code>notify_on_unchanged</code>).</li>
+<li><code>event_type</code>: тип события (<code>court_case_changed</code>, <code>court_case_unchanged</code>, <code>court_case_not_found</code>).</li>
+<li><code>channels_supported</code>: поддерживаемые каналы отправки (<code>email</code>, <code>telegram</code>, <code>webhook</code>).</li>
+<li><code>configured_destinations</code>: переданные в запросе адресаты (<code>telegram_id</code>, <code>email</code>, <code>webhook_url</code>).</li>
+<li><code>dispatch_status</code>: итоговый статус отправки (<code>sent</code>, <code>partial_or_failed</code>, <code>pending</code>, <code>skipped</code>, <code>not_configured</code>).</li>
+<li><code>dispatch_results</code>: детализированный статус отправки по каждому настроенному каналу (HTTP-код вебхука, статус отправки в Telegram/SMTP).</li>
+</ul>
+<hr />
+<h2 id="ai-summary">AI Summary<a class="headerlink" href="#ai-summary" title="Permanent link">&para;</a></h2>
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;pravo_event_monitor&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;intent&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Онлайн-мониторинг событий и документов дела в судах общей юрисдикции РФ (ГАС Правосудие, Мосгорсуд)&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;endpoint&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST https://api.newdb.net/v2&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;required_headers&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;X-API-KEY&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;required_fields_one_of&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">[</span><span class="s2">&quot;ods_id&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="s2">&quot;case_url&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="p">[</span><span class="s2">&quot;court_url&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;case_number&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;optional_fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;previous_snapshot&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;country&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;requestId&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;webhook&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;returns&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;state&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.pravo_event_monitor.result.status&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.pravo_event_monitor.result.meta.source_mode&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.pravo_event_monitor.result.data[0].found&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.pravo_event_monitor.result.data[0].resolution&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.pravo_event_monitor.result.data[0].snapshot&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.pravo_event_monitor.result.data[0].delta&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;results.pravo_event_monitor.result.data[0].notification_event&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+
+</details>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  К началу
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.top", "navigation.sections", "navigation.tracking", "toc.follow", "content.code.copy", "content.action.edit", "search.suggest", "search.highlight"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "\u0421\u043a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u043d\u043e \u0432 \u0431\u0443\u0444\u0435\u0440", "clipboard.copy": "\u041a\u043e\u043f\u0438\u0440\u043e\u0432\u0430\u0442\u044c \u0432 \u0431\u0443\u0444\u0435\u0440", "search.result.more.one": "\u0415\u0449\u0451 1 \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.more.other": "\u0415\u0449\u0451 # \u043d\u0430 \u044d\u0442\u043e\u0439 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0435", "search.result.none": "\u0421\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u043e", "search.result.one": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e 1 \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0435", "search.result.other": "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u0441\u043e\u0432\u043f\u0430\u0434\u0435\u043d\u0438\u0439: #", "search.result.placeholder": "\u041d\u0430\u0447\u043d\u0438\u0442\u0435 \u043f\u0435\u0447\u0430\u0442\u0430\u0442\u044c \u0434\u043b\u044f \u043f\u043e\u0438\u0441\u043a\u0430", "search.result.term.missing": "\u041e\u0442\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442", "select.version": "\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u0432\u0435\u0440\u0441\u0438\u044e"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../javascripts/header-actions.js"></script>
+      
+    
+  </body>
+</html>

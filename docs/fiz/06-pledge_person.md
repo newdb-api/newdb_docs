@@ -34,6 +34,25 @@ POST `https://api.newdb.net/v2`
 
 ---
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [bankrot_person — Проверка на банкротство физлица (Федресурс)](05-fedresurs_bankrot.md)
+- [arbitr_person — Проверка арбитражных дел (физлица, КАД)](07-arbitr_person.md)
+- [complex_by_passport — Комплексная проверка по данным паспорта](04-complex_by_passport.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 
 ```text
@@ -229,137 +248,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "pledge_person",
-      "description": "Проверка залогов, лизинга и иных обременений, связанных с физическим лицом, по ФИО и дате рождения. Используются данные ФНП (реестр залогов движимого имущества) и Федресурса.",
-      "input_schema": {
-        "firstname": "string — имя физлица",
-        "lastname": "string — фамилия физлица",
-        "secondname": "string — отчество физлица",
-        "country": "string (ru)",
-        "datebirth": "string (YYYY-MM-DD) — дата рождения",
-        "method": "string (pledge_person)",
-        "webhook": "string (URL для webhook, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "pledge_person": {
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "fnp": [
-                    {
-                      "source": "string — источник (ФНП)",
-                      "registry": "string — название реестра",
-                      "message_number_and_date": "string — номер и дата уведомления",
-                      "reference_number": "string — референс-номер уведомления",
-                      "message_type": "string — тип сообщения (например, Возникновение залога)",
-                      "pledge_subject_ids_raw": "string — идентификатор(ы) предмета залога",
-                      "pledgor": "string — залогодатель (ФИО)",
-                      "pledgee": "string — залогодержатель (банк/организация)",
-                      "guid": "string — GUID уведомления",
-                      "fnp_url": "string — ссылка на уведомление в реестре ФНП"
-                    }
-                  ],
-                  "fedresurs": [
-                    {
-                      "source": "string — источник (Федресурс)",
-                      "message_number_and_date": "string — номер и дата сообщения",
-                      "message_number": "string — номер сообщения",
-                      "message_url": "string — ссылка на карточку сообщения",
-                      "message_type": "string — тип сообщения (лизинг, залог, прочее)",
-                      "lessee": "string — лизингополучатель (ФИО), если есть",
-                      "lessor": "string — лизингодатель/кредитор, если есть",
-                      "found_in_message": "string — фрагмент текста, по которому найдено совпадение",
-                      "links": [
-                        {
-                          "text": "string — текст ссылки",
-                          "url": "string — URL сообщения"
-                        }
-                      ],
-                      "encumbrance_guid": "string — GUID обременения",
-                      "encumbrance_publish_date": "string — дата публикации (ISO)",
-                      "encumbrance_type": "string — тип обременения",
-                      "encumbrance_message_url": "string — ссылка на сообщение об обременении"
-                    }
-                  ],
-                  "fnp_urls": [
-                    "string — список ссылок на уведомления ФНП"
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "firstname": "Сергей",
-            "lastname": "Петров",
-            "secondname": "Андреевич",
-            "country": "ru",
-            "datebirth": "1985-05-10",
-            "method": "pledge_person"
-          },
-          "requestId": "a5962f88-2916-4779-b59d-43c023faa937"
-        },
-        "response_with_data": {
-          "state": "complete",
-          "results": {
-            "pledge_person": {
-              "result": {
-                "status": 200,
-                "data": [
-                  {
-                    "fnp": [
-                      {
-                        "source": "ФНП",
-                        "registry": "Реестр уведомлений о залоге движимого имущества",
-                        "message_number_and_date": "2025-012-232030-634 от 24.11.2025",
-                        "pledgor": "СЕРГЕЙ АНДРЕЕВИЧ ПЕТРОВ",
-                        "pledgee": "АКЦИОНЕРНОЕ ОБЩЕСТВО \"АЛЬФА-БАНК\""
-                      }
-                    ],
-                    "fedresurs": [
-                      {
-                        "source": "Федресурс",
-                        "message_number_and_date": "15169291 от 15.08.2023",
-                        "message_type": "Заключение договора финансовой аренды (лизинга)",
-                        "lessee": "Петров Сергей Андреевич",
-                        "lessor": "ООО \"ГРИНФИНАНС МА\""
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "response_empty": {
-          "state": "complete",
-          "results": {
-            "pledge_person": {
-              "result": {
-                "status": 200,
-                "data": []
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить физлицо на залоги, лизинг, обременения или интересуется реестром залогов, ФНП, Федресурсом — используй метод pledge_person и верни найденные уведомления и сообщения."
+  "method": "pledge_person",
+  "intent": "Проверка залогов и обременений по данным физического лица",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["firstname", "lastname", "method", "country"],
+  "returns": ["state", "results.pledge_person.result.status", "results.pledge_person.result.data"]
 }
 ```
+
+</details>
+
 

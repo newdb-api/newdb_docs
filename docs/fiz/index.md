@@ -1,4 +1,4 @@
-П---
+---
 title: "Физические лица — методы NEWDB"
 description: "Обзор методов NEWDB для проверки физических лиц: ФССП, ФНС, паспорт, банкротство, залоги, арбитраж, ИП и специальные реестры."
 canonical_url: https://newdb.net/docs/fiz/
@@ -29,3 +29,14 @@ meta:
 - [fns_block_person](10-fns_block_person.md) — блокировки счетов физлица по данным ФНС
 - [egrul_ip](11-egrul_ip.md) — сведения ЕГРИП и статус ИП
 - [terrorist](12-terrorist.md) — проверка по перечням терроризма, экстремизма и ОМУ
+- [mvd_wanted](13-mvd_wanted.md) — проверка физлица в розыске МВД
+- [inoagent](14-inoagent.md) — проверка физлица в реестре иностранных агентов Минюста
+- [self_employed](15-self_employed.md) — проверка статуса самозанятого (НПД) по ИНН в ФНС
+- [fns_mass_founders](16-fns_mass_founders.md) — проверка в реестре массовых учредителей ФНС
+- [fns_mass_leaders](17-fns_mass_leaders.md) — проверка в реестре массовых руководителей ФНС
+- [intellectual_property](18-intellectual_property.md) — поиск патентов и интеллектуальной собственности (Роспатент / ФИПС)
+- [disqual](19-disqual.md) — онлайн-поиск в реестре дисквалифицированных лиц ФНС
+- [court_arbitration](21-court_arbitration.md) — арбитраж по компаниям физлица (ЕГРЮЛ-связи + КАД, скоринг субсидиарного риска)
+- [arbitr_debt_sum](22-arbitr_debt_sum.md) — сумма задолженностей физлица по арбитражным делам КАД
+- [egrul_untrusted](23-egrul_untrusted.md) — недостоверные сведения ЕГРЮЛ (руководитель no_corr_boss, учредитель no_corr_founder, адрес)
+- [driver_license](25-driver_license.md) — проверка водительского удостоверения (Госуслуги / ГИБДД): статус, категории, срок действия, лишение прав

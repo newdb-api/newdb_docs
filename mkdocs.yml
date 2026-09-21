@@ -19,7 +19,12 @@ theme:
 nav:
   - Главная: index.md
   - Пример вызова API: api-example.md
+  - История запросов (Журнал): requests.md
+  - Совместимость с ЗАПРАВИЛЬНЫЙБИЗНЕС (ZB): compatibility-zachestnyibiznes.md
+  - Совместимость с Контур.Покус (Pokus): compatibility-kontur.md
   - Официальные SDK: sdk.md
+  - Отчеты по комплексным проверкам: reports.md
+  - Тестовый контур (Sandbox): test-api.md
   - AI-промпты для LLM: ai_prompts.md
   - Физические лица:
       - Обзор: fiz/index.md
@@ -31,10 +36,25 @@ nav:
       - Блокировка счета физлица (ФНС): fiz/10-fns_block_person.md
       - ЕГРИП / статус ИП: fiz/11-egrul_ip.md
       - Терроризм / ОМУ: fiz/12-terrorist.md
+      - Розыск МВД: fiz/13-mvd_wanted.md
+      - Иноагенты Минюст: fiz/14-inoagent.md
       - Налоговая задолженность по ИНН: fiz/08-nalog_debt.md
       - Статус электронной медкнижки (ЭЛМК): fiz/09-elmk_registry.md
       - Залоги : fiz/06-pledge_person.md
       - Арбитражные дела физлиц (КАД): fiz/07-arbitr_person.md
+      - Статус самозанятого (НПД): fiz/15-self_employed.md
+      - Массовые учредители (ФНС): fiz/16-fns_mass_founders.md
+      - Массовые руководители (ФНС): fiz/17-fns_mass_leaders.md
+      - Интеллектуальная собственность (Роспатент): fiz/18-intellectual_property.md
+      - Реестр дисквалифицированных лиц (ФНС): fiz/19-disqual.md
+      - Определение региона выдачи ИНН: fiz/20-region_inn.md
+      - Арбитраж по компаниям физлица: fiz/21-court_arbitration.md
+      - Сумма арбитражных задолженностей: fiz/22-arbitr_debt_sum.md
+      - Недостоверные сведения ЕГРЮЛ: fiz/23-egrul_untrusted.md
+      - Долги ФССП связанных компаний: fiz/24-fssp_company.md
+      - Проверка водительских прав (Госуслуги): fiz/25-driver_license.md
+      - Розыск ФСИН: fiz/26-fsin.md
+      - Санкции и PEP (OpenSanctions): fiz/27-opensanctions.md
   - Иностранные граждане:
       - Обзор: foreign/index.md
       - Вид на жительство (ВНЖ): foreign/01-foreign_vng.md
@@ -45,6 +65,7 @@ nav:
       - РВП (бланк): foreign/04-foreign_rvp_blank.md
       - Разрешение на работу: foreign/05-foreign_rnr.md
       - Реестр контролируемых лиц (RKL): foreign/06-foreign_rkl.md
+      - Комплексный отчет: foreign/09-complex-report.md
 
   - Юридические лица:
       - Обзор: legal/index.md
@@ -54,11 +75,29 @@ nav:
       - ЕГРЮЛ / Прозрачный бизнес: legal/04-egrul.md
       - ФССП по ИНН юрлица: legal/05-fssp_legal.md
       - Поиск судебных дел: legal/06-ods_case_search.md
+      - Залоги юрлица: legal/07-pledge_legal.md
+      - Комплексная проверка компании по ИНН: legal/06-complex_by_inn.md
+      - Процессуальный контроль дела (КАД): legal/08-kad_event_monitor.md
+      - Бухгалтерская отчетность (ГИР БО): legal/09-fns_bo.md
+      - Реестр недобросовестных поставщиков (РНП): legal/10-rnp.md
+      - Реестр субъектов МСП и мер поддержки: legal/11-fns_msp.md
+      - Реестр проверок (ФГИС ЕРП / ЕРКНМ): legal/12-proverki_knm.md
+  - ГАС Правосудие:
+      - Обзор: gas/index.md
+      - Детали судебного дела по NewdbID: gas/01-pravo_cases_details.md
+      - Поиск судебных дел: gas/02-pravo_search.md
+      - Поиск по текстам актов: gas/03-act_text_search.md
+      - Онлайн-мониторинг дела СОЮ: gas/04-pravo_event_monitor.md
   - Имущество:
       - Обзор: property/index.md
       - Росреестр: property/01-rosreestr.md
       - Залог по ID: property/02-pledge_property.md
       - Залог по VIN: property/03-pledge_vin.md
+      - Проверка авто по VIN (Госуслуги): property/07-vin_check.md
+      - Геоданные по кадастровому номеру: property/04-nspd_cadastr.md
+      - Оценка стоимости недвижимости: property/05-realty_price.md
+      - Интеллектуальная собственность (Роспатент): property/06-intellectual_property.md
+      - Договоры лизинга (Федресурс): property/08-leasing_fedresurs.md
 
 plugins:
   - search
