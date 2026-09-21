@@ -76,6 +76,13 @@ paths:
               - $ref: '#/components/schemas/bankrot_personRequest'
               - $ref: '#/components/schemas/pledge_personRequest'
               - $ref: '#/components/schemas/arbitr_personRequest'
+              - $ref: '#/components/schemas/court_arbitrationRequest'
+              - $ref: '#/components/schemas/arbitr_debt_sumRequest'
+              - $ref: '#/components/schemas/egrul_untrustedRequest'
+              - $ref: '#/components/schemas/disqualified_personRequest'
+              - $ref: '#/components/schemas/fsin_wantedRequest'
+              - $ref: '#/components/schemas/corporate_restrictions_personRequest'
+              - $ref: '#/components/schemas/opensanctionsRequest'
               - $ref: '#/components/schemas/nalog_debtRequest'
               - $ref: '#/components/schemas/elmk_registryRequest'
               - $ref: '#/components/schemas/fns_block_personRequest'
@@ -113,6 +120,9 @@ paths:
               - $ref: '#/components/schemas/fns_mass_foundersRequest'
               - $ref: '#/components/schemas/fns_mass_leadersRequest'
               - $ref: '#/components/schemas/vin_checkRequest'
+              - $ref: '#/components/schemas/fssp_companyRequest'
+              - $ref: '#/components/schemas/driver_licenseRequest'
+              - $ref: '#/components/schemas/proverki_knmRequest'
             examples:
               fssp_person:
                 summary: fssp_person — Проверка ФЛ по базе ФССП
@@ -510,6 +520,28 @@ paths:
                     country: ru
                     inn: '770200000139'
                   requestId: 00000000-0000-4000-8000-000000000001
+              fssp_company:
+                summary: fssp_company — Долги ФССП по связанным компаниям физлица
+                value:
+                  params:
+                    method: fssp_company
+                    country: ru
+                    inn: '771234567890'
+                    max_companies: 20
+                    only_active: true
+                  requestId: 00000000-0000-4000-8000-000000000001
+              driver_license:
+                summary: driver_license — Проверка водительского удостоверения (Госуслуги / ГИБДД)
+                value:
+                  params:
+                    method: driver_license
+                    country: ru
+                    num: '99 01 123456'
+                    lastname: Иванов
+                    firstname: Иван
+                    secondname: Иванович
+                    birthdate: '1990-01-01'
+                  requestId: 00000000-0000-4000-8000-000000000001
               arbitr_case:
                 summary: arbitr_case — Детали арбитражного дела по номеру дела
                 value: &id002
@@ -526,6 +558,15 @@ paths:
                     country: ru
                     method: pledge_legal
                   requestId: 00000000-0000-4000-8000-000000000003
+              proverki_knm:
+                summary: proverki_knm — Проверки бизнеса (ФГИС Единый реестр проверок / КНМ)
+                value:
+                  params:
+                    method: proverki_knm
+                    inn: '7712345678'
+                    country: ru
+                    max_pages: 5
+                  requestId: 00000000-0000-4000-8000-000000000501
               complex_by_passport:
                 summary: complex_by_passport — Комплексная проверка по паспорту
                 value: &id004
@@ -774,6 +815,13 @@ paths:
           - bankrot_person
           - pledge_person
           - arbitr_person
+          - court_arbitration
+          - arbitr_debt_sum
+          - egrul_untrusted
+          - disqualified_person
+          - fsin_wanted
+          - corporate_restrictions_person
+          - opensanctions
           - nalog_debt
           - elmk_registry
           - fns_block_person
@@ -813,6 +861,8 @@ paths:
           - fns_mass_founders
           - fns_mass_leaders
           - vin_check
+          - fssp_company
+          - driver_license
       - in: query
         name: country
         required: true
@@ -1027,6 +1077,78 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/BalanceResponse'
+  /v2/methods/opensanctions:
+    post:
+      tags:
+      - Physical Persons
+      summary: opensanctions — санкционный и PEP-скрининг
+      description: Поиск физлиц и организаций на публичном сайте OpenSanctions с точной фильтрацией карточек по ИНН и дате рождения.
+      operationId: newdb_opensanctions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opensanctionsRequest'
+            examples:
+              person:
+                summary: Поиск физлица с уточнением совпадения
+                value:
+                  params:
+                    method: opensanctions
+                    query: ИВАНОВ ИВАН ИВАНОВИЧ
+                    inn: '500100732259'
+                    birth_date: '1980-01-01'
+                    max_results: 25
+                    country: ru
+                  requestId: 00000000-0000-4000-8000-000000000001
+      responses:
+        '200':
+          description: Текущее состояние запроса и, при state=complete, массив точно совпавших карточек.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+              examples:
+                complete:
+                  summary: Одна карточка прошла все фильтры
+                  value:
+                    requestId: 00000000-0000-4000-8000-000000000001
+                    state: complete
+                    results:
+                      opensanctions:
+                        taskId: 00000000-0000-4000-8000-000000000101
+                        result:
+                          status: 200
+                          found: true
+                          registry_status: found
+                          data:
+                          - id: example-entity-id
+                            name: IVAN IVANOV
+                            url: https://www.opensanctions.org/entities/example-entity-id/
+                            fields:
+                              Birth date: ['1980-01-01', 1 source]
+                              INN: ['500100732259', 1 source]
+        '400':
+          description: Некорректный запрос или отсутствует поисковая строка.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '402':
+          description: Недостаточно средств на счете.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Источник/CDP недоступен или обнаружена CAPTCHA; запрос допускает повторный запуск.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/fiz/27-opensanctions/
   /v2/methods/fssp_person:
     post:
       tags:
@@ -3973,6 +4095,94 @@ paths:
                 $ref: '#/components/schemas/ErrorsInfoResponse'
       externalDocs:
         url: https://newdb.net/docs/legal/07-pledge_legal/
+  /v2/methods/proverki_knm:
+    post:
+      tags:
+      - Legal Entities
+      summary: proverki_knm — Проверки бизнеса (ФГИС Единый реестр проверок / КНМ)
+      description: Поиск плановых и внеплановых контрольных (надзорных) мероприятий по ИНН организации или ИП в ФГИС ЕРП / ЕРКНМ Генеральной прокуратуры РФ (proverki.gov.ru).
+      operationId: newdb_proverki_knm
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/proverki_knmRequest'
+            examples:
+              proverki_knm:
+                summary: proverki_knm — Поиск проверок по ИНН
+                value:
+                  params:
+                    inn: '7712345678'
+                    country: ru
+                    method: proverki_knm
+                    max_pages: 5
+                  requestId: 00000000-0000-4000-8000-000000000501
+      responses:
+        '200':
+          description: Текущее состояние запроса и, при state=complete, список проверок КНМ.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+              examples:
+                proverki_knm_complete:
+                  summary: Успешный ответ proverki_knm
+                  value:
+                    params:
+                      inn: '7712345678'
+                      country: ru
+                      method: proverki_knm
+                      max_pages: 5
+                    requestId: 00000000-0000-4000-8000-000000000501
+                    datecreated: '2026-09-21 17:00:00'
+                    state: complete
+                    balance: 9950
+                    tasks: 1
+                    is_repeat: false
+                    results:
+                      proverki_knm:
+                        result:
+                          status: 200
+                          found: true
+                          total: 1
+                          data:
+                          - id: '29032018'
+                            number: '77260061000218959930'
+                            federal_law: '248'
+                            inn: '7712345678'
+                            ogrn: '1037700000000'
+                            company_name: ООО "ПРИМЕР"
+                            month_start: Ноябрь 2026 года.
+                            control_org_name: Главное управление МЧС России по г. Москве
+                            prosecutor_org_name: Прокуратура г. Москвы
+                            details_url: https://proverki.gov.ru/portal/public-knm/29032018
+                            knm_type: Плановое КНМ
+                            term: 10 дней 80.0 часов
+                            address: г Москва, ул Примерная, д 1
+                            carryout_name: Выездная проверка
+                            decision: false
+                    finished: 1
+        '400':
+          description: 'Некорректный запрос: ошибка в параметрах или отсутствует обязательное поле.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '402':
+          description: Недостаточно средств на счете.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Системная ошибка сервиса или ошибка на источнике.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/legal/12-proverki_knm/
   /v2/methods/pravo_cases_details:
     post:
       tags:
@@ -4907,8 +5117,6 @@ paths:
                             special_conditions_zones_count: 0
                             special_conditions_zones: []
                             url: https://nspd.gov.ru/map?thematic=PKK&zoom=20&coordinate_x=4100000&coordinate_y=7500000&baseLayerId=235&theme_id=1&is_copy_url=true&active_layers=37577%2C37579%2C37581%2C37580%2C37578&selectedCard=157240605%2C36368%2C77%3A01%3A0000000%3A1000
-                            object_urls:
-                            - https://nspd.gov.ru/map?thematic=PKK&zoom=20&coordinate_x=4100000&coordinate_y=7500000&baseLayerId=235&theme_id=1&is_copy_url=true&active_layers=37577%2C37579%2C37581%2C37580%2C37578&selectedCard=157240605%2C36368%2C77%3A01%3A0000000%3A1000
         '400':
           description: 'Некорректный запрос: ошибка в параметрах или отсутствует обязательное поле.'
           content:
@@ -5099,7 +5307,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskInfoResponse'
+                $ref: '#/components/schemas/AsyncEnvelope'
         '400':
           description: Ошибка валидации параметров запроса.
           content:
@@ -5156,7 +5364,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/TaskInfoResponse'
+                $ref: '#/components/schemas/AsyncEnvelope'
         '400':
           description: Ошибка валидации параметров запроса.
           content:
@@ -5293,6 +5501,110 @@ paths:
                 $ref: '#/components/schemas/ErrorsInfoResponse'
       externalDocs:
         url: https://newdb.net/docs/fiz/17-fns_mass_leaders/
+  /v2/methods/fssp_company:
+    post:
+      tags:
+      - Physical Persons
+      summary: fssp_company — Долги ФССП по связанным компаниям физлица
+      description: Метод NEWDB fssp_company находит юридические лица, где физлицо является учредителем или руководителем (через ЕГРЮЛ), и проверяет их на наличие исполнительных производств в базе ФССП РФ с расчетом совокупного долга бизнеса.
+      operationId: newdb_fssp_company
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fssp_companyRequest'
+            examples:
+              fssp_company:
+                summary: fssp_company — Долги ФССП по связанным компаниям физлица
+                value:
+                  params:
+                    method: fssp_company
+                    country: ru
+                    inn: '771234567890'
+                    max_companies: 20
+                    only_active: true
+                  requestId: 00000000-0000-4000-8000-000000000001
+      responses:
+        '200':
+          description: Текущее состояние запроса и, при state=complete, результат метода.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+        '400':
+          description: Ошибка валидации параметров запроса.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '401':
+          description: Ошибка авторизации (не передан или недействителен X-API-KEY).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '402':
+          description: Недостаточно средств на счете.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Системная ошибка сервиса или ошибка на источнике.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/fiz/24-fssp_company/
+  /v2/methods/driver_license:
+    post:
+      tags:
+      - Physical Persons
+      summary: driver_license — Проверка водительского удостоверения (Госуслуги / ГИБДД)
+      description: Метод NEWDB driver_license проверяет действительность водительского удостоверения, категории ТС, срок действия и сведения о лишении прав через Госуслуги и ГИБДД.
+      operationId: newdb_driver_license
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/driver_licenseRequest'
+            examples:
+              driver_license:
+                summary: driver_license — Проверка водительского удостоверения
+                value:
+                  params:
+                    method: driver_license
+                    country: ru
+                    num: '99 01 123456'
+                    lastname: Иванов
+                    firstname: Иван
+                    secondname: Иванович
+                    birthdate: '1990-01-01'
+                  requestId: 00000000-0000-4000-8000-000000000001
+      responses:
+        '200':
+          description: Успешный ответ метода driver_license.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NewdbV2Envelope'
+        '400':
+          description: Некорректные параметры запроса.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Системная ошибка сервиса или ошибка на источнике.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/fiz/25-driver_license/
   /v2/methods/complex_by_inn:
     post:
       tags:
@@ -5666,6 +5978,215 @@ paths:
                 $ref: '#/components/schemas/ErrorsInfoResponse'
       externalDocs:
         url: https://newdb.net/docs/
+  /v2/methods/court_arbitration:
+    post:
+      tags:
+      - Physical Persons
+      summary: court_arbitration — Арбитраж по компаниям физлица (ЕГРЮЛ + КАД)
+      description: Составной метод court_arbitration находит компании, где физлицо является руководителем или учредителем (ЕГРЮЛ-связи),
+        агрегирует их арбитражные дела из КАД с суммами требований из AI-разбора судебных актов и рассчитывает прозрачный скоринг
+        субсидиарного риска. Стоимость динамическая — 1 единица за поиск связей плюс 1 за каждую проверенную компанию.
+      operationId: newdb_court_arbitration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/court_arbitrationRequest'
+            examples:
+              court_arbitration:
+                summary: court_arbitration — Арбитраж по компаниям физлица
+                value:
+                  params:
+                    innfiz: '500100732259'
+                    country: ru
+                    method: court_arbitration
+                    company_limit: 10
+                  requestId: 00000000-0000-4000-8000-000000000101
+      responses:
+        '200':
+          description: Текущее состояние запроса и, при state=complete, агрегат по компаниям и делам.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+              examples:
+                court_arbitration_complete:
+                  summary: Успешный ответ court_arbitration
+                  value:
+                    params:
+                      innfiz: '500100732259'
+                      country: ru
+                      method: court_arbitration
+                    requestId: 00000000-0000-4000-8000-000000000101
+                    datecreated: '2026-09-15 12:00:00'
+                    state: complete
+                    tasks: 3
+                    is_repeat: false
+                    results:
+                      court_arbitration:
+                        taskId: 00000000-0000-4000-8000-000000000102
+                        dateupdated: '2026-09-15 12:04:10'
+                        result:
+                          status: 200
+                          found: true
+                          data:
+                          - person_inn: '500100732259'
+                            companies_found: 2
+                            companies_scheduled: 2
+                            companies_checked: 2
+                            companies_failed: 0
+                            total_cases: 5
+                            total_claims_amount: 1250000.5
+                            known_amount_cases: 4
+                            amount_status: partial
+                            currency: RUB
+                            company_arbitrations:
+                            - inn: '7712345678'
+                              name: ООО "ПРИМЕР"
+                              roles:
+                              - director
+                              status: complete
+                              result_status: 200
+                              cases_count: 3
+                              returned_cases_count: 3
+                              known_claims_amount: 1000000.5
+                              known_amount_cases: 3
+                              amount_status: complete
+                              cases: []
+                            subsidiary_liability_score:
+                              version: court_arbitration_v1
+                              score: 35
+                              risk_level: medium
+                              confidence: 0.8
+                              confidence_level: high
+                              known_defendant_claims_amount: 1000000.5
+                              currency: RUB
+                            pricing:
+                              model: complex_dynamic_by_company_count
+                              discovery_units: 1
+                              company_units: 2
+                              calculated_units: 3
+                              charged_units: 3
+                              balance: 9890
+                    finished: 1
+        '400':
+          description: 'Некорректный запрос: innfiz не 12 цифр, передан inn/innyur или некорректный company_limit.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '402':
+          description: Недостаточно средств для динамической тарификации по числу компаний.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Системная ошибка сервиса или ошибка на источнике.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/fiz/21-court_arbitration/
+  /v2/methods/arbitr_debt_sum:
+    post:
+      tags:
+      - Physical Persons
+      summary: arbitr_debt_sum — Сумма задолженностей по арбитражным делам (физлица, КАД)
+      description: Метод arbitr_debt_sum по ИНН физлица агрегирует сумму задолженностей по арбитражным делам из КАД. Роль лица
+        в каждом деле (должник/взыскатель) и суммы требований извлекаются AI-разбором PDF судебных актов; сводка возвращается
+        с честным amount_status (complete/partial/unavailable/no_cases) без ложных нулей.
+      operationId: newdb_arbitr_debt_sum
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/arbitr_debt_sumRequest'
+            examples:
+              arbitr_debt_sum:
+                summary: arbitr_debt_sum — Сумма арбитражных задолженностей физлица
+                value:
+                  params:
+                    innfiz: '500100732259'
+                    country: ru
+                    method: arbitr_debt_sum
+                    max_cases: 20
+                  requestId: 00000000-0000-4000-8000-000000000201
+      responses:
+        '200':
+          description: Текущее состояние запроса и, при state=complete, агрегат задолженности.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+              examples:
+                arbitr_debt_sum_complete:
+                  summary: Успешный ответ arbitr_debt_sum
+                  value:
+                    params:
+                      innfiz: '500100732259'
+                      country: ru
+                      method: arbitr_debt_sum
+                      max_cases: 20
+                    requestId: 00000000-0000-4000-8000-000000000201
+                    datecreated: '2026-09-15 12:00:00'
+                    state: complete
+                    tasks: 1
+                    is_repeat: false
+                    results:
+                      arbitr_debt_sum:
+                        taskId: 00000000-0000-4000-8000-000000000202
+                        dateupdated: '2026-09-15 12:03:20'
+                        result:
+                          status: 200
+                          data:
+                          - query_innfiz: '500100732259'
+                            search_mode: inn
+                            page_url: https://kad.arbitr.ru/
+                            found: true
+                            total_count: 3
+                            debt_summary:
+                              currency: RUB
+                              total_debt_amount: 750000.0
+                              as_debtor_amount: 500000.0
+                              as_claimant_amount: 120000.0
+                              unknown_role_amount: 250000.0
+                              cases_total: 3
+                              cases_analyzed: 3
+                              cases_with_amount: 3
+                              cases_without_amount: 0
+                              amount_status: complete
+                            cases:
+                            - case_number: А40-12345/2026
+                              date: 01.02.2026
+                              court: АС города Москвы
+                              plaintiff: ООО "КРЕДИТОР"
+                              respondent: ИВАНОВ ИВАН ИВАНОВИЧ
+                              case_url: https://kad.arbitr.ru/Card/00000000-0000-4000-8000-000000000001
+                              role: debtor
+                              amount: 500000.0
+                              currency: RUB
+                              amount_status: extracted
+                              amount_source: financials.total_amount
+                            message: 'Найдено 3 дел, проанализировано 3 (лимит max_cases=20). Сумм извлечено: 3, статус: complete.'
+                    finished: 1
+        '400':
+          description: 'Некорректный запрос: не передан innfiz.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Системная ошибка сервиса или источник (КАД) недоступен.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/fiz/22-arbitr_debt_sum/
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -5699,7 +6220,10 @@ components:
         params:
           type: object
           additionalProperties: true
-        requestId: 00000000-0000-4000-8000-000000000003
+        requestId:
+          type: string
+          format: uuid
+          example: 00000000-0000-4000-8000-000000000003
         datecreated:
           type: string
         state:
@@ -6094,6 +6618,268 @@ components:
           country: ru
           method: arbitr_person
         requestId: 00000000-0000-4000-8000-000000000003
+    court_arbitrationRequest:
+      type: object
+      description: Составной метод court_arbitration находит компании, где физлицо является руководителем или учредителем,
+        и агрегирует их арбитражные дела из КАД с суммами требований и скорингом субсидиарного риска.
+      properties:
+        params:
+          type: object
+          properties:
+            innfiz:
+              type: string
+              description: ИНН физлица, 12 цифр.
+              example: '500100732259'
+            method:
+              type: string
+              enum:
+              - court_arbitration
+              example: court_arbitration
+            country:
+              type: string
+              example: ru
+            company_limit:
+              type: integer
+              minimum: 1
+              maximum: 100
+              description: Максимум компаний физлица для проверки по КАД. Влияет на итоговую стоимость.
+              example: 10
+          required:
+          - innfiz
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          example: 00000000-0000-4000-8000-000000000101
+        webhook:
+          type: string
+          format: uri
+          description: HTTPS URL клиента для получения результата через webhook. Если поле передано, NEWDB отправит POST callback
+            с общим envelope ответа на указанный URL.
+          example: https://example.com/newdb-webhook
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          innfiz: '500100732259'
+          country: ru
+          method: court_arbitration
+          company_limit: 10
+        requestId: 00000000-0000-4000-8000-000000000101
+    arbitr_debt_sumRequest:
+      type: object
+      description: Метод arbitr_debt_sum по ИНН физлица агрегирует сумму задолженностей по арбитражным делам из КАД с честным
+        amount_status без ложных нулей.
+      properties:
+        params:
+          type: object
+          properties:
+            innfiz:
+              type: string
+              description: ИНН физлица.
+              example: '500100732259'
+            method:
+              type: string
+              enum:
+              - arbitr_debt_sum
+              example: arbitr_debt_sum
+            country:
+              type: string
+              example: ru
+            max_cases:
+              type: integer
+              minimum: 1
+              maximum: 50
+              default: 20
+              description: Сколько дел детально разобрать (PDF + AI). Если найдено больше, сводка получит amount_status=partial.
+              example: 20
+          required:
+          - innfiz
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          example: 00000000-0000-4000-8000-000000000201
+        webhook:
+          type: string
+          format: uri
+          description: HTTPS URL клиента для получения результата через webhook. Если поле передано, NEWDB отправит POST callback
+            с общим envelope ответа на указанный URL.
+          example: https://example.com/newdb-webhook
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          innfiz: '500100732259'
+          country: ru
+          method: arbitr_debt_sum
+          max_cases: 20
+        requestId: 00000000-0000-4000-8000-000000000201
+    disqualified_personRequest:
+      type: object
+      description: Поиск физического лица в реестре дисквалифицированных лиц ФНС.
+      properties:
+        params:
+          type: object
+          properties:
+            query: {type: string, description: ФИО или ИНН физического лица, example: Иванов Иван Иванович}
+            dob: {type: string, description: Дата рождения для уточнения совпадения, example: '1980-01-01'}
+            max_pages: {type: integer, minimum: 1, example: 5}
+            country: {type: string, example: ru}
+            method: {type: string, enum: [disqualified_person]}
+          required: [query, country, method]
+          additionalProperties: true
+        requestId: {type: string, format: uuid}
+      required: [params]
+      additionalProperties: false
+    fsin_wantedRequest:
+      type: object
+      description: Поиск физического лица в открытой базе розыска ФСИН России.
+      properties:
+        params:
+          type: object
+          properties:
+            fio: {type: string, example: Иванов Иван Иванович}
+            dob: {type: string, example: '1980-01-01'}
+            territory: {type: string, description: Код или название территориального органа ФСИН}
+            get_details: {type: boolean, default: true}
+            max_pages: {type: integer, minimum: 1, maximum: 100, default: 5}
+            country: {type: string, example: ru}
+            method: {type: string, enum: [fsin_wanted]}
+          required: [fio, country, method]
+          additionalProperties: true
+        requestId: {type: string, format: uuid}
+      required: [params]
+      additionalProperties: false
+    corporate_restrictions_personRequest:
+      type: object
+      description: Корпоративные запреты и ограничения физлица, недостоверность сведений ЕГРЮЛ и трехлетний запрет.
+      properties:
+        params:
+          type: object
+          properties:
+            innfiz: {type: string, pattern: '^\\d{12}$', example: '500100732259'}
+            inn: {type: string, description: ИНН физлица или организации}
+            fio: {type: string, example: Иванов Иван Иванович}
+            ogrn: {type: string}
+            country: {type: string, example: ru}
+            method: {type: string, enum: [corporate_restrictions_person, egrul_untrusted]}
+          additionalProperties: true
+          description: Требуется хотя бы один идентификатор — innfiz, inn, fio или ogrn.
+        requestId: {type: string, format: uuid}
+      required: [params]
+      additionalProperties: false
+    corporate_restrictions_personData:
+      type: object
+      description: Компактный публичный результат; расширенные поля доступны через legacy-метод egrul_untrusted.
+      required: [person_restrictions, risk_3_year_ban_active, evidence_records]
+      properties:
+        person_restrictions:
+          type: array
+          description: Ограничения участия или руководства из сервиса ФНС «Прозрачный бизнес».
+          items: {type: object, additionalProperties: true}
+        risk_3_year_ban_active:
+          type: boolean
+          description: Признак активного риска трехлетнего запрета на участие или руководство ЮЛ.
+        evidence_records:
+          type: array
+          description: Подтверждающие записи источника с типом, описанием и исходными реквизитами.
+          items:
+            type: object
+            required: [source, record_type, record]
+            properties:
+              source: {type: string, example: pb.nalog.ru}
+              record_type: {type: string, example: ogrfl}
+              description: {type: string}
+              company: {type: object, additionalProperties: true}
+              record: {type: object, additionalProperties: true}
+    opensanctionsRequest:
+      type: object
+      description: Поиск физлица или организации на сайте OpenSanctions без использования OpenSanctions API.
+      properties:
+        params:
+          type: object
+          properties:
+            query:
+              type: string
+              maxLength: 500
+              description: ФИО или название организации. Поддерживаются алиасы fio, name и company_name.
+              example: ИВАНОВ ИВАН ИВАНОВИЧ
+            fio: {type: string, maxLength: 500}
+            name: {type: string, maxLength: 500}
+            company_name: {type: string, maxLength: 500, example: ООО ПРИМЕР}
+            inn:
+              type: string
+              pattern: '^(?:\d{10}|\d{12})$'
+              description: Точный фильтр по полю INN или Tax Number карточки.
+              example: '500100732259'
+            birth_date:
+              type: string
+              description: Точный фильтр даты рождения в формате YYYY-MM-DD или DD.MM.YYYY.
+              example: '1980-01-01'
+            max_results:
+              type: integer
+              minimum: 1
+              maximum: 100
+              default: 25
+            country: {type: string, example: ru}
+            method: {type: string, enum: [opensanctions]}
+          required: [method]
+          anyOf:
+          - required: [query]
+          - required: [fio]
+          - required: [name]
+          - required: [company_name]
+          additionalProperties: true
+          description: Требуется одно из полей query, fio, name или company_name.
+        requestId: {type: string, format: uuid}
+        webhook:
+          type: string
+          format: uri
+        taskId: {type: string}
+      required: [params]
+      additionalProperties: false
+    opensanctionsEntity:
+      type: object
+      required: [id, name, url, fields]
+      properties:
+        id: {type: string, description: Идентификатор сущности OpenSanctions}
+        name: {type: string}
+        url: {type: string, format: uri}
+        search_details: {type: string}
+        fields:
+          type: object
+          description: Поля публичной карточки; каждое значение представлено массивом строк.
+          additionalProperties:
+            type: array
+            items: {type: string}
+    opensanctionsResult:
+      type: object
+      required: [status, found, registry_status, data]
+      properties:
+        status: {type: integer, example: 200}
+        found: {type: boolean}
+        registry_status: {type: string, enum: [found, not_found]}
+        data:
+          type: array
+          description: Только карточки, прошедшие все переданные точные фильтры.
+          items:
+            $ref: '#/components/schemas/opensanctionsEntity'
+        meta:
+          type: object
+          additionalProperties: true
+    egrul_untrustedRequest:
+      allOf:
+      - $ref: '#/components/schemas/corporate_restrictions_personRequest'
+      description: Устаревшее имя метода; используйте corporate_restrictions_person.
     nalog_debtRequest:
       type: object
       description: Метод NEWDB nalog_debt проверяет задолженность физического лица по налогам и сборам по ИНН.
@@ -7662,6 +8448,65 @@ components:
         source: public.spiders_yandex
         project: allspiders
         method: pledge_legal
+    proverki_knmRequest:
+      type: object
+      description: Метод NEWDB proverki_knm выполняет поиск плановых и внеплановых проверок (КНМ) в ФГИС ЕРКНМ Генеральной прокуратуры РФ (proverki.gov.ru).
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              description: ИНН проверяемого субъекта (10 цифр для юрлица, 12 цифр для ИП)
+              example: '7712345678'
+            query:
+              type: string
+              description: Поисковый запрос (если поиск без ИНН)
+              example: '7712345678'
+            max_pages:
+              type: integer
+              description: Максимальное количество страниц результатов (по 50 записей на страницу, по умолчанию 5)
+              example: 5
+            country:
+              type: string
+              enum:
+              - ru
+              example: ru
+            method:
+              type: string
+              enum:
+              - proverki_knm
+              - proverki_gov
+              example: proverki_knm
+          required:
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+          example: 00000000-0000-4000-8000-000000000501
+        webhook:
+          type: string
+          format: uri
+          description: HTTPS URL клиента для получения результата через webhook.
+          example: https://example.com/newdb-webhook
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          inn: '7712345678'
+          country: ru
+          method: proverki_knm
+          max_pages: 5
+        requestId: 00000000-0000-4000-8000-000000000501
+      x-newdb:
+        source: public.spiders_yandex
+        project: allspiders
+        method: proverki_knm
     complex_by_passportRequest:
       type: object
       description: Метод NEWDB complex_by_passport объединяет проверки МВД, ФНС и ФССП для полного анализа физлица по данным
@@ -8155,7 +9000,10 @@ components:
           required:
           - method
           additionalProperties: true
-        requestId: 00000000-0000-4000-8000-000000000001
+        requestId:
+          type: string
+          format: uuid
+          example: 00000000-0000-4000-8000-000000000001
         webhook:
           type: string
           format: uri
@@ -8282,4 +9130,146 @@ components:
           method: fns_mass_leaders
           country: ru
           inn: '770200000139'
+        requestId: 00000000-0000-4000-8000-000000000001
+    fssp_companyRequest:
+      type: object
+      description: Метод NEWDB fssp_company находит связанные организации физического лица (по роли руководителя или учредителя в ЕГРЮЛ) и проверяет их задолженности по исполнительным производствам ФССП России.
+      properties:
+        params:
+          type: object
+          properties:
+            inn:
+              type: string
+              pattern: ^[0-9]{12}$
+              description: 12-значный ИНН физического лица.
+              example: '771234567890'
+            innfiz:
+              type: string
+              pattern: ^[0-9]{12}$
+              description: Алиас параметра inn.
+              example: '771234567890'
+            max_companies:
+              type: integer
+              description: Максимальное количество проверяемых связанных компаний (1-50).
+              default: 20
+              example: 20
+            only_active:
+              type: boolean
+              description: Проверять только действующие компании.
+              default: true
+              example: true
+            include_roles:
+              type: array
+              items:
+                type: string
+                enum:
+                - director
+                - founder
+              description: Роли связи физического лица с компаниями.
+              example:
+              - director
+              - founder
+            regioncode:
+              type: string
+              description: Код региона для поиска ФССП (-1 — все регионы).
+              default: '-1'
+              example: '-1'
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - fssp_company
+              example: fssp_company
+          required:
+          - country
+          - method
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+          example: 00000000-0000-4000-8000-000000000001
+        webhook:
+          type: string
+          format: uri
+          example: https://example.com/newdb-webhook
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: fssp_company
+          country: ru
+          inn: '771234567890'
+          max_companies: 20
+          only_active: true
+        requestId: 00000000-0000-4000-8000-000000000001
+    driver_licenseRequest:
+      type: object
+      description: Метод NEWDB driver_license проверяет действительность водительского удостоверения, категории ТС, срок действия и сведения о лишении прав через Госуслуги и ГИБДД.
+      properties:
+        params:
+          type: object
+          properties:
+            num:
+              type: string
+              description: Серия и номер водительского удостоверения (10 символов)
+              example: '99 01 123456'
+            lastname:
+              type: string
+              description: Фамилия владельца ВУ
+              example: Иванов
+            firstname:
+              type: string
+              description: Имя владельца ВУ
+              example: Иван
+            secondname:
+              type: string
+              description: Отчество владельца ВУ (опционально)
+              example: Иванович
+            birthdate:
+              type: string
+              description: Дата рождения в формате YYYY-MM-DD или DD.MM.YYYY
+              example: '1990-01-01'
+            get_screen:
+              type: integer
+              description: Флаг получения скриншота (1 или 0)
+              example: 0
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - driver_license
+              example: driver_license
+          required:
+          - num
+          - lastname
+          - firstname
+          - birthdate
+          - method
+          - country
+          additionalProperties: true
+        requestId:
+          type: string
+          format: uuid
+          example: 00000000-0000-4000-8000-000000000001
+        webhook:
+          type: string
+          format: uri
+          example: https://example.com/newdb-webhook
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: driver_license
+          country: ru
+          num: '99 01 123456'
+          lastname: Иванов
+          firstname: Иван
+          secondname: Иванович
+          birthdate: '1990-01-01'
         requestId: 00000000-0000-4000-8000-000000000001
