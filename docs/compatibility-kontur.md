@@ -48,6 +48,7 @@ canonical_url: https://newdb.net/docs/compatibility-kontur/
 | `pravo_search` / `arbitr_legal` / `arbitr_case` | `/api3/generalCourtCases` | `[ { "cases": [ { "caseNumber": "...", "courtName": "...", "participants": [...] } ] } ]` | Арбитражные судебные дела и дела общей юрисдикции |
 | `complex_by_passport` / `passport_mvd` / `passport_fns` | `/api3/checkPassport` | `[ { "number": "4510 123456", "isInvalid": false, "invalidSince": null } ]` | Проверка действительности паспорта гражданина РФ по базам МВД |
 | `complex_by_inn` | `/api3/req` (комплексный отчет) | `[ { "inn": "...", "ogrn": "...", "UL": {...}, "fssp": [...], "blockedAccountsInfo": [...] } ]` | Единая обогащенная карточка организации со всеми проверками (ФССП, блокировки, арбитраж) |
+| `taxes` | `/api3/taxes` | `[ { "inn": "...", "taxes": [ { "year": 2025, "data": [ { "name": "...", "sum": 100.0 } ] } ] } ]` | Уплаченные налоги, сборы и страховые взносы по официальным открытым данным ФНС |
 
 ---
 
