@@ -19,6 +19,25 @@ POST `https://api.newdb.net/v2`
 
 **Рекомендуем также:** комплексная проверка по паспорту — [complex_by_passport](04-complex_by_passport.md).
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [passport_fns — Проверка  паспорта/ИНН через ФНС](02-passport_fns.md)
+- [complex_by_passport — Комплексная проверка по данным паспорта](04-complex_by_passport.md)
+- [fssp_person — Проверка ФЛ по базе ФССП](01-fssp_person.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 ```
 Content-Type: application/json
@@ -104,89 +123,22 @@ X-API-KEY: YOUR_TOKEN
 
 
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 ```json
 {
-  "tools": [
-    {
-      "name": "passport_check",
-      "description": "Проверка паспорта РФ по серии и номеру на действительность",
-      "input_schema": {
-        "seria": "string (4 цифры)",
-        "number": "string (6 цифр)",
-        "firstname": "string (optional)",
-        "lastname": "string (optional)",
-        "secondname": "string (optional)",
-        "dob": "string (YYYY-MM-DD)",
-        "country": "string ('ru')",
-        "method": "string ('passport_mvd')",
-        "webhook": "string (optional, URL)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|in_progress|error)",
-        "results": {
-          "passport_mvd": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "status": "string ('Действительный' | 'Недействительный')",
-             
-                  "error": "string (optional — причина ошибки)",
-                  
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "seria": "0802",
-            "number": "649286",
-            "firstname": "Петр",
-            "lastname": "Семенов",
-            "secondname": "Николаевич",
-            "dob": "1937-01-03",
-            "country": "ru",
-            "method": "passport_mvd"
-          }
-        },
-        "response_valid": {
-          "state": "complete",
-          "results": {
-            "passport_mvd": {
-              "result": {
-                "status": 200,
-                "data": [{ "status": "Действительный" }]
-              }
-            }
-          }
-        },
-        "response_invalid": {
-          "state": "complete",
-          "results": {
-            "passport_mvd": {
-              "result": {
-                "status": 500,
-                "data": [
-                  {
-                    "error": "Service unavailable",
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь просит проверить паспорт РФ, запрашивай серию и номер, фамилию и имя. Затем вызывай passport_mvd  method='passport_mvd' и верни статус действия паспорта. Если серия/номер не указаны — вежливо запроси их."
+  "method": "passport_mvd",
+  "intent": "Проверка действительности паспорта РФ по базе МВД",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["seria", "number", "firstname", "lastname", "secondname", "dob", "method", "country", "webhook", "requestId"],
+  "returns": ["state", "results.passport_mvd.result.status", "results.passport_mvd.result.data"]
 }
-
 ```
+
+</details>
+
+

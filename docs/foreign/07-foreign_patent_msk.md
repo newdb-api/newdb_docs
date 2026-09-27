@@ -17,6 +17,25 @@ POST `https://api.newdb.net/v2`
 
 Метод выполняет проверку патента для Москвы по данным документа, удостоверяющего личность.
 
+**Раздел:** [Иностранные граждане](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела иностранные граждане](index.md)
+- [rkl — Проверка по реестру контролируемых лиц](06-foreign_rkl.md)
+- [patent_mo — Патент (Московская область)](08-foreign_patent_mo.md)
+- [foreign_rnr — Разрешение на работу (РНР)](05-foreign_rnr.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить статус документа или разрешительного основания иностранного гражданина.
+
+## Типовые кейсы
+
+- Проверка ВНЖ, патента, РВП или разрешения на работу перед оформлением
+- Контроль миграционных документов в HR или compliance-процессе
+- Подтверждение статуса документа по данным анкеты и реквизитам
+
 ## Заголовки
 ```http
 Content-Type: application/json
@@ -28,7 +47,8 @@ X-API-KEY: <your_token>
 {
   "params": {
     "method": "patent_msk",
-    "id_doc_seria": "string",
+    "search_mode": "passport",
+    "id_doc_seria": "string (optional)",
     "id_doc_number": "string",
     "citizenship": "string (optional)",
     "country": "ru"
@@ -36,6 +56,14 @@ X-API-KEY: <your_token>
   "requestId": "optional-string"
 }
 ```
+
+## Выбор режима
+
+Режим задаётся search_mode: passport (по умолчанию) или patent. Наличие issue_date не переключает режим. В passport обязателен id_doc_number: полный номер, включая буквы и ведущие нули; id_doc_seria можно не передавать или оставить пустым. При отдельной серии она добавляется перед номером. В patent обязательны patent_serial, patent_number, issue_date.
+
+Ранее режим выбирался автоматически по реквизитам патента. Теперь для таких запросов обязательно добавьте `search_mode: "patent"`.
+
+Примеры паспортов без серии: `id_doc_number: "FA1234567"` (Узбекистан), `id_doc_number: "406000001"` (Таджикистан). Это вымышленные номера; результат проверки не гарантируется.
 
 ## Пояснения к полям
 - `id_doc_seria` и `id_doc_number` — серия и номер документа, удостоверяющего личность.
@@ -97,45 +125,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 ```json
 {
-  "tools": [
-    {
-      "name": "patent_msk",
-      "description": "Проверка патента иностранного гражданина в Москве по данным документа, удостоверяющего личность.",
-      "input_schema": {
-        "method": "string (patent_msk)",
-        "id_doc_seria": "string",
-        "id_doc_number": "string",
-        "citizenship": "string (optional)",
-        "country": "string (ru)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "patent_msk": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "citizenship": "string",
-                  "message": "string",
-                  "status": "string"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь просит проверить патент в Москве — используйте метод patent_msk и верните результат проверки."
+  "method": "patent_msk",
+  "intent": "Проверка патента иностранного гражданина по Москве",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["method", "id_doc_seria", "id_doc_number", "citizenship", "country", "requestId"],
+  "returns": ["state", "results.patent_msk.result.status", "results.patent_msk.result.data"]
 }
 ```
+
+</details>
+
+

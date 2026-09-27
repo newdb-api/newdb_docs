@@ -18,10 +18,11 @@ meta:
 ## Доступные методы
 
 - [foreign_vng](01-foreign_vng.md) — проверка вида на жительство
-- [patent_msk](02-foreign_patent.md) — проверка патента
+- [foreign_patent](02-foreign_patent.md) — проверка патента
 - [foreign_rvp_stamp](03-foreign_rvp_stamp.md) — проверка РВП по штампу
 - [foreign_rvp_blank](04-foreign_rvp_blank.md) — проверка РВП по бланку
 - [foreign_rnr](05-foreign_rnr.md) — проверка разрешения на работу
 - [rkl](06-foreign_rkl.md) — проверка по реестру контролируемых лиц
 - [patent_msk](07-foreign_patent_msk.md) — патент для Москвы
 - [patent_mo](08-foreign_patent_mo.md) — патент для Московской области
+- [Комплексный отчет](09-complex-report.md) — объединение результатов РКЛ, ВНЖ, патентов, РВП и РНР в HTML/PDF

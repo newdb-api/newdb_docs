@@ -1,12 +1,12 @@
 ---
 title: "arbitr_legal — арбитражные дела юрлиц (КАД)"
-description: "Метод arbitr_legal находит арбитражные дела по ИНН юридического лица, включая участников, статус и судебные акты. На основе анализа PDF текста выделяются суммы , суть дел, проивзодится классификация дела (споры, банкротсво, имущество, налоги и др)"
+description: "Метод arbitr_legal находит арбитражные дела по ИНН юридического лица в КАД и поддерживает постраничную выдачу через limit и offset."
 canonical_url: https://newdb.net/docs/legal/01-arbitr_legal/
 meta:
   - name: keywords
-    content: "NEWDB API, arbitr_legal, арбитражные дела, КАД, арбитраж, юрлица, суд"
+    content: "NEWDB API, arbitr_legal, арбитражные дела, КАД, арбитраж, юрлица, суд, пагинация"
   - property: og:title
-    content: "Арбитражные дела юрлиц — метод arbitr_legal"
+    content: "Арбитражные дела юрлиц — method arbitr_legal"
   - property: og:description
     content: "Получите сведения об арбитражных делах юридического лица из КАД по ИНН через API NEWDB."
 ---
@@ -15,30 +15,54 @@ meta:
 
 POST `https://api.newdb.net/v2`
 
-Метод обеспечивает поиск и анализ зарегистрированных в системе КАД (kad.arbitr.ru) арбитражных дел участия юридического лица (идентификация по ИНН) со следующими сведениями: процессуальный статус дела, состав участников судопроизводства, комплект судебных актов и хронология судебных действий. На основе автоматизированного анализа судебной документации в формате PDF осуществляется: выделение денежных требований и санкций, определение существа споров, классификация дела по категориям (договорные споры, банкротство, имущественные претензии, налоговые доначисления и иные категории), выделение применимого законодательства и юридических оснований для вынесения судебного решения"
+Метод ищет арбитражные дела юридического лица по ИНН в КАД (`kad.arbitr.ru`) и возвращает список найденных дел, карточки выбранных дел, участников, статусы, судебные акты, хронологию и результаты анализа PDF.
+
+Метод поддерживает пагинацию. Если дел много, можно забирать их частями через `limit` и `offset`.
 
 ---
+
+**Раздел:** [Юридические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела юридические лица](index.md)
+- [fns_block — Проверка блокировок счетов юрлица (ФНС)](02-fns_block.md)
+- [bankrot_legal — Проверка на банкротство юрлица (Федресурс)](03-bankrot_legal.md)
+- [egrul — Сведения ЕГРЮЛ / Прозрачный бизнес](04-egrul.md)
+
+## Когда использовать
+
+- Проверка контрагента перед сделкой или оплатой
+- Обогащение карточки компании судебными данными
+- Анализ судебной активности и связанных рисков
 
 ## Заголовки
 
 Content-Type: application/json  
-X-API-KEY: <your_token>
+X-API-KEY: `<your_token>`
 
 ---
 
-## Входная схема (request)
+## Входная схема
 
 ```json
 {
   "params": {
-    "inn": "string (ИНН юрлица)",
-    "country": "string (ru)",
-    "method": "arbitr_legal"
+    "inn": "string, ИНН юрлица",
+    "country": "ru",
+    "method": "arbitr_legal",
+    "limit": "integer, optional, 1..10, default 10",
+    "offset": "integer, optional, >= 0, default 0"
   },
-  "webhook": "https://your.host/whook",
+  "webhook": "https://your.host/webhook",
   "requestId": "optional-string"
 }
 ```
+
+### Параметры пагинации
+
+- `limit` — сколько дел подробно разобрать в текущем ответе. Максимум `10`.
+- `offset` — смещение по общему списку найденных дел, начиная с `0`.
 
 ---
 
@@ -54,11 +78,35 @@ X-API-KEY: YOUR_TOKEN
   "params": {
     "inn": "7707332613",
     "country": "ru",
-    "method": "arbitr_legal"
+    "method": "arbitr_legal",
+    "limit": 10,
+    "offset": 0
   },
   "requestId": "a5962f88-2916-5779-b59d-43c023faa913"
 }
 ```
+
+---
+
+## Как использовать пагинацию
+
+1. Сделайте первый запрос с `offset=0`.
+2. Проверьте блок `pagination` в ответе.
+3. Если `pagination.has_more = true`, возьмите `pagination.next_offset`.
+4. Передайте этот `offset` в следующий запрос с тем же `limit`.
+5. Повторяйте, пока `has_more` не станет `false`.
+
+Пример последовательности:
+
+- первый запрос: `limit=10`, `offset=0`
+- второй запрос: `limit=10`, `offset=10`
+- третий запрос: `limit=10`, `offset=20`
+
+Если `total_count = 24`, то:
+
+- первый ответ вернёт дела с индексами `0..9`
+- второй ответ вернёт дела с индексами `10..19`
+- третий ответ вернёт дела с индексами `20..23`
 
 ---
 
@@ -70,6 +118,8 @@ X-API-KEY: YOUR_TOKEN
     "inn": "7707332613",
     "country": "ru",
     "method": "arbitr_legal",
+    "limit": 10,
+    "offset": 0,
     "newdb_qid": "ELwLIIfhofu3MygC"
   },
   "requestId": "a5962f88-2916-5779-b59d-43c023faa913",
@@ -84,218 +134,73 @@ X-API-KEY: YOUR_TOKEN
         "status": 200,
         "data": [
           {
-            "case_number": "А40-283685/2023",
-            "status": "Рассмотрение дела завершено",
-            "participants": {
-              "plaintiffs": [
-                {
-                  "name": "Филиал № 10 Отделения Фонда пенсионного и социального страхования РФ по Москве и МО",
-                  "address": "125375, Россия, г. Москва, г. Москва, ул. б-р. Тверской, д. 18 строение 1"
-                }
-              ],
-              "defendants": [
-                {
-                  "name": "ООО \"АПЕКС КОНСАЛТ\"",
-                  "address": "127473, Россия, г Москва, г. Москва, переулок 1-й Самотечный, д. 2 строение 2, офис 3"
-                }
-              ],
-              "third_parties": [],
-              "others": []
+            "query_inn": "7707332613",
+            "page_url": "https://kad.arbitr.ru/",
+            "found": true,
+            "total_count": 24,
+            "pagination": {
+              "offset": 0,
+              "limit": 10,
+              "returned": 10,
+              "has_more": true,
+              "next_offset": 10,
+              "previous_offset": null,
+              "page_size": 25,
+              "pages_count": 1
             },
-            "judges": [
-              {
-                "court": "АС города Москвы",
-                "name": "Поздняков В. Д."
-              }
-            ],
-            "acts": [
+            "message": "Найдено 24 дел. Подробно разобрано 10 из текущих 10. Для следующей пачки передайте offset=10 и limit=10.",
+            "cases": [
               {
                 "date": "06.12.2023",
-                "type": "Судебный приказ; Иск удовлетворить полностью",
-                "link": "https://kad.arbitr.ru/Kad/PdfDocument/e55e8888-fd43-486b-b9ee-50b64f3dddbd/a4fe2fc6-0709-4674-a962-cf8f5068bf5d/A40-283685-2023_20231206_Reshenija_i_postanovlenija.pdf"
-              }
-            ],
-            "calendar_events": [
-              {
-                "date": "04.12.2023",
-                "description": "Заявление",
-                "result": "Заявление о выдаче судебного приказа",
-                "link": "",
-                "documents": []
-              },
-              {
-                "date": "06.12.2023",
-                "description": "Решения и постановления",
-                "result": "Судебный приказ",
-                "link": "https://kad.arbitr.ru/Kad/PdfDocument/e55e8888-fd43-486b-b9ee-50b64f3dddbd/a4fe2fc6-0709-4674-a962-cf8f5068bf5d/A40-283685-2023_20231206_Reshenija_i_postanovlenija.pdf",
-                "documents": [
-                  {
-                    "name": "Судебный приказ",
-                    "link": "https://kad.arbitr.ru/Kad/PdfDocument/e55e8888-fd43-486b-b9ee-50b64f3dddbd/a4fe2fc6-0709-4674-a962-cf8f5068bf5d/A40-283685-2023_20231206_Reshenija_i_postanovlenija.pdf"
-                  }
-                ]
-              }
-            ],
-            "electronic_case_files": [
-              {
-                "date": "06.12.2023",
-                "document_name": "Иск удовлетворить полностью",
-                "declarer": "Поздняков В. Д.",
-                "link": "https://kad.arbitr.ru/Kad/PdfDocument/e55e8888-fd43-486b-b9ee-50b64f3dddbd/a4fe2fc6-0709-4674-a962-cf8f5068bf5d/A40-283685-2023_20231206_Reshenija_i_postanovlenija.pdf"
-              }
-            ],
-            "card_pdf_analysis": {
-              "pdf_link": "https://kad.arbitr.ru/Kad/PdfDocument/e55e8888-fd43-486b-b9ee-50b64f3dddbd/a4fe2fc6-0709-4674-a962-cf8f5068bf5d/A40-283685-2023_20231206_Reshenija_i_postanovlenija.pdf",
-              "detail_info": {
-                "case_info": {
-                  "case_number": "А40-283685/23-93-2309",
-                  "court": "Арбитражный суд города Москвы",
-                  "decision_date": "2023-12-06",
-                  "judge": "Поздняков В.Д.",
-                  "document_type": "судебный приказ"
-                },
-                "classification": {
-                  "case_type": "SOCIAL_CONTRIBUTIONS",
-                  "case_subtype": null,
-                  "confidence": 1,
-                  "classification_rationale": "Взыскание обязательных платежей и санкций за нарушение законодательства об индивидуальном учёте"
-                },
-                "parties": {
-                  "claimant": {
-                    "name": "Отделение Фонда пенсионного и социального страхования Российской Федерации по г. Москве и Московской области в лице филиала № 10",
-                    "inn": "7703363868",
-                    "ogrn": "1027703026075",
-                    "address": "115419, город Москва, Стасовой улица, дом 14, корпус 2"
+                "case_number": "А40-283685/2023",
+                "case_url": "https://kad.arbitr.ru/Card/e55e8888-fd43-486b-b9ee-50b64f3dddbd",
+                "court": "АС города Москвы | Поздняков В. Д.",
+                "plaintiff": "Филиал № 10 ОСФР по Москве и МО",
+                "respondent": "ООО \"АПЕКС КОНСАЛТ\"",
+                "index": 0,
+                "has_details": true,
+                "card": {
+                  "case_number": "А40-283685/2023",
+                  "status": "Рассмотрение дела завершено",
+                  "participants": {
+                    "plaintiffs": [],
+                    "defendants": [],
+                    "third_parties": [],
+                    "others": []
                   },
-                  "debtor": {
-                    "name": "Общество с ограниченной ответственностью 'АПЕКС КОНСАЛТ'",
-                    "inn": "7707332613",
-                    "ogrn": "1157746102535",
-                    "address": "127473, город Москва, 1-й Самотёчный переулок, дом 2, строение 2, помещение 4 оф 3"
-                  }
-                },
-                "financials": {
-                  "main_debt": 500,
-                  "state_fee": null,
-                  "total_amount": 500,
-                  "currency": "RUB"
-                },
-                "case_subject": {
-                  "essence": "Взыскание обязательных платежей и санкций за нарушение законодательства об индивидуальном (персонифицированном) учёте в системе обязательного пенсионного страхования по форме СЗВ-М",
-                  "period": "апрель 2020",
-                  "legal_basis": [
-                    "27-ФЗ",
-                    "212–ФЗ"
-                  ]
-                },
-                "summary": null
-              }
-            },
-            "source_url": "https://kad.arbitr.ru/Card/e55e8888-fd43-486b-b9ee-50b64f3dddbd"
-          },
-          {
-            "case_number": "А40-82292/2018",
-            "status": "Рассмотрение дела завершено",
-            "participants": {
-              "plaintiffs": [
-                {
-                  "name": "ГУ ГЛАВНОЕ УПРАВЛЕНИЕ ПЕНСИОННОГО ФОНДА РОССИЙСКОЙ ФЕДЕРАЦИИ №10 ПО Г.МОСКВЕ И МОСКОВСКОЙ ОБЛАСТИ",
-                  "address": "105082, Россия, г Москва, г. Москва, ул. Большая Почтовая, д. 40 строение 6"
-                }
-              ],
-              "defendants": [
-                {
-                  "name": "ООО \"АПЕКС КОНСАЛТ\"",
-                  "address": "127473, Россия, г Москва, г. Москва, переулок 1-й Самотечный, д. 2 строение 2, офис 3"
-                }
-              ],
-              "third_parties": [],
-              "others": []
-            },
-            "judges": [
-              {
-                "court": "АС города Москвы",
-                "name": "Полякова А. Б."
-              }
-            ],
-            "acts": [],
-            "calendar_events": [
-              {
-                "date": "18.04.2018",
-                "description": "Заявление",
-                "result": "Заявление о выдаче судебного приказа",
-                "link": "",
-                "documents": []
-              },
-              {
-                "date": "27.04.2018",
-                "description": "Решения и постановления",
-                "result": "Судебный приказ",
-                "link": "https://kad.arbitr.ru/Kad/PdfDocument/21ab8c13-c41b-4015-a90d-bf61674c84e1/42230339-c6a6-4a9e-8860-6a30d3f37c1c/A40-82292-2018_20180427_Reshenija_i_postanovlenija.pdf",
-                "documents": [
-                  {
-                    "name": "Судебный приказ",
-                    "link": "https://kad.arbitr.ru/Kad/PdfDocument/21ab8c13-c41b-4015-a90d-bf61674c84e1/42230339-c6a6-4a9e-8860-6a30d3f37c1c/A40-82292-2018_20180427_Reshenija_i_postanovlenija.pdf"
-                  }
-                ]
-              }
-            ],
-            "electronic_case_files": [
-              {
-                "date": "27.04.2018",
-                "document_name": "Иск удовлетворить полностью",
-                "declarer": "Полякова А. Б.",
-                "link": "https://kad.arbitr.ru/Kad/PdfDocument/21ab8c13-c41b-4015-a90d-bf61674c84e1/42230339-c6a6-4a9e-8860-6a30d3f37c1c/A40-82292-2018_20180427_Reshenija_i_postanovlenija.pdf"
-              }
-            ],
-            "card_pdf_analysis": {
-              "pdf_link": "https://kad.arbitr.ru/Kad/PdfDocument/21ab8c13-c41b-4015-a90d-bf61674c84e1/42230339-c6a6-4a9e-8860-6a30d3f37c1c/A40-82292-2018_20180427_Reshenija_i_postanovlenija.pdf",
-              "detail_info": {
-                "case_info": {
-                  "case_number": "А40-82292/18-17-946",
-                  "court": "Арбитражный суд города Москвы",
-                  "decision_date": "2018-04-00",
-                  "judge": "А.Б. Полякова",
-                  "document_type": "судебный приказ"
-                },
-                "classification": {
-                  "case_type": "SOCIAL_CONTRIBUTIONS",
-                  "case_subtype": null,
-                  "confidence": 1,
-                  "classification_rationale": "Взыскание финансовой санкции за нарушение сроков представления индивидуальных сведений"
-                },
-                "parties": {
-                  "claimant": {
-                    "name": "ГУ-ГУ ПФР № 10 по г. Москве и Московской области",
-                    "inn": "7701319704",
-                    "ogrn": "1027701022788",
-                    "address": "125009, г. Москва, Тверской б-р, д. 18, стр. 1"
+                  "judges": [],
+                  "acts": [],
+                  "calendar_events": [],
+                  "electronic_case_files": [],
+                  "card_pdf_analysis": {
+                    "pdf_link": "https://kad.arbitr.ru/Kad/PdfDocument/example.pdf"
                   },
-                  "debtor": {
-                    "name": "ООО «Апект консалт»",
-                    "inn": "7707332613",
-                    "ogrn": "1157746102535",
-                    "address": "127473, г. Москва, 1-й Самотёчный пер., д. 2, пом. 4, оф. 3"
-                  }
-                },
-                "financials": {
-                  "main_debt": 500,
-                  "state_fee": 1000,
-                  "total_amount": 1500,
-                  "currency": "RUB"
-                },
-                "case_subject": {
-                  "essence": "Взыскание финансовой санкции (штрафа) за нарушение сроков представления индивидуальных сведений персонифицированного учета",
-                  "period": "январь 2017 г.",
-                  "legal_basis": [
-                    "Федеральный закон от 01.04.1996 № 27-ФЗ «Об индивидуальном (персонифицированном) учете в системе обязательного пенсионного страхования»",
-                    "статьи 65, 229.-229.6 АПК РФ"
-                  ]
-                },
-                "summary": "Взыскание с должника ООО «Апект консалт» финансовой санкции в размере 500 руб. и государственной пошлины в размере 1 000 руб."
+                  "source_url": "https://kad.arbitr.ru/Card/e55e8888-fd43-486b-b9ee-50b64f3dddbd",
+                  "index": 0
+                }
               }
-            },
-            "source_url": "https://kad.arbitr.ru/Card/21ab8c13-c41b-4015-a90d-bf61674c84e1"
+            ],
+            "detailed_cases": [
+              {
+                "case_number": "А40-283685/2023",
+                "status": "Рассмотрение дела завершено",
+                "participants": {
+                  "plaintiffs": [],
+                  "defendants": [],
+                  "third_parties": [],
+                  "others": []
+                },
+                "judges": [],
+                "acts": [],
+                "calendar_events": [],
+                "electronic_case_files": [],
+                "card_pdf_analysis": {
+                  "pdf_link": "https://kad.arbitr.ru/Kad/PdfDocument/example.pdf"
+                },
+                "source_url": "https://kad.arbitr.ru/Card/e55e8888-fd43-486b-b9ee-50b64f3dddbd",
+                "index": 0
+              }
+            ]
           }
         ]
       },
@@ -307,3 +212,43 @@ X-API-KEY: YOUR_TOKEN
 ```
 
 ---
+
+## Что означает блок pagination
+
+- `offset` — смещение, которое вы передали в запросе
+- `limit` — лимит, который вы передали в запросе
+- `returned` — сколько дел реально вернулось в текущем ответе
+- `has_more` — есть ли ещё дела после текущей пачки
+- `next_offset` — смещение для следующего запроса
+- `previous_offset` — смещение для предыдущей пачки
+- `page_size` — размер страницы на стороне КАД
+- `pages_count` — сколько страниц результатов у КАД
+
+## Что находится в data
+
+- `cases` — текущая порция дел по `offset`/`limit`
+- `cases[].card` — подробная карточка конкретного дела, если она успешно разобрана
+- `detailed_cases` — отдельный список только подробно разобранных карточек текущей выборки
+
+Если `offset` больше или равен `total_count`, метод вернёт пустой список `cases`.
+
+---
+
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
+```json
+{
+  "method": "arbitr_legal",
+  "intent": "Поиск арбитражных дел юридического лица",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["inn", "method", "country"],
+  "optional_fields": ["limit", "offset"],
+  "returns": ["state", "results.arbitr_legal.result.status", "results.arbitr_legal.result.data"]
+}
+```
+
+</details>
