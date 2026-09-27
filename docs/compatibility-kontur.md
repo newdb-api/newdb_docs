@@ -49,6 +49,15 @@ canonical_url: https://newdb.net/docs/compatibility-kontur/
 | `complex_by_passport` / `passport_mvd` / `passport_fns` | `/api3/checkPassport` | `[ { "number": "4510 123456", "isInvalid": false, "invalidSince": null } ]` | Проверка действительности паспорта гражданина РФ по базам МВД |
 | `complex_by_inn` | `/api3/req` (комплексный отчет) | `[ { "inn": "...", "ogrn": "...", "UL": {...}, "fssp": [...], "blockedAccountsInfo": [...] } ]` | Единая обогащенная карточка организации со всеми проверками (ФССП, блокировки, арбитраж) |
 | `taxes` | `/api3/taxes` | `[ { "inn": "...", "taxes": [ { "year": 2025, "data": [ { "name": "...", "sum": 100.0 } ] } ] } ]` | Уплаченные налоги, сборы и страховые взносы по официальным открытым данным ФНС |
+| `fns_bo` | `/api3/accountingReports` | `[ { "inn": "...", "ogrn": "...", "buhForms": [ { "year": 2024, "form1": [...], "form2": [...] } ] } ]` | Бухгалтерская (финансовая) отчетность организации (баланс, отчет о фин. результатах) |
+| `proverki_knm` | `/api3/unifiedInspections` | `[ { "inn": "...", "ogrn": "...", "inspections": [ { "erpId": "...", "type": "Planned", "status": "Завершена" } ] } ]` | Плановые и внеплановые проверки контрагента по данным ФГИС ЕРКНМ / Прокуратуры |
+| `contracts` | `/api3/purchasesOfParticipant` / `/api3/purchasesOfCustomer` | `[ { "inn": "...", "purchasesOfParticipant": [ { "number": "...", "type": "44-ФЗ", "winnerPrice": 18450000.0 } ] } ]` | Государственные и корпоративные закупки поставщика / заказчика (44-ФЗ, 223-ФЗ) |
+| `rnp` | `/api3/rnpDetails` | `[ { "inn": "...", "records": [ { "registryNumber": "...", "legislation": "44-ФЗ", "dateIncluded": "..." } ] } ]` | Записи в Реестре недобросовестных поставщиков (ФАС России) |
+| `pledge_legal` / `pledge_property` | `/api3/pledger` | `[ { "inn": "...", "pledges": [ { "notificationNumber": "...", "pledgers": [...], "pledgeholders": [...] } ] } ]` | Сведения о залогах движимого имущества со стороны залогодателя (ФНП, Федресурс) |
+| `leasing_fedresurs` | `/api3/lessee` | `[ { "inn": "...", "contracts": [ { "number": "...", "leasePeriod": {...}, "lessors": [...] } ] } ]` | Договоры финансовой аренды (лизинга) со стороны лизингополучателя (Федресурс) |
+| `opensanctions` | `/api3/sanctionedPersons` | `[ { "fio": "...", "birthDate": "...", "listName": "...", "sanctionsPrograms": [...] } ]` | Вхождение физического или юридического лица в международные санкционные списки |
+| `fns_msp` | `/api3/enterpriseSupport` | `[ { "inn": "...", "ogrn": "...", "supportMeasures": [ { "supportForm": "...", "typeOfSupport": "..." } ] } ]` | Сведения о получателях мер государственной поддержки субъектов МСП |
+
 
 ---
 
@@ -372,7 +381,375 @@ curl -X GET "https://api.newdb.net/v2/run?method=complex_by_inn&inn=7707083893&t
 
 ---
 
+### 11. Бухгалтерская отчетность (`/api3/accountingReports`)
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=fns_bo&inn=7712345678&token=YOUR_API_TOKEN&format=kontur"
+```
+
+**Ответ:**
+```json
+[
+  {
+    "inn": "7712345678",
+    "ogrn": "1157746102535",
+    "focusHref": "https://focus.kontur.ru/entity?query=7712345678",
+    "buhForms": [
+      {
+        "year": 2024,
+        "organizationType": "Large",
+        "form1": [
+          {
+            "code": 1600,
+            "name": "Баланс (актив)",
+            "startValue": 0,
+            "endValue": 180000.0
+          },
+          {
+            "code": 1300,
+            "name": "Итого по разделу III (Капитал и резервы)",
+            "startValue": 0,
+            "endValue": 120000.0
+          },
+          {
+            "code": 1400,
+            "name": "Итого по разделу IV (Долгосрочные обязательства)",
+            "startValue": 0,
+            "endValue": 20000.0
+          },
+          {
+            "code": 1500,
+            "name": "Итого по разделу V (Краткосрочные обязательства)",
+            "startValue": 0,
+            "endValue": 40000.0
+          }
+        ],
+        "form2": [
+          {
+            "code": 2110,
+            "name": "Выручка",
+            "startValue": 0,
+            "endValue": 150000.0
+          },
+          {
+            "code": 2120,
+            "name": "Себестоимость продаж",
+            "startValue": 0,
+            "endValue": 95000.0
+          },
+          {
+            "code": 2100,
+            "name": "Валовая прибыль (убыток)",
+            "startValue": 0,
+            "endValue": 55000.0
+          },
+          {
+            "code": 2400,
+            "name": "Чистая прибыль (убыток)",
+            "startValue": 0,
+            "endValue": 42000.0
+          }
+        ]
+      }
+    ]
+  }
+]
+```
+
+---
+
+### 12. Плановые и внеплановые проверки ЕРКНМ (`/api3/unifiedInspections`)
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=proverki_knm&inn=7712345678&token=YOUR_API_TOKEN&format=kontur"
+```
+
+**Ответ:**
+```json
+[
+  {
+    "inn": "7712345678",
+    "ogrn": "1037700000000",
+    "focusHref": "https://focus.kontur.ru/inspections?query=7712345678",
+    "inspections": [
+      {
+        "erpId": "77260061000218959930",
+        "type": "Planned",
+        "form": "Выездная проверка",
+        "status": "Завершена",
+        "controllingAuthorityName": "ГЛАВНОЕ УПРАВЛЕНИЕ МЧС РОССИИ",
+        "controllingAuthority": "МЧС России",
+        "year": 2026,
+        "month": 11,
+        "reasons": ["Проверка соответствия требованиям пожарной безопасности"],
+        "startDate": "2026-11-01",
+        "endDate": "2026-11-10",
+        "addresses": [
+          "г Москва, ул Тверская, д 1"
+        ],
+        "violations": []
+      }
+    ]
+  }
+]
+```
+
+---
+
+### 13. Госзакупки участника / заказчика (`/api3/purchasesOfParticipant`)
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=contracts&inn=7712345678&token=YOUR_API_TOKEN&format=kontur"
+```
+
+**Ответ:**
+```json
+[
+  {
+    "inn": "7712345678",
+    "ogrn": "",
+    "focusHref": "https://focus.kontur.ru/purchases?query=7712345678",
+    "purchasesOfParticipant": [
+      {
+        "type": "44-ФЗ",
+        "number": "2770123456725000041",
+        "selectionTypeDescription": "Электронный аукцион",
+        "stateDescription": "Исполнение завершено",
+        "topicDescription": "Поставка серверного оборудования",
+        "publicationDate": "2024-03-15",
+        "startPrice": 18450000.0,
+        "winnerPrice": 18450000.0,
+        "customers": [
+          {
+            "inn": "",
+            "kpp": null,
+            "name": "ГБУ ЦИФРОВЫЕ СЕРВИСЫ"
+          }
+        ],
+        "participants": [
+          {
+            "inn": "7712345678",
+            "kpp": null,
+            "name": "",
+            "isWinner": true,
+            "hasContract": true,
+            "isNotAdmitted": false
+          }
+        ],
+        "contractInfo": {
+          "number": "2770123456725000041",
+          "signDate": "2024-03-15",
+          "price": 18450000.0
+        }
+      }
+    ]
+  }
+]
+```
+
+---
+
+### 14. Реестр недобросовестных поставщиков (`/api3/rnpDetails`)
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=rnp&inn=7712345678&token=YOUR_API_TOKEN&format=kontur"
+```
+
+**Ответ:**
+```json
+[
+  {
+    "inn": "7712345678",
+    "ogrn": "",
+    "focusHref": "https://focus.kontur.ru/rnp?query=7712345678",
+    "records": [
+      {
+        "registryNumber": "24001234",
+        "legislation": "44-ФЗ",
+        "whoIncluded": "УФАС России",
+        "reasonToInclude": "Размещено",
+        "basis": "44-ФЗ",
+        "contractNumber": "",
+        "dateIncluded": "2025-02-10"
+      }
+    ]
+  }
+]
+```
+
+---
+
+### 15. Залоги движимого имущества (`/api3/pledger`)
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=pledge_legal&inn=7712345678&token=YOUR_API_TOKEN&format=kontur"
+```
+
+**Ответ:**
+```json
+[
+  {
+    "inn": "7712345678",
+    "ogrn": "",
+    "focusHref": "https://focus.kontur.ru/pledges?query=7712345678",
+    "pledges": [
+      {
+        "notificationNumber": "2026-001-123456-001",
+        "registrationDate": "2026-02-18",
+        "updateDate": "2026-02-18",
+        "pledgers": [
+          {
+            "name": "ООО ПРИМЕР ТЕХНОЛОГИИ",
+            "inn": "7712345678",
+            "ogrn": null
+          }
+        ],
+        "pledgeholders": [
+          {
+            "name": "АО ПРИМЕР БАНК",
+            "inn": null,
+            "ogrn": null
+          }
+        ],
+        "contractInfo": {
+          "number": null,
+          "date": null
+        },
+        "pledges": [
+          {
+            "type": "Иное имущество",
+            "other": {
+              "description": "Оборудование центра обработки данных, 12 единиц"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
+```
+
+---
+
+### 16. Договоры лизинга со стороны лизингополучателя (`/api3/lessee`)
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=leasing_fedresurs&inn=7707083893&token=YOUR_API_TOKEN&format=kontur"
+```
+
+**Ответ:**
+```json
+[
+  {
+    "inn": "7707083893",
+    "ogrn": "",
+    "focusHref": "https://focus.kontur.ru/lessee?query=7707083893",
+    "contracts": [
+      {
+        "number": "ЛЗ-10294/2024",
+        "contractDate": "2024-10-25",
+        "leasePeriod": {
+          "start": "2024-10-25",
+          "end": "2027-10-25"
+        },
+        "termination": null,
+        "lessors": [
+          {
+            "name": "ООО ЛИЗИНГОВАЯ КОМПАНИЯ",
+            "inn": "7701234567",
+            "ogrn": null,
+            "country": null
+          }
+        ],
+        "subjects": [
+          {
+            "classifierCode": null,
+            "classifierName": null,
+            "description": "Грузовой тягач SITRAK C7H, 2024 г.в.",
+            "id": "LZZ1234567890ABCD"
+          }
+        ],
+        "isSubleaseContract": false
+      }
+    ]
+  }
+]
+```
+
+---
+
+### 17. Санкционные списки (`/api3/sanctionedPersons`)
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=opensanctions&query=IVAN+IVANOV&token=YOUR_API_TOKEN&format=kontur"
+```
+
+**Ответ:**
+```json
+[
+  {
+    "fio": "IVAN IVANOV",
+    "birthDate": "1980-01-01",
+    "birthPlace": null,
+    "listName": "OpenSanctions",
+    "sanctionsPrograms": [
+      "Sanctioned"
+    ]
+  }
+]
+```
+
+---
+
+### 18. Меры государственной поддержки МСП (`/api3/enterpriseSupport`)
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=fns_msp&inn=7707083893&token=YOUR_API_TOKEN&format=kontur"
+```
+
+**Ответ:**
+```json
+[
+  {
+    "inn": "7707083893",
+    "ogrn": "1027700132195",
+    "focusHref": "https://focus.kontur.ru/enterpriseSupport?query=7707083893",
+    "supportMeasures": [
+      {
+        "supportForm": "Субсидия на возмещение затрат",
+        "typeOfSupport": "Финансовая поддержка",
+        "supportNumber": "1",
+        "dateOfTheDecision": "2026-03-15",
+        "deadlineForReceiving": null,
+        "supportSizes": [
+          {
+            "size": 500000.0,
+            "unitsOfMeasurement": "руб."
+          }
+        ],
+        "providesSupport": {
+          "name": "Департамент предпринимательства и инновационного развития"
+        },
+        "enterpriseCategory": "Малое предприятие",
+        "violations": []
+      }
+    ]
+  }
+]
+```
+
+---
+
 ## Тестовый контур Sandbox (бесплатное тестирование)
+
 
 Для отладки интеграции с форматом «Контур.Покус» без расхода тарифного баланса используйте эндпоинты Sandbox:
 * `GET https://api.newdb.net/test/v2/run?method={method}&inn={inn}&format=kontur`

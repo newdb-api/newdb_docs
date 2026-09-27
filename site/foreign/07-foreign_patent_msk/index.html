@@ -1008,6 +1008,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/28-contracts_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Госзакупки физлица / ИП
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fiz/29-fssp_case/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск ФССП по номеру ИП
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1220,7 +1262,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      Пояснения к полям
+      Выбор режима
     </span>
   </a>
   
@@ -1229,7 +1271,7 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример запроса
+      Пояснения к полям
     </span>
   </a>
   
@@ -1237,6 +1279,15 @@
       
         <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       Пример ответа
     </span>
@@ -1729,6 +1780,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/13-contracts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Госзакупки 44-ФЗ / 223-ФЗ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../legal/14-taxes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Уплаченные налоги и сборы (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2198,7 +2291,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      Пояснения к полям
+      Выбор режима
     </span>
   </a>
   
@@ -2207,7 +2300,7 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      Пример запроса
+      Пояснения к полям
     </span>
   </a>
   
@@ -2215,6 +2308,15 @@
       
         <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Пример запроса
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       Пример ответа
     </span>
@@ -2273,7 +2375,8 @@
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;patent_msk&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nt">&quot;id_doc_seria&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;search_mode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;passport&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;id_doc_seria&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string (optional)&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;id_doc_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;citizenship&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string (optional)&quot;</span><span class="p">,</span>
 <span class="w">    </span><span class="nt">&quot;country&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ru&quot;</span>
@@ -2281,13 +2384,17 @@
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;optional-string&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_5">Пояснения к полям<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">Выбор режима<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>Режим задаётся search_mode: passport (по умолчанию) или patent. Наличие issue_date не переключает режим. В passport обязателен id_doc_number: полный номер, включая буквы и ведущие нули; id_doc_seria можно не передавать или оставить пустым. При отдельной серии она добавляется перед номером. В patent обязательны patent_serial, patent_number, issue_date.</p>
+<p>Ранее режим выбирался автоматически по реквизитам патента. Теперь для таких запросов обязательно добавьте <code>search_mode: "patent"</code>.</p>
+<p>Примеры паспортов без серии: <code>id_doc_number: "FA1234567"</code> (Узбекистан), <code>id_doc_number: "406000001"</code> (Таджикистан). Это вымышленные номера; результат проверки не гарантируется.</p>
+<h2 id="_6">Пояснения к полям<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <ul>
 <li><code>id_doc_seria</code> и <code>id_doc_number</code> — серия и номер документа, удостоверяющего личность.</li>
 <li><code>citizenship</code> — опциональный параметр.</li>
 <li>Если <code>citizenship</code> не передан, проверка выполняется по 3 странам: <code>Узбекистан</code>, <code>Таджикистан</code>, <code>Кыргызстан</code>.</li>
 </ul>
-<h2 id="_6">Пример запроса<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_7">Пример запроса<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nf">POST</span> <span class="nn">/v2</span> <span class="kr">HTTP</span><span class="o">/</span><span class="m">1.1</span>
 <span class="na">Host</span><span class="o">:</span> <span class="l">api.newdb.net</span>
 <span class="na">Content-Type</span><span class="o">:</span> <span class="l">application/json</span>
@@ -2304,7 +2411,7 @@
 <span class="w">  </span><span class="nt">&quot;requestId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;b4c65a6b-45cc-440e-bbeb-a6528014bca4&quot;</span>
 <span class="p">}</span>
 </code></pre></div>
-<h2 id="_7">Пример ответа<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="_8">Пример ответа<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">&quot;params&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;patent_msk&quot;</span><span class="p">,</span>

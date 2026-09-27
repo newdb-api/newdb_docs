@@ -464,6 +464,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#13-44-223-zakupki-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      13. Участие в государственных закупках 44-ФЗ / 223-ФЗ (/zakupki, /contracts)
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1265,6 +1274,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/28-contracts_person/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Госзакупки физлица / ИП
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fiz/29-fssp_case/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Поиск ФССП по номеру ИП
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1863,6 +1914,48 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/13-contracts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Госзакупки 44-ФЗ / 223-ФЗ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../legal/14-taxes/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Уплаченные налоги и сборы (ФНС)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2439,6 +2532,15 @@
   <a href="#12-transport-pledges" class="md-nav__link">
     <span class="md-ellipsis">
       12. Проверка транспортного средства (/transport, /pledges)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13-44-223-zakupki-contracts" class="md-nav__link">
+    <span class="md-ellipsis">
+      13. Участие в государственных закупках 44-ФЗ / 223-ФЗ (/zakupki, /contracts)
     </span>
   </a>
   
@@ -3021,6 +3123,38 @@
 <span class="w">        </span><span class="nt">&quot;is_current&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;owner_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Физическое лицо&quot;</span><span class="p">,</span>
 <span class="w">        </span><span class="nt">&quot;operation&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Регистрация нового ТС&quot;</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<hr />
+<h3 id="13-44-223-zakupki-contracts">13. Участие в государственных закупках 44-ФЗ / 223-ФЗ (<code>/zakupki</code>, <code>/contracts</code>)<a class="headerlink" href="#13-44-223-zakupki-contracts" title="Permanent link">&para;</a></h3>
+<p>Поиск государственных и корпоративных контрактов поставщика или заказчика (для юридических лиц — <code>contracts</code>, для физлиц и ИП — <code>contracts_person</code>).</p>
+<p><strong>Запрос:</strong>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>GET<span class="w"> </span><span class="s2">&quot;https://api.newdb.net/v2/run?method=contracts&amp;inn=7712345678&amp;token=YOUR_TOKEN&amp;format=zb&quot;</span>
+<span class="c1"># Также поддерживаются алиасы: method=zakupki, method=purchases, method=contracts_person</span>
+</code></pre></div></p>
+<p><strong>Ответ:</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;200&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Запрос выполнен успешно&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;aggr&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;customer_sum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;participant_sum&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">126450000.0</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span>
+<span class="w">    </span><span class="nt">&quot;participant&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">      </span><span class="p">{</span>
+<span class="w">        </span><span class="nt">&quot;registry_number&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2770123456725000041&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;law&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;44-ФЗ&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;customer&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ГБУ ЦИФРОВЫЕ СЕРВИСЫ&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;subject&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Поставка серверного оборудования&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;price&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">18450000.0</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Исполнение завершено&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;sign_date&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-03-15&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://zakupki.gov.ru/epz/contract/contractCard/common-info.html?reestrNumber=2770123456725000041&quot;</span>
 <span class="w">      </span><span class="p">}</span>
 <span class="w">    </span><span class="p">]</span>
 <span class="w">  </span><span class="p">}</span>

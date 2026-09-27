@@ -47,7 +47,8 @@ X-API-KEY: <your_token>
 {
   "params": {
     "method": "patent_msk",
-    "id_doc_seria": "string",
+    "search_mode": "passport",
+    "id_doc_seria": "string (optional)",
     "id_doc_number": "string",
     "citizenship": "string (optional)",
     "country": "ru"
@@ -55,6 +56,14 @@ X-API-KEY: <your_token>
   "requestId": "optional-string"
 }
 ```
+
+## Выбор режима
+
+Режим задаётся search_mode: passport (по умолчанию) или patent. Наличие issue_date не переключает режим. В passport обязателен id_doc_number: полный номер, включая буквы и ведущие нули; id_doc_seria можно не передавать или оставить пустым. При отдельной серии она добавляется перед номером. В patent обязательны patent_serial, patent_number, issue_date.
+
+Ранее режим выбирался автоматически по реквизитам патента. Теперь для таких запросов обязательно добавьте `search_mode: "patent"`.
+
+Примеры паспортов без серии: `id_doc_number: "FA1234567"` (Узбекистан), `id_doc_number: "406000001"` (Таджикистан). Это вымышленные номера; результат проверки не гарантируется.
 
 ## Пояснения к полям
 - `id_doc_seria` и `id_doc_number` — серия и номер документа, удостоверяющего личность.

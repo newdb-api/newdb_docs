@@ -503,6 +503,45 @@ curl -X GET "https://api.newdb.net/v2/run?method=vin_check&vin=X4XWY39460L583993
 
 ---
 
+### 13. Участие в государственных закупках 44-ФЗ / 223-ФЗ (`/zakupki`, `/contracts`)
+
+Поиск государственных и корпоративных контрактов поставщика или заказчика (для юридических лиц — `contracts`, для физлиц и ИП — `contracts_person`).
+
+**Запрос:**
+```bash
+curl -X GET "https://api.newdb.net/v2/run?method=contracts&inn=7712345678&token=YOUR_TOKEN&format=zb"
+# Также поддерживаются алиасы: method=zakupki, method=purchases, method=contracts_person
+```
+
+**Ответ:**
+```json
+{
+  "status": "200",
+  "message": "Запрос выполнен успешно",
+  "body": {
+    "aggr": {
+      "customer_sum": 0.0,
+      "participant_sum": 126450000.0
+    },
+    "customer": [],
+    "participant": [
+      {
+        "registry_number": "2770123456725000041",
+        "law": "44-ФЗ",
+        "customer": "ГБУ ЦИФРОВЫЕ СЕРВИСЫ",
+        "subject": "Поставка серверного оборудования",
+        "price": 18450000.0,
+        "status": "Исполнение завершено",
+        "sign_date": "2024-03-15",
+        "url": "https://zakupki.gov.ru/epz/contract/contractCard/common-info.html?reestrNumber=2770123456725000041"
+      }
+    ]
+  }
+}
+```
+
+---
+
 ## Эндпоинты проверки физлиц в стиле ЗЧБ (`/flcheck/data/*`)
 
 Для бесшовной миграции интеграций (включая фронтенды и бэкенды на базе API «ЗаЧестныйБизнес» / `flcheck`) NewDB предоставляет прямые эндпоинты совместимости:

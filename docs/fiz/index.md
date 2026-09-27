@@ -40,3 +40,5 @@ meta:
 - [arbitr_debt_sum](22-arbitr_debt_sum.md) — сумма задолженностей физлица по арбитражным делам КАД
 - [egrul_untrusted](23-egrul_untrusted.md) — недостоверные сведения ЕГРЮЛ (руководитель no_corr_boss, учредитель no_corr_founder, адрес)
 - [driver_license](25-driver_license.md) — проверка водительского удостоверения (Госуслуги / ГИБДД): статус, категории, срок действия, лишение прав
+- [contracts_person](28-contracts_person.md) — контракты физлица и ИП в госзакупках (44-ФЗ / 223-ФЗ)
+- [fssp_case](29-fssp_case.md) — поиск исполнительного производства ФССП по номеру ИП

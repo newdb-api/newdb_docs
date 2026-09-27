@@ -55,6 +55,8 @@ nav:
       - Проверка водительских прав (Госуслуги): fiz/25-driver_license.md
       - Розыск ФСИН: fiz/26-fsin.md
       - Санкции и PEP (OpenSanctions): fiz/27-opensanctions.md
+      - Госзакупки физлица / ИП: fiz/28-contracts_person.md
+      - Поиск ФССП по номеру ИП: fiz/29-fssp_case.md
   - Иностранные граждане:
       - Обзор: foreign/index.md
       - Вид на жительство (ВНЖ): foreign/01-foreign_vng.md
@@ -82,6 +84,7 @@ nav:
       - Реестр недобросовестных поставщиков (РНП): legal/10-rnp.md
       - Реестр субъектов МСП и мер поддержки: legal/11-fns_msp.md
       - Реестр проверок (ФГИС ЕРП / ЕРКНМ): legal/12-proverki_knm.md
+      - Госзакупки 44-ФЗ / 223-ФЗ: legal/13-contracts.md
       - Уплаченные налоги и сборы (ФНС): legal/14-taxes.md
   - ГАС Правосудие:
       - Обзор: gas/index.md
