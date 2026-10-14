@@ -25,6 +25,25 @@ POST `https://api.newdb.net/v2`
 
 ---
 
+**Раздел:** [Имущество](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела имущество](index.md)
+- [pledge_property — Проверка залога и обременений по ID (ФНП + Федресурс)](02-pledge_property.md)
+- [nspd_cadastr — Получение геоданных по кадастровому номеру](04-nspd_cadastr.md)
+- [rosreestr — Проверка объекта недвижимости (Росреестр)](01-rosreestr.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить объект недвижимости, транспорт или сведения о залоге и обременениях.
+
+## Типовые кейсы
+
+- Проверка объекта перед сделкой или выдачей займа
+- Получение сведений о залоге, кадастровых данных или геометрии объекта
+- Обогащение карточки имущества структурированными данными из внешнего реестра
+
 ## Заголовки
 
 ```text
@@ -130,122 +149,22 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
 
 ```json
 {
-  "tools": [
-    {
-      "name": "pledge_vin",
-      "description": "Проверка залогов, лизинга и иных обременений транспортного средства по VIN. Используются данные ФНП (реестр залогов движимого имущества) и Федресурса.",
-      "input_schema": {
-        "vin": "string — VIN транспортного средства",
-        "country": "string (ru)",
-        "method": "string (pledge_vin)",
-        "webhook": "string (URL для webhook, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "state": "string (complete|processing|error)",
-        "results": {
-          "pledge_vin": {
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "fnp": [
-                    {
-                      "source": "string — источник (ФНП)",
-                      "registry": "string — название реестра",
-                      "message_number_and_date": "string — номер и дата уведомления",
-                      "reference_number": "string — референс-номер уведомления",
-                      "message_type": "string — тип сообщения (например, Возникновение залога)",
-                      "pledge_subject_ids_raw": "string — VIN",
-                      "pledgor": "string — залогодатель (ФИО/организация)",
-                      "pledgee": "string — залогодержатель (банк/организация)",
-                      "guid": "string — GUID уведомления",
-                      "fnp_url": "string — ссылка на уведомление в реестре ФНП"
-                    }
-                  ],
-                  "fedresurs": [
-                    {
-                      "source": "string — источник (Федресурс)",
-                      "message_number_and_date": "string — номер и дата сообщения",
-                      "message_number": "string — номер сообщения",
-                      "message_url": "string — ссылка на карточку сообщения",
-                      "message_type": "string — тип сообщения (лизинг, залог, прочее)",
-                      "lessee": "string — лизингополучатель, если есть",
-                      "lessor": "string — лизингодатель/кредитор, если есть",
-                      "found_in_message": "string — фрагмент текста, по которому найдено совпадение",
-                      "links": [
-                        {
-                          "text": "string — текст ссылки",
-                          "url": "string — URL сообщения"
-                        }
-                      ],
-                      "encumbrance_guid": "string — GUID обременения",
-                      "encumbrance_publish_date": "string — дата публикации (ISO)",
-                      "encumbrance_type": "string — тип обременения",
-                      "encumbrance_message_url": "string — ссылка на сообщение об обременении"
-                    }
-                  ],
-                  "fnp_urls": [
-                    "string — список ссылок на уведомления ФНП"
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "method": "pledge_vin",
-            "country": "ru",
-            "vin": "JTEHD21A850036287"
-          },
-          "requestId": "a5962f88-2926-4279-b59d-43c023faa195"
-        },
-        "response_with_data": {
-          "state": "complete",
-          "results": {
-            "pledge_vin": {
-              "result": {
-                "status": 200,
-                "data": [
-                  {
-                    "fnp": [
-                      {
-                        "source": "ФНП",
-                        "message_number_and_date": "2015-000-291842-833 от 29.01.2015",
-                        "pledgor": "Игорь Юрьевич Семенов",
-                        "pledgee": "АКБ \"ИНТЕРПРОГРЕССБАНК\""
-                      }
-                    ],
-                    "fedresurs": []
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "response_empty": {
-          "state": "complete",
-          "results": {
-            "pledge_vin": {
-              "result": {
-                "status": 200,
-                "data": []
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить транспортное средство по VIN на залог, лизинг или иное обременение в ФНП и Федресурсе — используй метод pledge_vin и верни найденные уведомления и сообщения."
+  "method": "pledge_vin",
+  "intent": "Проверка залога и обременений по VIN транспортного средства",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["vin", "method", "country"],
+  "returns": ["state", "results.pledge_vin.result.status", "results.pledge_vin.result.data"]
 }
 ```
+
+</details>
+
 

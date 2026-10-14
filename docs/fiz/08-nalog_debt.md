@@ -19,6 +19,25 @@ POST `https://api.newdb.net/v2`
 
 **Рекомендуем также:** проверка исполнительных производств — [fssp_person](01-fssp_person.md), проверка банкротства — [fedresurs_bankrot](05-fedresurs_bankrot.md).
 
+**Раздел:** [Физические лица](index.md)
+
+## Связанные страницы
+
+- [Обзор раздела физические лица](index.md)
+- [arbitr_person — Проверка арбитражных дел (физлица, КАД)](07-arbitr_person.md)
+- [elmk_registry — Проверка статуса электронной медицинской книжки](09-elmk_registry.md)
+- [pledge_person — Проверка залогов и обременений (ФНП + Федресурс)](06-pledge_person.md)
+
+## Когда использовать
+
+Используйте метод, когда нужно проверить физлицо, документ или связанный с ним государственный реестр по структурированным данным.
+
+## Типовые кейсы
+
+- Проверка анкеты клиента перед onboarding или выдачей услуги
+- Автоматическая верификация паспорта, ИНН, задолженностей или ограничений
+- Обогащение внутренней карточки физлица данными из внешнего источника
+
 ## Заголовки
 ```http
 Content-Type: application/json
@@ -30,7 +49,6 @@ X-API-KEY: <your_token>
 {
   "params": {
     "inn": "string (ИНН физического лица)",
-    "email": "string (email для проверки)",
     "country": "ru",
     "method": "nalog_debt"
   },
@@ -42,7 +60,6 @@ X-API-KEY: <your_token>
 ## Параметры
 
 - `inn` — ИНН физического лица.
-- `email` — email, используемый при выполнении проверки.
 - `country` — код страны. Для РФ используйте `ru`.
 - `method` — имя метода, всегда `nalog_debt`.
 
@@ -56,7 +73,6 @@ X-API-KEY: YOUR_TOKEN
 {
   "params": {
     "inn": "270392288605",
-    "email": "pa@mail.ru",
     "country": "ru",
     "method": "nalog_debt"
   },
@@ -69,7 +85,6 @@ X-API-KEY: YOUR_TOKEN
 {
   "params": {
     "inn": "270392288605",
-    "email": "pa@mail.ru",
     "country": "ru",
     "method": "nalog_debt"
   },
@@ -92,7 +107,6 @@ X-API-KEY: YOUR_TOKEN
             },
             "form": {
               "inn": "270392288605",
-              "email": "pa@mail.ru"
             },
             "http": {
               "status": 200
@@ -125,77 +139,22 @@ X-API-KEY: YOUR_TOKEN
 - `results.nalog_debt.result.data[].page` — сведения о странице/источнике.
 - `results.nalog_debt.result.data[].request` — параметры исполненного запроса.
 
-## x-ai (метаданные для AI)
+## AI Summary
+
+<details>
+<summary>Компактные метаданные для AI и агентных систем</summary>
+
 ```json
 {
-  "tools": [
-    {
-      "name": "nalog_debt",
-      "description": "Проверка налоговой задолженности физического лица по ИНН. Возвращает найденные долги и технические детали выполнения проверки.",
-      "input_schema": {
-        "inn": "string — ИНН физического лица",
-        "email": "string — email для выполнения проверки",
-        "country": "string (ru)",
-        "method": "string (nalog_debt)",
-        "webhook": "string (URL, optional)",
-        "requestId": "string (optional)"
-      },
-      "output_schema": {
-        "requestId": "string",
-        "datecreated": "string (YYYY-MM-DD HH:MM:SS)",
-        "state": "string (complete|processing|error)",
-        "results": {
-          "nalog_debt": {
-            "taskId": "string",
-            "dateupdated": "string (YYYY-MM-DD HH:MM:SS)",
-            "result": {
-              "status": "number (HTTP status)",
-              "data": [
-                {
-                  "debt": "object — сведения о задолженности",
-                  "form": "object — отправленные данные формы",
-                  "http": "object — HTTP-метаданные",
-                  "network": "object — сетевые метаданные",
-                  "page": "object — сведения о странице результата",
-                  "request": "object — исполненный запрос"
-                }
-              ]
-            }
-          }
-        }
-      },
-      "example": {
-        "request": {
-          "params": {
-            "inn": "270392288605",
-            "email": "pa@mail.ru",
-            "country": "ru",
-            "method": "nalog_debt"
-          },
-          "requestId": "a5962f88-2916-4779-b59d-43c023faa899"
-        },
-        "response": {
-          "state": "complete",
-          "results": {
-            "nalog_debt": {
-              "result": {
-                "status": 200,
-                "data": [
-                  {
-                    "debt": {
-                      "total": "0.00",
-                      "items": []
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      },
-      "headers_required": ["X-API-KEY"]
-    }
-  ],
-  "policy": "Если пользователь хочет проверить налоговую задолженность физического лица по ИНН, долги по налогам, задолженность перед ФНС или налоговые начисления физлица — используй метод nalog_debt."
+  "method": "nalog_debt",
+  "intent": "Проверка налоговой задолженности физического лица по ИНН",
+  "endpoint": "POST https://api.newdb.net/v2",
+  "required_headers": ["X-API-KEY"],
+  "required_fields": ["inn", "country", "method", "webhook", "requestId"],
+  "returns": ["state", "results.nalog_debt.result.status", "results.nalog_debt.result.data"]
 }
 ```
+
+</details>
+
+
