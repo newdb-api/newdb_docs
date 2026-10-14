@@ -68,6 +68,7 @@ paths:
             schema:
               oneOf:
               - $ref: '#/components/schemas/fssp_personRequest'
+              - $ref: '#/components/schemas/fssp_caseRequest'
               - $ref: '#/components/schemas/passport_fnsRequest'
               - $ref: '#/components/schemas/passport_mvdRequest'
               - $ref: '#/components/schemas/complex_by_passportRequest'
@@ -137,6 +138,15 @@ paths:
                     regioncode: 100
                   webhook: https://example.com/newdb-webhook
                   requestId: 00000000-0000-4000-8000-000000000001
+              fssp_case:
+                summary: fssp_case — Поиск ФССП по номеру исполнительного производства
+                value:
+                  params:
+                    method: fssp_case
+                    country: ru
+                    case_number: 88442/25/66049-ИП
+                  webhook: https://example.com/newdb-webhook
+                  requestId: 00000000-0000-4000-8000-000000000101
               passport_fns:
                 summary: passport_fns — Проверка  паспорта/ИНН через ФНС
                 value:
@@ -192,7 +202,7 @@ paths:
                 summary: nalog_debt — Проверка налоговой задолженности по ИНН
                 value:
                   params:
-                    inn: '7712345678'
+                    innfiz: '500100732259'
                     country: ru
                     method: nalog_debt
                   requestId: 00000000-0000-4000-8000-000000000003
@@ -810,6 +820,7 @@ paths:
           type: string
           enum:
           - fssp_person
+          - fssp_case
           - passport_fns
           - passport_mvd
           - bankrot_person
@@ -917,6 +928,13 @@ paths:
           type: string
           example: '000000'
         description: Номер документа, если он требуется выбранному методу.
+      - in: query
+        name: case_number
+        required: false
+        schema:
+          type: string
+          example: 88442/25/66049-ИП
+        description: Номер исполнительного производства ФССП для метода fssp_case.
       - in: query
         name: firstname
         required: false
@@ -1255,6 +1273,87 @@ paths:
                 $ref: '#/components/schemas/ErrorsInfoResponse'
       externalDocs:
         url: https://newdb.net/docs/fiz/01-fssp_person/
+  /v2/methods/fssp_case:
+    post:
+      tags:
+      - Physical Persons
+      summary: fssp_case — Поиск ФССП по номеру исполнительного производства
+      description: 'API метод NEWDB fssp_case: поиск записи в банке данных исполнительных производств ФССП по номеру исполнительного производства (номер ИП).'
+      operationId: newdb_fssp_case
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/fssp_caseRequest'
+            examples:
+              fssp_case:
+                summary: fssp_case — Поиск ФССП по номеру исполнительного производства
+                value:
+                  params:
+                    method: fssp_case
+                    country: ru
+                    case_number: 88442/25/66049-ИП
+                  webhook: https://example.com/newdb-webhook
+                  requestId: 00000000-0000-4000-8000-000000000101
+      responses:
+        '200':
+          description: Текущее состояние запроса и, при state=complete, результат метода.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncEnvelope'
+              examples:
+                fssp_case_complete:
+                  summary: Успешный ответ fssp_case
+                  value:
+                    params:
+                      method: fssp_case
+                      country: ru
+                      case_number: 88442/25/66049-ИП
+                    webhook: https://example.com/newdb-webhook
+                    requestId: 00000000-0000-4000-8000-000000000101
+                    datecreated: '2025-11-09 23:58:38'
+                    state: complete
+                    tasks: 1
+                    is_repeat: false
+                    results:
+                      fssp_case:
+                        taskId: 00000000-0000-4000-8000-000000000102
+                        dateupdated: '2025-11-09 20:59:43'
+                        result:
+                          status: 200
+                          data:
+                          - Debtor: ИВАНОВ ИВАН ИВАНОВИЧ 01.01.1990 Г. МОСКВА
+                            EnforcementProceeding: 88442/25/66049-ИП от 09.09.2025
+                            WritDetails: Исполнительный лист от 01.01.2026 № 00RS0000#2-1/2026#1 ПРИМЕРНЫЙ СУД
+                            CompletionDateOrReason: ''
+                            Service: ''
+                            SubjectAndDebtAmount: 'Иные взыскания имущественного характера. Сумма долга: 30000.00 руб.'
+                            BailiffDepartment: Примерный РОСП 000000, Россия, г. Москва, ул. Примерная, д. 1
+                            Phone: +7(000)000-00-00
+                            BailiffOfficer: ИВАНОВ И. И.
+                    finished: 1
+        '400':
+          description: 'Некорректный запрос: ошибка в параметрах или отсутствует обязательное поле.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '402':
+          description: Недостаточно средств на счете.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+        '500':
+          description: Системная ошибка сервиса или ошибка на источнике.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorsInfoResponse'
+      externalDocs:
+        url: https://newdb.net/docs/fiz/02-fssp_case/
   /v2/methods/passport_fns:
     post:
       tags:
@@ -2051,7 +2150,11 @@ paths:
       tags:
       - Physical Persons
       summary: nalog_debt — Проверка налоговой задолженности по ИНН
-      description: Метод NEWDB nalog_debt проверяет задолженность физического лица по налогам и сборам по ИНН.
+      description: "Метод NEWDB nalog_debt проверяет задолженность физического лица по налогам и сборам по ИНН (параметр\
+        \ `innfiz`, 12 цифр).\n\nИнтерпретация результата:\n- `status: 200`, `data: []`, без `meta` — задолженность\
+        \ не обнаружена;\n- `status: 200`, `data[].debt` — задолженность найдена (сумма в `debt.amount`);\n- `status:\
+        \ 200`, `data: []`, `meta.reason: account_not_found` — налоговый счёт по ИНН не найден, вывод о задолженности\
+        \ сделать нельзя;\n- `status: 500` — данные не получены, повторите запрос."
       operationId: newdb_nalog_debt
       requestBody:
         required: true
@@ -2064,7 +2167,7 @@ paths:
                 summary: nalog_debt — Проверка налоговой задолженности по ИНН
                 value:
                   params:
-                    inn: '7712345678'
+                    innfiz: '500100732259'
                     country: ru
                     method: nalog_debt
                   requestId: 00000000-0000-4000-8000-000000000003
@@ -2076,11 +2179,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/AsyncEnvelope'
               examples:
-                nalog_debt_complete:
-                  summary: Успешный ответ nalog_debt
+                nalog_debt_no_debt:
+                  summary: Задолженность не обнаружена (источник ответил «Задолженностей сейчас нет»)
                   value:
                     params:
-                      inn: '7712345678'
+                      innfiz: '500100732259'
                       country: ru
                       method: nalog_debt
                     requestId: 00000000-0000-4000-8000-000000000029
@@ -2094,20 +2197,81 @@ paths:
                         dateupdated: '2026-03-15 23:15:59'
                         result:
                           status: 200
+                          data: []
+                    finished: 1
+                nalog_debt_found:
+                  summary: Задолженность найдена
+                  value:
+                    params:
+                      innfiz: '500100732259'
+                      country: ru
+                      method: nalog_debt
+                    requestId: 00000000-0000-4000-8000-000000000031
+                    datecreated: '2026-03-15 23:15:44'
+                    state: complete
+                    tasks: 1
+                    is_repeat: false
+                    results:
+                      nalog_debt:
+                        taskId: 00000000-0000-4000-8000-000000000030
+                        dateupdated: '2026-03-15 23:15:59'
+                        result:
+                          status: 200
                           data:
                           - debt:
-                              total: '0.00'
-                              items: []
-                            form:
-                              inn: '7712345678'
-                            http:
-                              status: 200
-                            network:
-                              final_url: https://avtonalogi.ru/
-                            page:
-                              title: Проверка задолженности
-                            request:
-                              method: nalog_debt
+                              updated_text: Обновлено 15.03.2026
+                              actual_date: 15.03.2026
+                              inn_on_page: '500100732259'
+                              amount:
+                                text: 12 345,67 ₽
+                                value: 12345.67
+                                currency: RUB
+                              status_text: null
+                    finished: 1
+                nalog_debt_account_not_found:
+                  summary: Налоговый счёт по ИНН не найден — вывод о задолженности сделать нельзя
+                  value:
+                    params:
+                      innfiz: '500100732259'
+                      country: ru
+                      method: nalog_debt
+                    requestId: 00000000-0000-4000-8000-000000000032
+                    datecreated: '2026-03-15 23:15:44'
+                    state: complete
+                    tasks: 1
+                    is_repeat: false
+                    results:
+                      nalog_debt:
+                        taskId: 00000000-0000-4000-8000-000000000030
+                        dateupdated: '2026-03-15 23:15:59'
+                        result:
+                          status: 200
+                          data: []
+                          meta:
+                            reason: account_not_found
+                            status_text: Мы не смогли найти ваш налоговый счет. Пожалуйста, проверьте корректность введенного ИНН.
+                            inn_on_page: '500100732259'
+                    finished: 1
+                nalog_debt_source_error:
+                  summary: Данные не получены (ошибка источника) — требуется повторный запрос
+                  value:
+                    params:
+                      innfiz: '500100732259'
+                      country: ru
+                      method: nalog_debt
+                    requestId: 00000000-0000-4000-8000-000000000033
+                    datecreated: '2026-03-15 23:15:44'
+                    state: complete
+                    tasks: 1
+                    is_repeat: false
+                    results:
+                      nalog_debt:
+                        taskId: 00000000-0000-4000-8000-000000000030
+                        dateupdated: '2026-03-15 23:15:59'
+                        result:
+                          status: 500
+                          error: system source error
+                          data: []
                     finished: 1
         '400':
           description: 'Некорректный запрос: ошибка в параметрах или отсутствует обязательное поле.'
@@ -4421,8 +4585,8 @@ paths:
     post:
       tags:
       - Justice
-      summary: act_text_search — Поиск судебных дел по текстам актов
-      description: Метод NEWDB act_text_search выполняет поиск судебных дел по текстам судебных актов в ГАС Правосудие.
+      summary: act_text_search — Поиск судебных актов по тексту
+      description: До 20 совпавших актов; курсорная пагинация. has_more означает продолжение просмотра, в том числе после пустой страницы. total_count и pages_count не подсчитываются.
       operationId: newdb_act_text_search
       requestBody:
         required: true
@@ -4432,7 +4596,7 @@ paths:
               $ref: '#/components/schemas/act_text_searchRequest'
             examples:
               act_text_search:
-                summary: act_text_search — Поиск судебных дел по текстам актов
+                summary: act_text_search — Поиск судебных актов по тексту
                 value:
                   params:
                     act_text: <act_text>
@@ -4457,7 +4621,10 @@ paths:
                         result:
                           status: 200
                           data:
-                          - case_id: 123456
+                          - act_id: 987654
+                            act_title: Постановление
+                            act_text: лишение прав
+                            case_id: 123456
                             case_number: 12-345/2025
                             case_url: https://example.sudrf.ru/...
                             case_info: Дело о лишении права управления транспортным средством
@@ -4469,7 +4636,14 @@ paths:
                               act_text: '...лишение прав...'
                           meta:
                             act_text: лишение прав
-                            page: 1
+                            pagination: cursor
+                            result_unit: act
+                            returned_count: 1
+                            total_count: null
+                            pages_count: null
+                            has_more: false
+                            next_cursor: null
+                            scan_incomplete: false
                             page_size: 20
                             count: 1
                             case_ids:
@@ -6379,6 +6553,53 @@ components:
           regioncode: 100
         webhook: https://example.com/newdb-webhook
         requestId: 00000000-0000-4000-8000-000000000001
+    fssp_caseRequest:
+      type: object
+      description: Метод NEWDB fssp_case выполняет поиск исполнительного производства ФССП по номеру ИП.
+      properties:
+        params:
+          type: object
+          properties:
+            case_number:
+              type: string
+              description: Номер исполнительного производства ФССП в формате источника, например n..n/yy/ddddd-ИП.
+              example: 88442/25/66049-ИП
+            ip_number:
+              type: string
+              description: Алиас для case_number.
+              example: 88442/25/66049-ИП
+            country:
+              type: string
+              example: ru
+            method:
+              type: string
+              enum:
+              - fssp_case
+              example: fssp_case
+          required:
+          - case_number
+          - country
+          - method
+          additionalProperties: true
+        requestId: 00000000-0000-4000-8000-000000000101
+        webhook:
+          type: string
+          format: uri
+          description: HTTPS URL клиента для получения результата через webhook. Если поле передано, NEWDB отправит POST callback
+            с общим envelope ответа на указанный URL.
+          example: https://example.com/newdb-webhook
+        taskId:
+          type: string
+      required:
+      - params
+      additionalProperties: false
+      example:
+        params:
+          method: fssp_case
+          country: ru
+          case_number: 88442/25/66049-ИП
+        webhook: https://example.com/newdb-webhook
+        requestId: 00000000-0000-4000-8000-000000000101
     passport_fnsRequest:
       type: object
       description: Метод NEWDB passport_fns для проверки паспорта РФ и поиска ИНН физлица через сервисы Федеральной налоговой
@@ -6887,7 +7108,11 @@ components:
         params:
           type: object
           properties:
-            inn: '7712345678'
+            innfiz:
+              type: string
+              pattern: ^\d{12}$
+              description: ИНН физического лица (12 цифр). Рекомендуемый параметр. Для совместимости также принимается `inn`.
+              example: '500100732259'
             country:
               type: string
               example: ru
@@ -6897,7 +7122,7 @@ components:
               - nalog_debt
               example: nalog_debt
           required:
-          - inn
+          - innfiz
           - country
           - method
           additionalProperties: true
@@ -7604,13 +7829,27 @@ components:
               enum:
               - patent_msk
               example: patent_msk
+            search_mode:
+              type: string
+              enum: [passport, patent]
+              default: passport
+              description: Явный режим поиска; дата выдачи не переключает режим.
+            patent_serial:
+              type: string
+              description: Обязателен при search_mode=patent.
+            patent_number:
+              type: string
+              description: Обязателен при search_mode=patent.
+            issue_date:
+              type: string
+              description: Дата выдачи; обязательна при search_mode=patent. Не меняет режим поиска.
             id_doc_seria:
               type: string
-              description: Серия документа, удостоверяющего личность.
+              description: Необязательная серия; допускается пустая строка.
               example: XX
             id_doc_number:
               type: string
-              description: Номер документа, удостоверяющего личность.
+              description: Полный номер документа с буквами и ведущими нулями, если серия не передана. Обязателен в режиме passport.
               example: '0000000'
             citizenship:
               type: string
@@ -7736,7 +7975,7 @@ components:
           properties:
             case_number:
               type: string
-              description: Номер арбитражного дела в КАД (например, А56-795/2024).
+              description: Основной обязательный параметр — номер арбитражного дела в КАД (например, А56-795/2024). По этому полю выполняется индексированный поиск и автоматическое дельта-сравнение со снимком.
               example: А56-795/2024
             method:
               type: string
@@ -8029,7 +8268,7 @@ components:
         requestId: 00000000-0000-4000-8000-000000000001
     act_text_searchRequest:
       type: object
-      description: Метод NEWDB act_text_search выполняет поиск судебных дел по текстам судебных актов в ГАС Правосудие.
+      description: Текстовый поиск возвращает до 20 актов. Продолжение через cursor; total_count и pages_count равны null. Пустая страница с has_more=true требует продолжения. Явный semantic сохраняет прежний режим. Курсорный режим включается при любом непустом act_text независимо от method.
       properties:
         params:
           type: object
@@ -8037,6 +8276,20 @@ components:
             act_text:
               type: string
               example: <act_text>
+            page_size:
+              type: integer
+              minimum: 1
+              maximum: 20
+              default: 20
+              description: Число актов в странице; ответ может быть неполным по бюджету поиска.
+            cursor:
+              type: string
+              maxLength: 512
+              description: meta.next_cursor предыдущего ответа; текст и фильтры должны совпадать.
+            page:
+              type: integer
+              enum: [1]
+              description: Для текстового поиска следующая страница запрашивается через cursor.
             country:
               type: string
               example: ru
