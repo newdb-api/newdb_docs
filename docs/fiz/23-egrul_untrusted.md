@@ -47,8 +47,8 @@ X-API-KEY: `<your_token>`
 ```json
 {
   "params": {
-    "inn": "string, optional, ИНН физлица (12 знаков) или юрлица (10 знаков)",
-    "fio": "string, optional, ФИО физлица для поиска связей",
+    "fio": "string, required, ФИО физлица (минимум фамилия и имя); можно передать раздельно lastname/firstname/secondname",
+    "inn": "string, optional, ИНН физлица (12 знаков) для уточнения",
     "ogrn": "string, optional, ОГРН организации",
     "country": "ru",
     "method": "corporate_restrictions_person"
@@ -59,7 +59,7 @@ X-API-KEY: `<your_token>`
 ```
 
 > [!NOTE]
-> В запросе достаточно передать `inn` (10 или 12 цифр), либо `fio`, либо `ogrn`.
+> Обязательно ФИО физлица (`fio` или `lastname` + `firstname`). Проверка организации по ИНН/ОГРН выполняется методом `egrul_untrusted` (`inn` юрлица).
 
 ---
 
@@ -73,7 +73,7 @@ X-API-KEY: YOUR_TOKEN
 
 {
   "params": {
-    "inn": "7723071768",
+    "fio": "Иванов Иван Иванович",
     "country": "ru",
     "method": "corporate_restrictions_person"
   },
