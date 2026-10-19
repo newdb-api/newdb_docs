@@ -1,6 +1,6 @@
 ---
 title: "nspd_cadastr — геоданные по кадастровому номеру"
-description: "Метод NEWDB nspd_cadastr получает геоданные и сведения об объекте недвижимости по кадастровому номеру: координаты, контур, адрес, площадь, кадастровую стоимость и ЗОУИТ, найденные по выбранному объекту на карте."
+description: "Метод NEWDB nspd_cadastr получает геоданные и сведения об объекте недвижимости по кадастровому номеру: координаты, контур, адрес, площадь, кадастровую стоимость и ЗОУИТ с названием, видом зоны, основанием и текстом ограничений."
 canonical_url: https://newdb.net/docs/property/04-nspd_cadastr/
 meta:
   - name: keywords
@@ -23,6 +23,7 @@ POST `https://api.newdb.net/v2`
 - адрес, площадь, этажность, год постройки
 - назначение, вид права и кадастровую стоимость
 - ЗОУИТ и другие выбранные объекты, которые НСПД показывает после клика по найденному объекту на карте
+- сведения о каждой ЗОУИТ: название по документу, вид зоны, основание (правовой акт), текст ограничений и контур зоны
 
 **Раздел:** [Имущество](index.md)
 
@@ -285,7 +286,9 @@ X-API-KEY: YOUR_TOKEN
                   "number_type": "registry_boundary_number",
                   "text": "Реестровый номер границы: 77:01-6.100",
                   "source": "accordion_item",
-                  "is_special_conditions_zone": true
+                  "is_special_conditions_zone": true,
+                  "name": "Водоохранная зона реки Москвы",
+                  "type_zone": "Водоохранная зона"
                 }
               ],
               "raw_text": "Реестровый номер границы: 77:01-6.100"
@@ -300,10 +303,37 @@ X-API-KEY: YOUR_TOKEN
                 "number_type": "registry_boundary_number",
                 "text": "Реестровый номер границы: 77:01-6.100",
                 "source": "accordion_item",
-                "is_special_conditions_zone": true
+                "is_special_conditions_zone": true,
+                "name": "Водоохранная зона реки Москвы",
+                "type_zone": "Водоохранная зона"
               }
             ],
             "has_zouit_by_selected_objects": true,
+            "special_conditions_zones_details": [
+              {
+                "number": "77:01-6.100",
+                "name": "Водоохранная зона реки Москвы",
+                "type_zone": "Водоохранная зона",
+                "category": "ЗОУИТ природных территорий",
+                "boundary_type": "Зона с особыми условиями использования территории",
+                "restrictions": "В границах водоохранной зоны запрещается: ...",
+                "registration_date": "2024-03-15",
+                "legal_act": {
+                  "name": "Приказ об установлении границ водоохранной зоны",
+                  "number": "123",
+                  "date": "01.02.2024",
+                  "issuer": "Московско-Окское бассейновое водное управление"
+                },
+                "center": {
+                  "latitude": 55.7512,
+                  "longitude": 37.6184
+                },
+                "geometry": {
+                  "type": "Polygon",
+                  "coordinates": [[[37.6101, 55.7489], [37.6265, 55.7489], [37.6265, 55.7535], [37.6101, 55.7489]]]
+                }
+              }
+            ],
             "special_conditions_zones_count": 0,
             "special_conditions_zones": [],
             "url": "https://nspd.gov.ru/map?thematic=PKK&zoom=20&coordinate_x=4100000&coordinate_y=7500000&baseLayerId=235&theme_id=1&is_copy_url=true&active_layers=37577%2C37579%2C37581%2C37580%2C37578&selectedCard=157240605%2C36368%2C77%3A01%3A0000000%3A1000"
@@ -336,6 +366,19 @@ X-API-KEY: YOUR_TOKEN
 | `results.nspd_cadastr.result.data[].selected_objects.items[].is_special_conditions_zone` | `true`, если выбранный объект распознан как ЗОУИТ или зона с особыми условиями использования территории. |
 | `results.nspd_cadastr.result.data[].selected_special_conditions_zones` | Отфильтрованный список ЗОУИТ из `selected_objects.items`. |
 | `results.nspd_cadastr.result.data[].selected_special_conditions_zones_count` | Количество найденных ЗОУИТ в списке выбранных объектов. |
+| `results.nspd_cadastr.result.data[].selected_special_conditions_zones[].name` | Наименование зоны по документу, например «Четвертая подзона приаэродромной территории аэродрома гражданской авиации Йошкар-Ола». Заполняется по карточке зоны в НСПД. |
+| `results.nspd_cadastr.result.data[].selected_special_conditions_zones[].type_zone` | Вид зоны: «Приаэродромная территория», «Водоохранная зона», «Охранная зона инженерных коммуникаций» и т. п. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details` | Сведения о каждой уникальной ЗОУИТ из `selected_special_conditions_zones` (без дублей), полученные из карточки зоны в НСПД. Поле отсутствует, если ЗОУИТ не найдены. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].number` | Реестровый номер границы зоны. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].name` | Наименование зоны по документу. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].type_zone` | Вид зоны. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].category` | Раздел ЗОУИТ НСПД, например `ЗОУИТ объектов энергетики, связи, транспорта`. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].boundary_type` | Тип границы, например «Зона с особыми условиями использования территории». |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].restrictions` | Полный текст ограничений использования объектов недвижимости и осуществления деятельности в границах зоны. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].legal_act` | Основание установления зоны: `name`, `number`, `date`, `issuer`. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].registration_date` | Дата внесения сведений о зоне в ЕГРН (`YYYY-MM-DD`). |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].center` | Центр зоны в координатах WGS84. |
+| `results.nspd_cadastr.result.data[].special_conditions_zones_details[].geometry` | Контур зоны (`Polygon` или `MultiPolygon`) в координатах WGS84 — для отображения на карте. |
 | `results.nspd_cadastr.result.data[].has_zouit_by_selected_objects` | `true`, если после клика по объекту НСПД вернул хотя бы одну ЗОУИТ во вкладке «Выделенные объекты». |
 | `results.nspd_cadastr.result.data[].special_conditions_zones` | ЗОУИТ, найденные непосредственно среди объектов поисковой выдачи. Может быть пустым, даже если `selected_special_conditions_zones` содержит зоны после клика по карте. |
 | `results.nspd_cadastr.result.data[].url` | Ссылка на НСПД с выбранной карточкой, активными слоями ЗОУИТ и координатами объекта. |
@@ -368,7 +411,41 @@ X-API-KEY: YOUR_TOKEN
 }
 ```
 
-Если `has_zouit_by_selected_objects` равно `true`, объект пересекается или связан с одной или несколькими зонами, которые НСПД показал после клика по объекту на карте. Для пользовательского интерфейса обычно достаточно выводить `selected_special_conditions_zones_count` и список `selected_special_conditions_zones`.
+Если `has_zouit_by_selected_objects` равно `true`, объект пересекается или связан с одной или несколькими зонами, которые НСПД показал после клика по объекту на карте.
+
+### Сведения о зонах
+
+Для каждой уникальной зоны из `selected_special_conditions_zones` метод запрашивает карточку зоны в НСПД по реестровому номеру и возвращает её в `special_conditions_zones_details`: название по документу, вид зоны, раздел ЗОУИТ, текст ограничений, правовой акт и контур. В `selected_special_conditions_zones` одна зона может встречаться дважды (из заголовка раздела и из элемента списка), в `special_conditions_zones_details` — один раз.
+
+Название и вид зоны также проставляются в элементы `selected_special_conditions_zones` (`name`, `type_zone`), а `category` уточняется по карточке зоны.
+
+Пример элемента `special_conditions_zones_details` (текст ограничений и контур сокращены):
+
+```json
+{
+  "number": "12:04-6.2193",
+  "name": "Четвертая подзона приаэродромной территории аэродрома гражданской авиации Йошкар-Ола",
+  "type_zone": "Приаэродромная территория",
+  "category": "ЗОУИТ объектов энергетики, связи, транспорта",
+  "boundary_type": "Зона с особыми условиями использования территории",
+  "restrictions": "Ограничения использования объектов недвижимости и осуществления деятельности в границах четвертой подзоны приаэродромной территории: ...",
+  "registration_date": "2026-02-12",
+  "legal_act": {
+    "name": "Приказ об установлении приаэродромной территории аэродрома гражданской авиации Йошкар-Ола",
+    "number": "89-П",
+    "date": "21.02.2023",
+    "issuer": "Федеральное агентство воздушного транспорта (Росавиация)"
+  },
+  "center": {"latitude": 56.64, "longitude": 47.85},
+  "geometry": {"type": "Polygon", "coordinates": [[[47.79, 56.61], [47.92, 56.61], [47.92, 56.67], [47.79, 56.61]]]}
+}
+```
+
+Сведения запрашиваются не более чем по 30 зонам на объект. Если карточку зоны получить не удалось, зона остаётся в `selected_special_conditions_zones` без `name` и `type_zone`.
+
+Для помещений НСПД не определяет ЗОУИТ отдельно: запросите метод по кадастровому номеру здания, в котором расположено помещение (для помещения он возвращается в поле `parent_cad_number`).
+
+Для пользовательского интерфейса обычно достаточно выводить `selected_special_conditions_zones_count` и список `special_conditions_zones_details` (название, вид зоны, основание).
 
 ## AI Summary
 
@@ -387,6 +464,7 @@ X-API-KEY: YOUR_TOKEN
     "results.nspd_cadastr.result.status",
     "results.nspd_cadastr.result.data[].items[].geo",
     "results.nspd_cadastr.result.data[].selected_special_conditions_zones",
+    "results.nspd_cadastr.result.data[].special_conditions_zones_details",
     "results.nspd_cadastr.result.data[].has_zouit_by_selected_objects"
   ]
 }
