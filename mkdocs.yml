@@ -57,6 +57,7 @@ nav:
       - Санкции и PEP (OpenSanctions): fiz/27-opensanctions.md
       - Госзакупки физлица / ИП: fiz/28-contracts_person.md
       - Поиск ФССП по номеру ИП: fiz/29-fssp_case.md
+      - Поддержка МСП (ФНС): fiz/30-msp_person.md
   - Иностранные граждане:
       - Обзор: foreign/index.md
       - Вид на жительство (ВНЖ): foreign/01-foreign_vng.md
