@@ -387,7 +387,7 @@ paths:
                     case_number: А56-795/2024
                     country: ru
                     method: kad_event_monitor
-                    openai_interpretation: 1
+                    ai_check: true
                   requestId: 00000000-0000-4000-8000-000000000001
               fns_block:
                 summary: fns_block — Проверка блокировок счетов юрлица (ФНС)
@@ -3488,7 +3488,7 @@ paths:
                     case_number: А56-795/2024
                     country: ru
                     method: kad_event_monitor
-                    openai_interpretation: 1
+                    ai_check: true
                   requestId: 00000000-0000-4000-8000-000000000001
       responses:
         '200':
@@ -6521,6 +6521,11 @@ components:
               enum:
               - fssp_person
               example: fssp_person
+            ai_check:
+              type: boolean
+              default: true
+              description: ИИ-интерпретация результата. false — только данные ФССП без блока result.ai_interpretation.
+              example: false
           required:
           - firstname
           - lastname
@@ -6816,6 +6821,11 @@ components:
             country:
               type: string
               example: ru
+            ai_check:
+              type: boolean
+              default: true
+              description: ИИ-интерпретация результата. false — только данные КАД без блока result.ai_interpretation и без ИИ-анализа PDF акта (card_pdf_analysis).
+              example: false
           required:
           - innfiz
           - method
@@ -7943,6 +7953,11 @@ components:
             country:
               type: string
               example: ru
+            ai_check:
+              type: boolean
+              default: true
+              description: ИИ-интерпретация результата. false — только данные КАД без блока result.ai_interpretation и без ИИ-анализа PDF акта (card_pdf_analysis).
+              example: false
           required:
           - inn
           - method
@@ -7988,14 +8003,12 @@ components:
             previous_snapshot:
               type: object
               description: Предыдущий снимок (snapshot) состояния дела для вычисления изменений (delta).
-            openai_interpretation:
-              type: integer
-              enum:
-              - 0
-              - 1
-              default: 1
-              description: Включение расширенной аналитической интерпретации от ИИ (1 - включено, 0 - выключено).
               example: 1
+            ai_check:
+              type: boolean
+              default: true
+              description: ИИ-интерпретация дела. false — без ИИ-интерпретации (ai_interpretation.status=disabled) и без ИИ-анализа PDF новых актов.
+              example: false
           required:
           - case_number
           - method
@@ -8019,7 +8032,7 @@ components:
           case_number: А56-795/2024
           country: ru
           method: kad_event_monitor
-          openai_interpretation: 1
+          ai_check: true
         requestId: 00000000-0000-4000-8000-000000000001
     fns_blockRequest:
       type: object
@@ -8204,6 +8217,11 @@ components:
             country:
               type: string
               example: ru
+            ai_check:
+              type: boolean
+              default: true
+              description: ИИ-интерпретация результата. false — только данные ФССП без блока result.ai_interpretation.
+              example: false
           required:
           - inn
           - method
@@ -9435,6 +9453,11 @@ components:
               enum:
               - fssp_company
               example: fssp_company
+            ai_check:
+              type: boolean
+              default: true
+              description: ИИ-интерпретация результата. false — только данные ФССП без блока result.ai_interpretation.
+              example: false
           required:
           - country
           - method

@@ -38,8 +38,8 @@ meta:
 - [disqual](19-disqual.md) — онлайн-поиск в реестре дисквалифицированных лиц ФНС
 - [court_arbitration](21-court_arbitration.md) — арбитраж по компаниям физлица (ЕГРЮЛ-связи + КАД, скоринг субсидиарного риска)
 - [arbitr_debt_sum](22-arbitr_debt_sum.md) — сумма задолженностей физлица по арбитражным делам КАД
-- [egrul_untrusted](23-egrul_untrusted.md) — недостоверные сведения ЕГРЮЛ (руководитель no_corr_boss, учредитель no_corr_founder, адрес)
+- [corporate_restrictions_person / egrul_untrusted](23-egrul_untrusted.md) — корпоративные запреты, 3-летний запрет (ст. 23 129-ФЗ) и недостоверность сведений ЕГРЮЛ
 - [driver_license](25-driver_license.md) — проверка водительского удостоверения (Госуслуги / ГИБДД): статус, категории, срок действия, лишение прав
 - [contracts_person](28-contracts_person.md) — контракты физлица и ИП в госзакупках (44-ФЗ / 223-ФЗ)
 - [fssp_case](29-fssp_case.md) — поиск исполнительного производства ФССП по номеру ИП
-- [msp_person](30-msp_person.md) — проверка физлица в реестре получателей поддержки МСП (ФНС)
+- [msp_person / msp_fio](30-msp_person.md) — проверка физлица в реестре получателей поддержки МСП (ФНС)

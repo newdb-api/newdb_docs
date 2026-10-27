@@ -61,7 +61,7 @@ X-API-KEY: <your_token>
     "case_number": "string, обязательный, номер дела в КАД",
     "country": "ru",
     "previous_snapshot": "object, optional, предыдущий объект snapshot для вычисления дельты",
-    "openai_interpretation": "integer, optional (1 или 0), включение расширенной AI-интерпретации, default 1"
+    "ai_check": "boolean, optional, default true, ИИ-интерпретация дела и анализ PDF актов"
   },
   "webhook": "https://your.host/webhook",
   "requestId": "optional-string"
@@ -74,7 +74,7 @@ X-API-KEY: <your_token>
 - `case_number` — **основное обязательное поле**: номер арбитражного дела в КАД (например, `"А40-123456/2024"`, `"А56-795/2024"`). В запросах необходимо использовать именно имя поля `case_number` — по нему в базе данных NewDB построен оптимизированный частичный индекс для мгновенной выборки истории и дельта-сравнения.
 - `country` — код страны (`"ru"`).
 - `previous_snapshot` — *(опционально)* объект снимка состояния дела. Если параметр не передан явно, система автоматически подтягивает последний успешный снимок по данному `case_number` из истории запросов, что исключает повторное скачивание уже разобранных PDF и снижает время ответа до 2-3 секунд.
-- `openai_interpretation` — *(опционально)* флаг включения расширенного аналитического заключения от ИИ (`1` — включено, `0` — выключено).
+- `ai_check` — *(опционально)* общий выключатель ИИ, как в методах `fssp_*` и `arbitr_*` (по умолчанию `true`). При `false` ИИ не вызывается совсем: `ai_interpretation` приходит со `status: "disabled"`, PDF новых актов не анализируются (`card_pdf_analysis` пустой), детерминированные сигналы и дельта работают как обычно.
 
 ---
 
@@ -86,7 +86,7 @@ X-API-KEY: <your_token>
     "method": "kad_event_monitor",
     "case_number": "А56-795/2024",
     "country": "ru",
-    "openai_interpretation": 1
+    "ai_check": true
   },
   "requestId": "f83a0011-8022-4091-8abc-000000000001"
 }
@@ -102,7 +102,7 @@ X-API-KEY: <your_token>
     "method": "kad_event_monitor",
     "case_number": "А56-795/2024",
     "country": "ru",
-    "openai_interpretation": 1,
+    "ai_check": true,
     "newdb_qid": "EP0iIP63yfbLMygA"
   },
   "requestId": "f83a0011-8022-4091-8abc-000000000001",
@@ -237,7 +237,7 @@ X-API-KEY: <your_token>
 - `changes`: список измененных полей (новые события `process_events`, сменившийся статус, новый судебный акт).
 
 ### 4. `ai_interpretation` (Юридическое резюме от ИИ)
-- Структурированный вывод GPT-анализа: `risk_level`, `summary`, `key_findings`, `recommended_actions`, `deadlines_or_dates`.
+- Структурированный вывод ИИ-анализа: `risk_level`, `summary`, `key_findings`, `recommended_actions`, `deadlines_or_dates`.
 
 ---
 
@@ -253,7 +253,7 @@ X-API-KEY: <your_token>
   "endpoint": "POST https://api.newdb.net/v2",
   "required_headers": ["X-API-KEY"],
   "required_fields": ["method", "case_number", "country"],
-  "optional_fields": ["previous_snapshot", "openai_interpretation", "requestId", "webhook"],
+  "optional_fields": ["previous_snapshot", "ai_check", "requestId", "webhook"],
   "returns": [
     "state",
     "results.kad_event_monitor.result.status",

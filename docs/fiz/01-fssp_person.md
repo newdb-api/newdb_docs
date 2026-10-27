@@ -55,12 +55,17 @@ X-API-KEY: <your_token>
     "dob": "YYYY-MM-DD",
     "regioncode": "string | number",
     "country": "ru",
-    "method": "fssp_person"
+    "method": "fssp_person",
+    "ai_check": "boolean, optional, default true"
   },
   "webhook": "https://your.host/whook",
   "requestId": "optional-string"
 }
 ```
+
+### Отключение ИИ-интерпретации
+
+- `ai_check` — `true` (по умолчанию) или `false`. При `false` метод возвращает только данные ФССП, без блока `result.ai_interpretation`: ответ не зависит от ИИ-сервиса и приходит быстрее. Принимаются также `0`/`1` и строки `"false"`/`"true"`.
 
 ## Коды регионов
 
@@ -271,6 +276,7 @@ X-API-KEY: YOUR_TOKEN
   "endpoint": "POST https://api.newdb.net/v2",
   "required_headers": ["X-API-KEY"],
   "required_fields": ["firstname", "lastname", "secondname", "dob", "regioncode", "country", "method", "webhook", "requestId"],
+  "optional_fields": ["ai_check"],
   "returns": ["state", "results.fssp_person.result.status", "results.fssp_person.result.data", "results.fssp_person.result.ai_interpretation"]
 }
 ```

@@ -52,7 +52,8 @@ X-API-KEY: `<your_token>`
     "country": "ru",
     "method": "arbitr_person",
     "limit": "integer, optional, 1..10, default 10",
-    "offset": "integer, optional, >= 0, default 0"
+    "offset": "integer, optional, >= 0, default 0",
+    "ai_check": "boolean, optional, default true"
   },
   "webhook": "https://your.host/webhook",
   "requestId": "optional-string"
@@ -63,6 +64,10 @@ X-API-KEY: `<your_token>`
 
 - `limit` — сколько дел подробно разобрать в текущем ответе. Максимум `10`.
 - `offset` — смещение по общему списку найденных дел, начиная с `0`.
+
+### Отключение ИИ-интерпретации
+
+- `ai_check` — `true` (по умолчанию) или `false`. При `false` метод возвращает только данные КАД: без блока `result.ai_interpretation` и без ИИ-анализа PDF судебного акта (`card_pdf_analysis` будет пустым). Тексты документов (`documents[].text`) при этом сохраняются. Принимаются также `0`/`1` и строки `"false"`/`"true"`.
 
 ---
 
@@ -245,7 +250,7 @@ X-API-KEY: YOUR_TOKEN
   "endpoint": "POST https://api.newdb.net/v2",
   "required_headers": ["X-API-KEY"],
   "required_fields": ["innfiz", "method", "country"],
-  "optional_fields": ["limit", "offset"],
+  "optional_fields": ["limit", "offset", "ai_check"],
   "returns": ["state", "results.arbitr_person.result.status", "results.arbitr_person.result.data"]
 }
 ```

@@ -52,12 +52,17 @@ X-API-KEY: <your_token>
   "params": {
     "inn": "string (ИНН юрлица)",
     "country": "string (ru)",
-    "method": "fssp_legal"
+    "method": "fssp_legal",
+    "ai_check": "boolean, optional, default true"
   },
   "webhook": "https://your.host/whook",
   "requestId": "optional-string"
 }
 ```
+
+### Отключение ИИ-интерпретации
+
+- `ai_check` — `true` (по умолчанию) или `false`. При `false` метод возвращает только данные ФССП, без блока `result.ai_interpretation`: ответ не зависит от ИИ-сервиса и приходит быстрее. Принимаются также `0`/`1` и строки `"false"`/`"true"`.
 
 ## Пример запроса
 
@@ -215,6 +220,7 @@ X-API-KEY: YOUR_TOKEN
   "endpoint": "POST https://api.newdb.net/v2",
   "required_headers": ["X-API-KEY"],
   "required_fields": ["inn", "method", "country"],
+  "optional_fields": ["ai_check"],
   "returns": ["state", "results.fssp_legal.result.status", "results.fssp_legal.result.data"]
 }
 ```
