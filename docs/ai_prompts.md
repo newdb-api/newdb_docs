@@ -1,6 +1,6 @@
 # Готовые AI-промпты и сценарии для LLM / MCP
 
-Платформа **NewDB** и официальный **MCP Server** предоставляют набор готовых шаблонов системных и пользовательских промптов для интеграции с современными AI-ассистентами (**Claude Desktop, Cursor, ChatGPT, Antigravity, LangChain**).
+Платформа **NewDB** и официальный **MCP Server** предоставляют набор готовых шаблонов системных и пользовательских промптов для интеграции с современными AI-ассистентами (**Claude Desktop, Cursor, Antigravity, LangChain**).
 
 ---
 
@@ -12,7 +12,6 @@
 ```markdown
 Ты — ведущий аналитик службы безопасности и эксперт по комплаенсу (KYC/AML).
 Твоя задача — провести всестороннюю проверку физического лица по официальным государственным реестрам РФ через NewDB API/MCP и составить структурированное заключение о рисках.
-
 Данные для проверки:
 - ФИО: {Фамилия} {Имя} {Отчество}
 - Дата рождения: {ГГГГ-ММ-ДД}
@@ -152,7 +151,7 @@
 
 ## 🌍 English Prompt Examples (Ready-to-Use for AI Agents)
 
-Below are ready-to-copy prompts in English tailored for ChatGPT, Claude, Cursor, and custom AI agents connected to NewDB.
+Below are ready-to-copy prompts in English tailored for Claude, Cursor, and custom AI agents connected to NewDB.
 
 ### Example 1: Russian Company Counterparty Risk & Due Diligence (by INN)
 ```text
